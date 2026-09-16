@@ -3,9 +3,8 @@ generator client {
   output   = "../src/generated/prisma"
 }
 
-// ponytail: sqlite for zero-setup local dev; switch provider to "postgresql" + set DATABASE_URL when deploying
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
