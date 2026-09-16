@@ -1,0 +1,67 @@
+---
+title: Email Notifications
+description: When emails fire, what they say, and how to actually turn on sending.
+---
+
+## When an email fires
+
+| Event | Recipient | Where in code |
+|---|---|---|
+| New application submitted | The job's `postedBy` admin | `applyToJob`, `src/lib/actions/applications.ts` |
+| Application status changed | The applicant | `updateApplicationStatus`, `src/lib/actions/jobs.ts` |
+
+Both go through one shared helper, `sendEmail()` in `src/lib/email.ts`.
+
+## Zero-setup by default
+
+Without a `RESEND_API_KEY`, `sendEmail()` doesn't fail — it just logs what
+it would have sent:
+
+```ts
+export async function sendEmail({ to, subject, html }: { ... }) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.log(`[email skipped — no RESEND_API_KEY] to=${to} subject="${subject}"`);
+    return;
+  }
+  // ...
+}
+```
+
+This means the whole app — including applying to jobs and changing
+application status — works correctly with zero email setup. You'll see
+lines like this in the dev server log:
+
+```
+[email skipped — no RESEND_API_KEY] to=admin@example.com subject="New application: Senior Frontend Engineer"
+```
+
+## Turning on real sending
+
+1. Sign up at [resend.com](https://resend.com) (free tier: 100 emails/day,
+   no card required) — this has to be done by a human in Resend's own
+   dashboard, it can't be automated from here.
+2. Create an API key under **API Keys**.
+3. Set in `.env`:
+   ```
+   RESEND_API_KEY="re_..."
+   EMAIL_FROM="RemoteJobs <onboarding@resend.dev>"
+   APP_URL="http://localhost:3000"
+   ```
+4. `onboarding@resend.dev` (Resend's sandbox sender) works immediately but
+   can only deliver to *your own* Resend account email — fine for testing
+   the flow end to end. To email arbitrary applicants/admins in production,
+   verify a real domain under **Domains** in the Resend dashboard and use
+   an address on it for `EMAIL_FROM`.
+
+`APP_URL` is used to build the "Review applicants" link in the
+new-application email to the admin — set it to your real deployed URL in
+production.
+
+## Content
+
+Both emails are minimal inline HTML (see the `html:` template strings at
+the call sites) — no templating engine, no separate email-template files.
+Good enough for two transactional emails; if the number of email types
+grows, consider `react-email` for maintainable templates before hand-writing
+more HTML strings.

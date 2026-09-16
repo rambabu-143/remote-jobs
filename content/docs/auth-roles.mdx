@@ -1,0 +1,119 @@
+---
+title: Auth & Roles
+description: How login works, how roles end up in the session, and how every admin-only surface is actually enforced.
+---
+
+## Login
+
+Auth.js v5 (`next-auth@beta`), credentials provider, JWT session strategy —
+configured in `src/lib/auth.ts`. `authorize()` looks up the user by email,
+compares the password with `bcrypt.compare`, and returns `{ id, name, email, role }`
+on success or `null` on failure (which Auth.js turns into a `CredentialsSignin`
+error).
+
+Two callbacks propagate `role` (and `id`) from the database into the
+session, since neither is on Auth.js's default `User`/`Session` shape:
+
+```ts
+callbacks: {
+  jwt({ token, user }) {
+    if (user) token.role = user.role;
+    return token;
+  },
+  session({ session, token }) {
+    if (session.user) {
+      session.user.role = token.role as "USER" | "ADMIN";
+      session.user.id = token.sub as string; // Auth.js sets token.sub = user.id by default
+    }
+    return session;
+  },
+},
+```
+
+The corresponding TypeScript module augmentation lives in
+`src/types/next-auth.d.ts` — without it, `session.user.role` wouldn't
+type-check anywhere else in the app.
+
+### Server Actions call `signIn` directly
+
+Login and registration don't hit a client-side `signIn()` call — they pass
+a plain `<form action={...}>` straight to a Server Action
+(`authenticate` / `registerUser` in `src/lib/actions/auth.ts`), which calls
+Auth.js's `signIn("credentials", { ...Object.fromEntries(formData), redirectTo: "/" })`
+itself. `redirectTo` has to be passed inside that merged options object —
+passing it as a third argument to `signIn` is a different parameter
+(`authorizationParams`, for OAuth) and silently does nothing for
+credentials login.
+
+Errors from `signIn` are caught with `error instanceof AuthError` and
+turned into a plain string returned to `useActionState` on the client —
+no client-side fetch, no JSON error shape to parse.
+
+## Roles
+
+Two roles, `USER` (default on signup) and `ADMIN` (only set by seeding or
+directly in the database — there's no self-serve way to become an admin,
+by design).
+
+## Every admin surface is checked twice
+
+Both `/admin/*` and `/docs/*` enforce `role === "ADMIN"` in **two
+independent places**:
+
+### 1. `src/proxy.ts` (request-level, before rendering)
+
+```ts
+export default auth((req) => {
+  const isAdminRoute =
+    req.nextUrl.pathname.startsWith("/admin") ||
+    req.nextUrl.pathname.startsWith("/docs");
+  if (isAdminRoute && req.auth?.user?.role !== "ADMIN") {
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
+  }
+
+  const isUserDashboard = req.nextUrl.pathname.startsWith("/dashboard");
+  if (isUserDashboard && !req.auth?.user) {
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
+  }
+});
+
+export const config = {
+  matcher: ["/admin/:path*", "/docs/:path*", "/dashboard/:path*"],
+};
+```
+
+Next.js explicitly documents `proxy.ts` (the Next 16 rename of
+`middleware.ts`) as an *optimistic* check only — it shouldn't be trusted as
+the sole authorization mechanism, because it can't safely do slow
+per-request work. That's why there's always a second check.
+
+### 2. The route's own layout (component-level, on every render)
+
+`app/(site)/admin/layout.tsx` and `app/docs/layout.tsx` both independently
+call `auth()` and `redirect("/login")` if the session isn't an admin. Two
+lines of code, and it means even if `proxy.ts`'s matcher config ever drifts
+(a typo, a route added outside `/admin` or `/docs` that should've been
+covered, `proxy.ts` skipped entirely in some deployment), the page itself
+still refuses to render for a non-admin.
+
+### 3. Every mutation checks again
+
+Server Actions are reachable by a direct `POST`, not just through the UI —
+so every action that touches job or application data calls its own
+`requireAdmin()` (in `src/lib/actions/jobs.ts`) before doing anything:
+
+```ts
+async function requireAdmin() {
+  const session = await auth();
+  if (session?.user?.role !== "ADMIN") {
+    throw new Error("Unauthorized");
+  }
+  return session;
+}
+```
+
+`applyToJob` (the one non-admin action that touches sensitive data)
+similarly starts with `if (!session?.user) return "You must be logged in to apply."`.
+
+This is the same "check it where the data actually moves, not just where
+the button is" principle documented in Next.js's own Server Actions guide.

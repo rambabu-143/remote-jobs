@@ -1,0 +1,103 @@
+---
+title: Data Model
+description: The Prisma schema — every model, field, and why the relations are shaped the way they are.
+---
+
+Full source: `prisma/schema.prisma`. SQLite locally (`prisma/dev.db`), one
+line-swap to Postgres for production — see [Deployment & Scaling](/docs/deployment-scaling).
+
+## `User`
+
+| Field | Type | Notes |
+|---|---|---|
+| `id` | `String` (cuid) | |
+| `name` | `String` | |
+| `email` | `String` | `@unique` |
+| `passwordHash` | `String` | bcrypt, never the plaintext password |
+| `role` | `Role` | `USER` (default) \| `ADMIN` |
+| `createdAt` | `DateTime` | |
+
+Relations: `jobs` (jobs this user posted, only meaningful for admins),
+`applications` (jobs this user applied to).
+
+## `Job`
+
+| Field | Type | Notes |
+|---|---|---|
+| `title`, `company`, `description`, `location` | `String` | required |
+| `remoteType` | `RemoteType` | `REMOTE` \| `HYBRID` \| `ONSITE` |
+| `employmentType` | `EmploymentType` | `FULL_TIME` \| `PART_TIME` \| `CONTRACT` \| `INTERNSHIP` |
+| `salaryMin`, `salaryMax` | `Int?` | optional, USD |
+| `tags` | `String` | comma-separated, no separate tags table (see below) |
+| `applyUrl`, `applyEmail` | `String?` | optional external apply link, shown *alongside* the internal apply form |
+| `isActive` | `Boolean` | deactivated jobs are hidden from the public listing but not deleted |
+| `postedBy` / `postedById` | relation to `User` | who created it |
+
+`tags` being a plain comma-separated string (not a `Tag` model +
+many-to-many join table) is a deliberate simplification — see the
+`ponytail:` note in `prisma/schema.prisma`. It's enough for `contains`
+search and simple display; a real tag-browsing UI would want a proper
+join table.
+
+## `JobQuestion`
+
+Per-job screening questions, admin-defined.
+
+| Field | Type | Notes |
+|---|---|---|
+| `job` / `jobId` | relation to `Job` | `onDelete: Cascade` |
+| `question` | `String` | free text |
+| `order` | `Int` | display order on the apply form |
+
+**Important caveat**: when an admin re-saves a job, its question set is
+**replaced wholesale** (`deleteMany` then `createMany` — see
+`saveJob` in `src/lib/actions/jobs.ts`). Because `ApplicationAnswer.questionId`
+also cascades, editing a job's questions after people have already applied
+deletes their old answers along with the old questions. This is called out
+as a `ponytail:` comment right above the model in the schema. Fine for an
+MVP; would need question versioning (or soft-delete instead of hard
+delete) to fix properly.
+
+## `Application`
+
+| Field | Type | Notes |
+|---|---|---|
+| `job` / `jobId` | relation to `Job` | `onDelete: Cascade` |
+| `applicant` / `applicantId` | relation to `User` | |
+| `resumeFileName` | `String` | filename under `uploads/resumes/` — see [Resume Uploads](/docs/resume-uploads) |
+| `coverNote` | `String?` | optional |
+| `status` | `ApplicationStatus` | `PENDING` (default) \| `REVIEWED` \| `ACCEPTED` \| `REJECTED` |
+| `createdAt` | `DateTime` | |
+
+`@@unique([jobId, applicantId])` — the schema itself prevents double
+applications; `applyToJob` also checks this explicitly first so it can
+return a friendly message instead of a raw constraint-violation error.
+
+## `ApplicationAnswer`
+
+One row per `(application, question)` pair.
+
+| Field | Type | Notes |
+|---|---|---|
+| `application` / `applicationId` | relation to `Application` | `onDelete: Cascade` |
+| `question` / `questionId` | relation to `JobQuestion` | `onDelete: Cascade` |
+| `answer` | `String` | |
+
+`@@unique([applicationId, questionId])`.
+
+## Enums
+
+```prisma
+enum Role { USER ADMIN }
+enum RemoteType { REMOTE HYBRID ONSITE }
+enum EmploymentType { FULL_TIME PART_TIME CONTRACT INTERNSHIP }
+enum ApplicationStatus { PENDING REVIEWED REJECTED ACCEPTED }
+```
+
+## Migrations
+
+Two migrations exist so far: `init` (the original schema) and
+`resume_file_and_questions` (added `JobQuestion`/`ApplicationAnswer`,
+renamed `Application.resumeUrl` → `resumeFileName`). Run
+`npx prisma migrate dev` after pulling schema changes; run
+`npx prisma db seed` to (re-)seed the admin account and sample jobs.

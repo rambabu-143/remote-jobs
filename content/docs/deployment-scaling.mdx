@@ -1,0 +1,61 @@
+---
+title: Deployment & Scaling
+description: What to change before a real deployment, and ideas for growing past the MVP.
+---
+
+## Before deploying anywhere real
+
+- **Switch SQLite → Postgres.** In `prisma/schema.prisma`, change
+  `provider = "sqlite"` to `"postgresql"` and point `DATABASE_URL` at a
+  real Postgres instance (Vercel Postgres, Neon, Supabase, etc.). Run
+  `npx prisma migrate deploy` against it. Search (`contains` filters in
+  `app/(site)/page.tsx`) also becomes case-insensitive for free at that
+  point by adding `mode: "insensitive"` to those filters.
+- **Move resumes off local disk.** `src/lib/storage.ts` currently writes
+  to `uploads/` on the server's own filesystem — fine for one long-running
+  instance, but serverless platforms (Vercel included) don't guarantee a
+  persistent or shared filesystem across invocations. Swap
+  `saveResumeFile`/`readResumeFile` for S3 or Cloudflare R2 with presigned
+  URLs; the auth/ownership check in
+  `app/api/files/resumes/[filename]/route.ts` stays the same, just the
+  storage backend underneath changes.
+- **Turn on real email.** See [Email Notifications](/docs/email-notifications)
+  — without `RESEND_API_KEY` set, nobody actually gets emailed.
+- **Change or remove the seeded admin account** (`admin@example.com` /
+  `admin1234`) — it's meant for local development only.
+- **Generate a real `AUTH_SECRET`** for production (don't reuse the dev one).
+
+## Known simplifications worth knowing about
+
+These are marked with `ponytail:` comments at their exact location in the
+code — search the repo for `ponytail:` to find all of them:
+
+- Job `tags` are a comma-separated string, not a proper join table.
+- Editing a job's screening questions after it has applicants deletes the
+  old questions (and their answers) via cascade delete — see
+  [Data Model](/docs/data-model).
+- Resume storage is local disk (above).
+
+## Ideas to grow past the MVP
+
+- **Search** — Postgres full-text search, or Algolia/Meilisearch once job
+  volume grows past what `contains` filtering comfortably handles.
+- **Payments** — Stripe for paid/featured listings, a common job-board
+  revenue model.
+- **Job alerts** — users save a search filter, get emailed (cron + the
+  existing `sendEmail` helper) when a matching job posts.
+- **Company profiles** — promote `Job.company` from a plain string to a
+  `Company` model with its own logo, description, and jobs listing page.
+- **Multi-admin / teams** — today any `ADMIN` can edit any job (no
+  per-company scoping). Add an ownership check in `requireAdmin()` /
+  `saveJob` if multiple companies each need their own restricted admin.
+- **Moderation queue** — jobs go to a `PENDING` review state before going
+  live, if you ever open posting up to non-admins.
+- **Analytics** — view counts per job, an application funnel (views →
+  applications → hires) surfaced on `/admin/jobs`.
+- **API/RSS** — expose `/api/jobs` (JSON) and an RSS feed so the board can
+  be aggregated by other sites/tools.
+- **Docs search** — this Fumadocs site doesn't have search wired up yet
+  (it's optional and not included by default with the manual
+  installation this project used). Add it via Fumadocs' `search`
+  integration if the docs grow large enough to need it.

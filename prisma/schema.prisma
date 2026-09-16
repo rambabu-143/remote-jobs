@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+// ponytail: sqlite for zero-setup local dev; switch provider to "postgresql" + set DATABASE_URL when deploying
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum RemoteType {
+  REMOTE
+  HYBRID
+  ONSITE
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWED
+  REJECTED
+  ACCEPTED
+}
+
+model User {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  passwordHash String
+  role         Role          @default(USER)
+  createdAt    DateTime      @default(now())
+  jobs         Job[]         @relation("PostedJobs")
+  applications Application[]
+}
+
+model Job {
+  id             String         @id @default(cuid())
+  title          String
+  company        String
+  description    String
+  location       String
+  remoteType     RemoteType     @default(REMOTE)
+  employmentType EmploymentType @default(FULL_TIME)
+  salaryMin      Int?
+  salaryMax      Int?
+  tags           String         @default("")
+  applyUrl       String?
+  applyEmail     String?
+  isActive       Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  postedBy       User           @relation("PostedJobs", fields: [postedById], references: [id])
+  postedById     String
+  applications   Application[]
+  questions      JobQuestion[]
+}
+
+// ponytail: admin re-saving a job replaces its question set wholesale (deleteMany + createMany);
+// answers to removed questions cascade-delete with them. Fine for MVP screening questions,
+// revisit with soft-delete/versioning if historical answers need to survive question edits.
+model JobQuestion {
+  id       String              @id @default(cuid())
+  job      Job                 @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId    String
+  question String
+  order    Int                 @default(0)
+  answers  ApplicationAnswer[]
+}
+
+model Application {
+  id             String              @id @default(cuid())
+  job            Job                 @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId          String
+  applicant      User                @relation(fields: [applicantId], references: [id])
+  applicantId    String
+  resumeFileName String
+  coverNote      String?
+  status         ApplicationStatus   @default(PENDING)
+  createdAt      DateTime            @default(now())
+  answers        ApplicationAnswer[]
+
+  @@unique([jobId, applicantId])
+}
+
+model ApplicationAnswer {
+  id            String      @id @default(cuid())
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  applicationId String
+  question      JobQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId    String
+  answer        String
+
+  @@unique([applicationId, questionId])
+}

@@ -1,0 +1,40 @@
+---
+title: Environment Variables
+description: Every variable the app reads, what it's for, and whether it's required.
+---
+
+All of these go in `.env` (gitignored) at the project root. `.env.example`
+in the repo documents the same list with placeholder values — copy it to
+`.env` and fill in real values to get started.
+
+| Variable | Required | Used for |
+|---|---|---|
+| `DATABASE_URL` | Yes | Prisma's SQLite connection string. Set by `prisma init`; **must be an absolute path** (`file:/full/path/to/prisma/dev.db`), not a relative one — see the note below. |
+| `AUTH_SECRET` | Yes | Auth.js session/JWT signing secret. Generate with `openssl rand -base64 32`. Auth.js also accepts `NEXTAUTH_SECRET` as a fallback name, but this app's `.env.example` uses the current name, `AUTH_SECRET`. |
+| `RESEND_API_KEY` | No | Enables real email sending. Without it, emails just log to the console — see [Email Notifications](/docs/email-notifications). |
+| `EMAIL_FROM` | No | The `from` address for outgoing email. Defaults to Resend's sandbox address if unset. |
+| `APP_URL` | No | Used to build the admin-facing "review applicants" link inside the new-application email. Defaults to `http://localhost:3000`. |
+
+<Callout type="warn">
+**Why `DATABASE_URL` has to be absolute**: Turbopack bundles the generated
+Prisma client's runtime code, which breaks the `__dirname`-relative path
+resolution Prisma normally uses for relative SQLite `file:` URLs — a
+relative `DATABASE_URL` works fine from the Prisma CLI (migrations, seed)
+but fails with `Error code 14: Unable to open the database file` when the
+Next.js app itself queries the database. An absolute path sidesteps the
+whole issue. This was hit and fixed during development — see the
+`ponytail:` comment above the `datasource` block in `prisma/schema.prisma`.
+</Callout>
+
+## Resetting the local database
+
+```bash
+rm prisma/dev.db
+npx prisma migrate dev
+npx prisma db seed
+```
+
+This re-creates the seeded admin account (`admin@example.com` / `admin1234`)
+and the sample jobs, and wipes any test applications/uploaded resumes'
+database rows (the actual files under `uploads/` are not cleaned up
+automatically — delete that directory too if you want a fully clean slate).

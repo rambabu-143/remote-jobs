@@ -1,0 +1,15 @@
+{
+  "title": "RemoteJobs Docs",
+  "pages": [
+    "index",
+    "architecture",
+    "data-model",
+    "auth-roles",
+    "admin-guide",
+    "applicant-guide",
+    "resume-uploads",
+    "email-notifications",
+    "environment-variables",
+    "deployment-scaling"
+  ]
+}

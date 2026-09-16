@@ -1,0 +1,83 @@
+---
+title: Admin Guide
+description: Posting jobs, defining screening questions, and reviewing applicants.
+---
+
+## Posting a job
+
+`/admin/jobs/new` (also reachable from the "Post a new job" tab in
+`/admin/jobs`). The form (`src/components/JobForm.tsx`) posts to the
+`saveJob` Server Action, which branches on whether a hidden `id` field is
+present — same component and same action handle both create and edit.
+
+Required: title, company, description, location. Everything else
+(tags, salary range, external apply URL/email, screening questions) is
+optional.
+
+**Tags** are typed as one comma-separated string (`react, typescript`) and
+split/trimmed/rejoined server-side — not a multi-select, no separate tags
+table. Good enough for filtering and display; see
+[Data Model](/docs/data-model) if you want to promote it to a real model.
+
+**External apply URL / email**: if set, the job's public page shows an
+extra "You can also apply directly" line pointing there, *in addition to*
+the built-in apply form — it doesn't replace internal applications.
+
+## Screening questions
+
+A plain textarea, one question per line:
+
+```
+How many years of React experience do you have?
+Are you comfortable with async, remote-first work?
+```
+
+On save, each non-empty line becomes a `JobQuestion` row (in the order
+typed). These appear as **required** text fields on the public apply form,
+under the resume upload and cover note.
+
+<Callout type="warn">
+Re-saving a job **replaces its entire question set** — if applicants have
+already answered the old questions, editing the questions deletes those
+old answers (cascade delete, see [Data Model](/docs/data-model)). Add
+questions freely before anyone's applied; be aware of this once they have.
+</Callout>
+
+## Managing existing jobs
+
+`/admin/jobs` lists every job (active and inactive) with an applicant
+count, and inline actions:
+
+- **Edit** → the same form as posting, pre-filled
+- **Deactivate / Activate** → toggles `isActive`. Deactivated jobs
+  disappear from the public listing and their detail page 404s, but the
+  row (and its applications) stay in the database — nothing is deleted.
+- **Delete** → actually removes the job, cascading to its applications,
+  questions, and answers. There's no confirmation dialog in the UI today;
+  treat it as irreversible.
+
+## Reviewing applicants
+
+The applicant count on `/admin/jobs` links to
+`/admin/jobs/[id]/applications`, which lists every applicant for that job:
+name, email, a resume link, their cover note, and their answers to any
+screening questions (each answer labeled with its question).
+
+Each applicant has a status dropdown
+(`src/components/StatusSelect.tsx`) — `PENDING` (default) → `REVIEWED` →
+`ACCEPTED` or `REJECTED`. Changing it fires immediately (no separate save
+button — it's a client component calling the `updateApplicationStatus`
+Server Action directly via `useTransition`, not a form submit) and:
+
+- Updates the `Application.status` row
+- Re-validates `/admin/jobs` and `/dashboard` so both the admin table and
+  the applicant's own dashboard reflect it without a manual refresh
+- Emails the applicant — see [Email Notifications](/docs/email-notifications)
+
+## Resume links
+
+The "View resume" link points at
+`/api/files/resumes/[filename]`, not a public file path — it's an
+authenticated route that only serves the file to the applicant themselves
+or an admin. See [Resume Uploads](/docs/resume-uploads) for how that's
+enforced.

@@ -1,0 +1,59 @@
+---
+title: Applicant Guide
+description: What a signed-in job seeker can do — browsing, applying, and tracking status.
+---
+
+## Browsing and filtering
+
+The homepage (`app/(site)/page.tsx`) lists active jobs, newest first, with
+search (`?q=`) and two filters (`?remote=`, `?type=`) — all plain query
+params read via `searchParams`, submitted through a native `<form method="get">`.
+No client-side JavaScript is needed for filtering to work; it degrades
+correctly with JS disabled and is fully linkable/bookmarkable.
+
+Search matches title, company, or tags with SQLite's `contains` — which is
+**case-sensitive** on SQLite (a known limitation; Postgres gets
+case-insensitive search for free via `mode: "insensitive"`, see
+[Deployment & Scaling](/docs/deployment-scaling)).
+
+## Applying
+
+From a job's detail page (`/jobs/[id]`), signed-in users see an apply form
+(`src/components/ApplyForm.tsx`) requiring:
+
+- **Resume** — a real file upload (PDF or Word, max 4MB), not a pasted
+  link. See [Resume Uploads](/docs/resume-uploads).
+- **Cover note** — optional free text.
+- **Screening questions**, if the admin defined any for that job — each
+  renders as a required text field.
+
+Submitting calls the `applyToJob` Server Action, which:
+
+1. Confirms the user is logged in
+2. Validates the resume file exists, is an allowed type, and is under the
+   size limit
+3. Checks they haven't already applied (`@@unique([jobId, applicantId])`
+   backs this up at the database level too)
+4. Confirms every screening question was answered
+5. Saves the file to disk, creates the `Application` + its `ApplicationAnswer`
+   rows, and emails the job's admin
+
+If you've already applied, the form is replaced with your current status
+instead of showing again — you can't double-apply through the UI (or the
+action, which checks explicitly before the database constraint would).
+
+## Tracking applications
+
+`/dashboard` ("My applications" in the nav) lists every job you've applied
+to with its current status: `PENDING`, `REVIEWED`, `ACCEPTED`, or
+`REJECTED`. It updates automatically (via `revalidatePath`) as soon as an
+admin changes your status — no need to refresh mid-review, though you will
+see the new state on your next visit/reload. You'll also get an email the
+moment it changes, if the admin has [email notifications](/docs/email-notifications)
+configured.
+
+## External applications
+
+Some jobs also list a company site link or email (set by the admin) as an
+alternative to applying through RemoteJobs directly — shown on the job
+detail page above the built-in apply form, when present.
