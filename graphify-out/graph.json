@@ -1,0 +1,1360 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "postcss.config.mjs",
+      "file_type": "code",
+      "source_file": "postcss.config.mjs",
+      "source_location": "L1",
+      "id": "postcss_config_mjs",
+      "community": 19,
+      "norm_label": "postcss.config.mjs"
+    },
+    {
+      "label": "prisma.config.ts",
+      "file_type": "code",
+      "source_file": "prisma.config.ts",
+      "source_location": "L1",
+      "id": "prisma_config_ts",
+      "community": 20,
+      "norm_label": "prisma.config.ts"
+    },
+    {
+      "label": "next-env.d.ts",
+      "file_type": "code",
+      "source_file": "next-env.d.ts",
+      "source_location": "L1",
+      "id": "next_env_d_ts",
+      "community": 21,
+      "norm_label": "next-env.d.ts"
+    },
+    {
+      "label": "eslint.config.mjs",
+      "file_type": "code",
+      "source_file": "eslint.config.mjs",
+      "source_location": "L1",
+      "id": "eslint_config_mjs",
+      "community": 22,
+      "norm_label": "eslint.config.mjs"
+    },
+    {
+      "label": "next.config.ts",
+      "file_type": "code",
+      "source_file": "next.config.ts",
+      "source_location": "L1",
+      "id": "next_config_ts",
+      "community": 23,
+      "norm_label": "next.config.ts"
+    },
+    {
+      "label": "seed.ts",
+      "file_type": "code",
+      "source_file": "prisma/seed.ts",
+      "source_location": "L1",
+      "id": "prisma_seed_ts",
+      "community": 6,
+      "norm_label": "seed.ts"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "prisma/seed.ts",
+      "source_location": "L6",
+      "id": "prisma_seed_main",
+      "community": 6,
+      "norm_label": "main()"
+    },
+    {
+      "label": "proxy.ts",
+      "file_type": "code",
+      "source_file": "src/proxy.ts",
+      "source_location": "L1",
+      "id": "src_proxy_ts",
+      "community": 24,
+      "norm_label": "proxy.ts"
+    },
+    {
+      "label": "next-auth.d.ts",
+      "file_type": "code",
+      "source_file": "src/types/next-auth.d.ts",
+      "source_location": "L1",
+      "id": "src_types_next_auth_d_ts",
+      "community": 25,
+      "norm_label": "next-auth.d.ts"
+    },
+    {
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L1",
+      "id": "src_app_layout_tsx",
+      "community": 7,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "RootLayout()",
+      "file_type": "code",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L22",
+      "id": "app_layout_rootlayout",
+      "community": 7,
+      "norm_label": "rootlayout()"
+    },
+    {
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "src/app/docs/layout.tsx",
+      "source_location": "L1",
+      "id": "src_app_docs_layout_tsx",
+      "community": 3,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "Layout()",
+      "file_type": "code",
+      "source_file": "src/app/docs/layout.tsx",
+      "source_location": "L7",
+      "id": "docs_layout_layout",
+      "community": 3,
+      "norm_label": "layout()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/docs/[[...slug]]/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_docs_slug_page_tsx",
+      "community": 26,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/layout.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_layout_tsx",
+      "community": 8,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "SiteLayout()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/layout.tsx",
+      "source_location": "L1",
+      "id": "site_layout_sitelayout",
+      "community": 8,
+      "norm_label": "sitelayout()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_page_tsx",
+      "community": 9,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "LandingPage()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/page.tsx",
+      "source_location": "L4",
+      "id": "site_page_landingpage",
+      "community": 9,
+      "norm_label": "landingpage()"
+    },
+    {
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/admin/layout.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_admin_layout_tsx",
+      "community": 10,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "AdminLayout()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/admin/layout.tsx",
+      "source_location": "L5",
+      "id": "admin_layout_adminlayout",
+      "community": 10,
+      "norm_label": "adminlayout()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/admin/jobs/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_admin_jobs_page_tsx",
+      "community": 0,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "async()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/admin/jobs/page.tsx",
+      "source_location": "L46",
+      "id": "jobs_page_async",
+      "community": 0,
+      "norm_label": "async()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/admin/jobs/new/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_admin_jobs_new_page_tsx",
+      "community": 11,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "NewJobPage()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/admin/jobs/new/page.tsx",
+      "source_location": "L3",
+      "id": "new_page_newjobpage",
+      "community": 11,
+      "norm_label": "newjobpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/admin/jobs/[id]/edit/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_admin_jobs_id_edit_page_tsx",
+      "community": 12,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "EditJobPage()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/admin/jobs/[id]/edit/page.tsx",
+      "source_location": "L5",
+      "id": "edit_page_editjobpage",
+      "community": 12,
+      "norm_label": "editjobpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/admin/jobs/[id]/applications/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_admin_jobs_id_applications_page_tsx",
+      "community": 27,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/dashboard/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_dashboard_page_tsx",
+      "community": 28,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/register/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_register_page_tsx",
+      "community": 13,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "RegisterPage()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/register/page.tsx",
+      "source_location": "L4",
+      "id": "register_page_registerpage",
+      "community": 13,
+      "norm_label": "registerpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/jobs/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_jobs_page_tsx",
+      "community": 29,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/jobs/[id]/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_jobs_id_page_tsx",
+      "community": 30,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/login/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_login_page_tsx",
+      "community": 31,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "src/app/api/auth/[...nextauth]/route.ts",
+      "source_location": "L1",
+      "id": "src_app_api_auth_nextauth_route_ts",
+      "community": 32,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "src/app/api/files/resumes/[filename]/route.ts",
+      "source_location": "L1",
+      "id": "src_app_api_files_resumes_filename_route_ts",
+      "community": 1,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "src/app/api/files/resumes/[filename]/route.ts",
+      "source_location": "L12",
+      "id": "filename_route_get",
+      "community": 1,
+      "norm_label": "get()"
+    },
+    {
+      "label": "Nav.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Nav.tsx",
+      "source_location": "L1",
+      "id": "src_components_nav_tsx",
+      "community": 14,
+      "norm_label": "nav.tsx"
+    },
+    {
+      "label": "Nav()",
+      "file_type": "code",
+      "source_file": "src/components/Nav.tsx",
+      "source_location": "L5",
+      "id": "components_nav_nav",
+      "community": 14,
+      "norm_label": "nav()"
+    },
+    {
+      "label": "mdx.tsx",
+      "file_type": "code",
+      "source_file": "src/components/mdx.tsx",
+      "source_location": "L1",
+      "id": "src_components_mdx_tsx",
+      "community": 15,
+      "norm_label": "mdx.tsx"
+    },
+    {
+      "label": "getMDXComponents()",
+      "file_type": "code",
+      "source_file": "src/components/mdx.tsx",
+      "source_location": "L4",
+      "id": "components_mdx_getmdxcomponents",
+      "community": 15,
+      "norm_label": "getmdxcomponents()"
+    },
+    {
+      "label": "ApplyForm.tsx",
+      "file_type": "code",
+      "source_file": "src/components/ApplyForm.tsx",
+      "source_location": "L1",
+      "id": "src_components_applyform_tsx",
+      "community": 16,
+      "norm_label": "applyform.tsx"
+    },
+    {
+      "label": "ApplyForm()",
+      "file_type": "code",
+      "source_file": "src/components/ApplyForm.tsx",
+      "source_location": "L7",
+      "id": "components_applyform_applyform",
+      "community": 16,
+      "norm_label": "applyform()"
+    },
+    {
+      "label": "JobCard.tsx",
+      "file_type": "code",
+      "source_file": "src/components/JobCard.tsx",
+      "source_location": "L1",
+      "id": "src_components_jobcard_tsx",
+      "community": 2,
+      "norm_label": "jobcard.tsx"
+    },
+    {
+      "label": "JobCard()",
+      "file_type": "code",
+      "source_file": "src/components/JobCard.tsx",
+      "source_location": "L5",
+      "id": "components_jobcard_jobcard",
+      "community": 2,
+      "norm_label": "jobcard()"
+    },
+    {
+      "label": "LoginForm.tsx",
+      "file_type": "code",
+      "source_file": "src/components/LoginForm.tsx",
+      "source_location": "L1",
+      "id": "src_components_loginform_tsx",
+      "community": 17,
+      "norm_label": "loginform.tsx"
+    },
+    {
+      "label": "LoginForm()",
+      "file_type": "code",
+      "source_file": "src/components/LoginForm.tsx",
+      "source_location": "L6",
+      "id": "components_loginform_loginform",
+      "community": 17,
+      "norm_label": "loginform()"
+    },
+    {
+      "label": "RegisterForm.tsx",
+      "file_type": "code",
+      "source_file": "src/components/RegisterForm.tsx",
+      "source_location": "L1",
+      "id": "src_components_registerform_tsx",
+      "community": 33,
+      "norm_label": "registerform.tsx"
+    },
+    {
+      "label": "NavLinks.tsx",
+      "file_type": "code",
+      "source_file": "src/components/NavLinks.tsx",
+      "source_location": "L1",
+      "id": "src_components_navlinks_tsx",
+      "community": 18,
+      "norm_label": "navlinks.tsx"
+    },
+    {
+      "label": "linkClass()",
+      "file_type": "code",
+      "source_file": "src/components/NavLinks.tsx",
+      "source_location": "L21",
+      "id": "components_navlinks_linkclass",
+      "community": 18,
+      "norm_label": "linkclass()"
+    },
+    {
+      "label": "FilterBar.tsx",
+      "file_type": "code",
+      "source_file": "src/components/FilterBar.tsx",
+      "source_location": "L1",
+      "id": "src_components_filterbar_tsx",
+      "community": 34,
+      "norm_label": "filterbar.tsx"
+    },
+    {
+      "label": "StatusSelect.tsx",
+      "file_type": "code",
+      "source_file": "src/components/StatusSelect.tsx",
+      "source_location": "L1",
+      "id": "src_components_statusselect_tsx",
+      "community": 0,
+      "norm_label": "statusselect.tsx"
+    },
+    {
+      "label": "StatusSelect()",
+      "file_type": "code",
+      "source_file": "src/components/StatusSelect.tsx",
+      "source_location": "L8",
+      "id": "components_statusselect_statusselect",
+      "community": 0,
+      "norm_label": "statusselect()"
+    },
+    {
+      "label": "JobForm.tsx",
+      "file_type": "code",
+      "source_file": "src/components/JobForm.tsx",
+      "source_location": "L1",
+      "id": "src_components_jobform_tsx",
+      "community": 4,
+      "norm_label": "jobform.tsx"
+    },
+    {
+      "label": "Section()",
+      "file_type": "code",
+      "source_file": "src/components/JobForm.tsx",
+      "source_location": "L7",
+      "id": "components_jobform_section",
+      "community": 4,
+      "norm_label": "section()"
+    },
+    {
+      "label": "JobForm()",
+      "file_type": "code",
+      "source_file": "src/components/JobForm.tsx",
+      "source_location": "L16",
+      "id": "components_jobform_jobform",
+      "community": 4,
+      "norm_label": "jobform()"
+    },
+    {
+      "label": "job-labels.ts",
+      "file_type": "code",
+      "source_file": "src/lib/job-labels.ts",
+      "source_location": "L1",
+      "id": "src_lib_job_labels_ts",
+      "community": 2,
+      "norm_label": "job-labels.ts"
+    },
+    {
+      "label": "formatSalary()",
+      "file_type": "code",
+      "source_file": "src/lib/job-labels.ts",
+      "source_location": "L21",
+      "id": "lib_job_labels_formatsalary",
+      "community": 2,
+      "norm_label": "formatsalary()"
+    },
+    {
+      "label": "initials()",
+      "file_type": "code",
+      "source_file": "src/lib/job-labels.ts",
+      "source_location": "L28",
+      "id": "lib_job_labels_initials",
+      "community": 2,
+      "norm_label": "initials()"
+    },
+    {
+      "label": "formatRelativeTime()",
+      "file_type": "code",
+      "source_file": "src/lib/job-labels.ts",
+      "source_location": "L37",
+      "id": "lib_job_labels_formatrelativetime",
+      "community": 2,
+      "norm_label": "formatrelativetime()"
+    },
+    {
+      "label": "prisma.ts",
+      "file_type": "code",
+      "source_file": "src/lib/prisma.ts",
+      "source_location": "L1",
+      "id": "src_lib_prisma_ts",
+      "community": 35,
+      "norm_label": "prisma.ts"
+    },
+    {
+      "label": "layout.shared.tsx",
+      "file_type": "code",
+      "source_file": "src/lib/layout.shared.tsx",
+      "source_location": "L1",
+      "id": "src_lib_layout_shared_tsx",
+      "community": 3,
+      "norm_label": "layout.shared.tsx"
+    },
+    {
+      "label": "baseOptions()",
+      "file_type": "code",
+      "source_file": "src/lib/layout.shared.tsx",
+      "source_location": "L3",
+      "id": "lib_layout_shared_baseoptions",
+      "community": 3,
+      "norm_label": "baseoptions()"
+    },
+    {
+      "label": "source.ts",
+      "file_type": "code",
+      "source_file": "src/lib/source.ts",
+      "source_location": "L1",
+      "id": "src_lib_source_ts",
+      "community": 36,
+      "norm_label": "source.ts"
+    },
+    {
+      "label": "storage.ts",
+      "file_type": "code",
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L1",
+      "id": "src_lib_storage_ts",
+      "community": 1,
+      "norm_label": "storage.ts"
+    },
+    {
+      "label": "isAllowedResumeType()",
+      "file_type": "code",
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L15",
+      "id": "lib_storage_isallowedresumetype",
+      "community": 1,
+      "norm_label": "isallowedresumetype()"
+    },
+    {
+      "label": "saveResumeFile()",
+      "file_type": "code",
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L19",
+      "id": "lib_storage_saveresumefile",
+      "community": 1,
+      "norm_label": "saveresumefile()"
+    },
+    {
+      "label": "readResumeFile()",
+      "file_type": "code",
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L28",
+      "id": "lib_storage_readresumefile",
+      "community": 1,
+      "norm_label": "readresumefile()"
+    },
+    {
+      "label": "email.ts",
+      "file_type": "code",
+      "source_file": "src/lib/email.ts",
+      "source_location": "L1",
+      "id": "src_lib_email_ts",
+      "community": 1,
+      "norm_label": "email.ts"
+    },
+    {
+      "label": "sendEmail()",
+      "file_type": "code",
+      "source_file": "src/lib/email.ts",
+      "source_location": "L6",
+      "id": "lib_email_sendemail",
+      "community": 1,
+      "norm_label": "sendemail()"
+    },
+    {
+      "label": "auth.ts",
+      "file_type": "code",
+      "source_file": "src/lib/auth.ts",
+      "source_location": "L1",
+      "id": "src_lib_auth_ts",
+      "community": 37,
+      "norm_label": "auth.ts"
+    },
+    {
+      "label": "jobs.ts",
+      "file_type": "code",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L1",
+      "id": "src_lib_actions_jobs_ts",
+      "community": 0,
+      "norm_label": "jobs.ts"
+    },
+    {
+      "label": "requireAdmin()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L9",
+      "id": "actions_jobs_requireadmin",
+      "community": 0,
+      "norm_label": "requireadmin()"
+    },
+    {
+      "label": "toIntOrNull()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L17",
+      "id": "actions_jobs_tointornull",
+      "community": 0,
+      "norm_label": "tointornull()"
+    },
+    {
+      "label": "saveJob()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L23",
+      "id": "actions_jobs_savejob",
+      "community": 0,
+      "norm_label": "savejob()"
+    },
+    {
+      "label": "toggleJobActive()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L84",
+      "id": "actions_jobs_togglejobactive",
+      "community": 0,
+      "norm_label": "togglejobactive()"
+    },
+    {
+      "label": "deleteJob()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L92",
+      "id": "actions_jobs_deletejob",
+      "community": 0,
+      "norm_label": "deletejob()"
+    },
+    {
+      "label": "updateApplicationStatus()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L99",
+      "id": "actions_jobs_updateapplicationstatus",
+      "community": 0,
+      "norm_label": "updateapplicationstatus()"
+    },
+    {
+      "label": "applications.ts",
+      "file_type": "code",
+      "source_file": "src/lib/actions/applications.ts",
+      "source_location": "L1",
+      "id": "src_lib_actions_applications_ts",
+      "community": 1,
+      "norm_label": "applications.ts"
+    },
+    {
+      "label": "applyToJob()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/applications.ts",
+      "source_location": "L11",
+      "id": "actions_applications_applytojob",
+      "community": 1,
+      "norm_label": "applytojob()"
+    },
+    {
+      "label": "auth.ts",
+      "file_type": "code",
+      "source_file": "src/lib/actions/auth.ts",
+      "source_location": "L1",
+      "id": "src_lib_actions_auth_ts",
+      "community": 5,
+      "norm_label": "auth.ts"
+    },
+    {
+      "label": "authenticate()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/auth.ts",
+      "source_location": "L9",
+      "id": "actions_auth_authenticate",
+      "community": 5,
+      "norm_label": "authenticate()"
+    },
+    {
+      "label": "registerUser()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/auth.ts",
+      "source_location": "L25",
+      "id": "actions_auth_registeruser",
+      "community": 5,
+      "norm_label": "registeruser()"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "prisma/seed.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "prisma_seed_ts",
+      "_tgt": "prisma_seed_main",
+      "source": "prisma_seed_ts",
+      "target": "prisma_seed_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_src": "src_app_layout_tsx",
+      "_tgt": "app_layout_rootlayout",
+      "source": "src_app_layout_tsx",
+      "target": "app_layout_rootlayout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/docs/layout.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "src_app_docs_layout_tsx",
+      "_tgt": "docs_layout_layout",
+      "source": "src_app_docs_layout_tsx",
+      "target": "docs_layout_layout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/app/docs/layout.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "docs_layout_layout",
+      "_tgt": "lib_layout_shared_baseoptions",
+      "source": "docs_layout_layout",
+      "target": "lib_layout_shared_baseoptions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/layout.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_src": "src_app_site_layout_tsx",
+      "_tgt": "site_layout_sitelayout",
+      "source": "src_app_site_layout_tsx",
+      "target": "site_layout_sitelayout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/page.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "src_app_site_page_tsx",
+      "_tgt": "site_page_landingpage",
+      "source": "src_app_site_page_tsx",
+      "target": "site_page_landingpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/admin/layout.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "src_app_site_admin_layout_tsx",
+      "_tgt": "admin_layout_adminlayout",
+      "source": "src_app_site_admin_layout_tsx",
+      "target": "admin_layout_adminlayout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/admin/jobs/page.tsx",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_src": "src_app_site_admin_jobs_page_tsx",
+      "_tgt": "jobs_page_async",
+      "source": "src_app_site_admin_jobs_page_tsx",
+      "target": "jobs_page_async",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/app/(site)/admin/jobs/page.tsx",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_src": "jobs_page_async",
+      "_tgt": "actions_jobs_togglejobactive",
+      "source": "jobs_page_async",
+      "target": "actions_jobs_togglejobactive"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/admin/jobs/new/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "src_app_site_admin_jobs_new_page_tsx",
+      "_tgt": "new_page_newjobpage",
+      "source": "src_app_site_admin_jobs_new_page_tsx",
+      "target": "new_page_newjobpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/admin/jobs/[id]/edit/page.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "src_app_site_admin_jobs_id_edit_page_tsx",
+      "_tgt": "edit_page_editjobpage",
+      "source": "src_app_site_admin_jobs_id_edit_page_tsx",
+      "target": "edit_page_editjobpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/register/page.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "src_app_site_register_page_tsx",
+      "_tgt": "register_page_registerpage",
+      "source": "src_app_site_register_page_tsx",
+      "target": "register_page_registerpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/files/resumes/[filename]/route.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "src_app_api_files_resumes_filename_route_ts",
+      "_tgt": "filename_route_get",
+      "source": "src_app_api_files_resumes_filename_route_ts",
+      "target": "filename_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/app/api/files/resumes/[filename]/route.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_src": "filename_route_get",
+      "_tgt": "lib_storage_readresumefile",
+      "source": "filename_route_get",
+      "target": "lib_storage_readresumefile"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Nav.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "src_components_nav_tsx",
+      "_tgt": "components_nav_nav",
+      "source": "src_components_nav_tsx",
+      "target": "components_nav_nav",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/mdx.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "src_components_mdx_tsx",
+      "_tgt": "components_mdx_getmdxcomponents",
+      "source": "src_components_mdx_tsx",
+      "target": "components_mdx_getmdxcomponents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ApplyForm.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "src_components_applyform_tsx",
+      "_tgt": "components_applyform_applyform",
+      "source": "src_components_applyform_tsx",
+      "target": "components_applyform_applyform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/JobCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "src_components_jobcard_tsx",
+      "_tgt": "components_jobcard_jobcard",
+      "source": "src_components_jobcard_tsx",
+      "target": "components_jobcard_jobcard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/JobCard.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "components_jobcard_jobcard",
+      "_tgt": "lib_job_labels_formatsalary",
+      "source": "components_jobcard_jobcard",
+      "target": "lib_job_labels_formatsalary"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LoginForm.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "src_components_loginform_tsx",
+      "_tgt": "components_loginform_loginform",
+      "source": "src_components_loginform_tsx",
+      "target": "components_loginform_loginform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/NavLinks.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "src_components_navlinks_tsx",
+      "_tgt": "components_navlinks_linkclass",
+      "source": "src_components_navlinks_tsx",
+      "target": "components_navlinks_linkclass",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/StatusSelect.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "src_components_statusselect_tsx",
+      "_tgt": "components_statusselect_statusselect",
+      "source": "src_components_statusselect_tsx",
+      "target": "components_statusselect_statusselect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/StatusSelect.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "components_statusselect_statusselect",
+      "_tgt": "actions_jobs_updateapplicationstatus",
+      "source": "components_statusselect_statusselect",
+      "target": "actions_jobs_updateapplicationstatus"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/JobForm.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "src_components_jobform_tsx",
+      "_tgt": "components_jobform_section",
+      "source": "src_components_jobform_tsx",
+      "target": "components_jobform_section",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/JobForm.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_src": "src_components_jobform_tsx",
+      "_tgt": "components_jobform_jobform",
+      "source": "src_components_jobform_tsx",
+      "target": "components_jobform_jobform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/job-labels.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "src_lib_job_labels_ts",
+      "_tgt": "lib_job_labels_formatsalary",
+      "source": "src_lib_job_labels_ts",
+      "target": "lib_job_labels_formatsalary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/job-labels.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_src": "src_lib_job_labels_ts",
+      "_tgt": "lib_job_labels_initials",
+      "source": "src_lib_job_labels_ts",
+      "target": "lib_job_labels_initials",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/job-labels.ts",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_src": "src_lib_job_labels_ts",
+      "_tgt": "lib_job_labels_formatrelativetime",
+      "source": "src_lib_job_labels_ts",
+      "target": "lib_job_labels_formatrelativetime",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/layout.shared.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "src_lib_layout_shared_tsx",
+      "_tgt": "lib_layout_shared_baseoptions",
+      "source": "src_lib_layout_shared_tsx",
+      "target": "lib_layout_shared_baseoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "src_lib_storage_ts",
+      "_tgt": "lib_storage_isallowedresumetype",
+      "source": "src_lib_storage_ts",
+      "target": "lib_storage_isallowedresumetype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "src_lib_storage_ts",
+      "_tgt": "lib_storage_saveresumefile",
+      "source": "src_lib_storage_ts",
+      "target": "lib_storage_saveresumefile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_src": "src_lib_storage_ts",
+      "_tgt": "lib_storage_readresumefile",
+      "source": "src_lib_storage_ts",
+      "target": "lib_storage_readresumefile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/lib/actions/applications.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "lib_storage_isallowedresumetype",
+      "_tgt": "actions_applications_applytojob",
+      "source": "lib_storage_isallowedresumetype",
+      "target": "actions_applications_applytojob"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/lib/actions/applications.ts",
+      "source_location": "L51",
+      "weight": 1.0,
+      "_src": "lib_storage_saveresumefile",
+      "_tgt": "actions_applications_applytojob",
+      "source": "lib_storage_saveresumefile",
+      "target": "actions_applications_applytojob"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/email.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "src_lib_email_ts",
+      "_tgt": "lib_email_sendemail",
+      "source": "src_lib_email_ts",
+      "target": "lib_email_sendemail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L107",
+      "weight": 1.0,
+      "_src": "lib_email_sendemail",
+      "_tgt": "actions_jobs_updateapplicationstatus",
+      "source": "lib_email_sendemail",
+      "target": "actions_jobs_updateapplicationstatus"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/lib/actions/applications.ts",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_src": "lib_email_sendemail",
+      "_tgt": "actions_applications_applytojob",
+      "source": "lib_email_sendemail",
+      "target": "actions_applications_applytojob"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "src_lib_actions_jobs_ts",
+      "_tgt": "actions_jobs_requireadmin",
+      "source": "src_lib_actions_jobs_ts",
+      "target": "actions_jobs_requireadmin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "src_lib_actions_jobs_ts",
+      "_tgt": "actions_jobs_tointornull",
+      "source": "src_lib_actions_jobs_ts",
+      "target": "actions_jobs_tointornull",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_src": "src_lib_actions_jobs_ts",
+      "_tgt": "actions_jobs_savejob",
+      "source": "src_lib_actions_jobs_ts",
+      "target": "actions_jobs_savejob",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L84",
+      "weight": 1.0,
+      "_src": "src_lib_actions_jobs_ts",
+      "_tgt": "actions_jobs_togglejobactive",
+      "source": "src_lib_actions_jobs_ts",
+      "target": "actions_jobs_togglejobactive",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_src": "src_lib_actions_jobs_ts",
+      "_tgt": "actions_jobs_deletejob",
+      "source": "src_lib_actions_jobs_ts",
+      "target": "actions_jobs_deletejob",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L99",
+      "weight": 1.0,
+      "_src": "src_lib_actions_jobs_ts",
+      "_tgt": "actions_jobs_updateapplicationstatus",
+      "source": "src_lib_actions_jobs_ts",
+      "target": "actions_jobs_updateapplicationstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "actions_jobs_savejob",
+      "_tgt": "actions_jobs_requireadmin",
+      "source": "actions_jobs_requireadmin",
+      "target": "actions_jobs_savejob",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L85",
+      "weight": 1.0,
+      "_src": "actions_jobs_togglejobactive",
+      "_tgt": "actions_jobs_requireadmin",
+      "source": "actions_jobs_requireadmin",
+      "target": "actions_jobs_togglejobactive",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L93",
+      "weight": 1.0,
+      "_src": "actions_jobs_deletejob",
+      "_tgt": "actions_jobs_requireadmin",
+      "source": "actions_jobs_requireadmin",
+      "target": "actions_jobs_deletejob",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L100",
+      "weight": 1.0,
+      "_src": "actions_jobs_updateapplicationstatus",
+      "_tgt": "actions_jobs_requireadmin",
+      "source": "actions_jobs_requireadmin",
+      "target": "actions_jobs_updateapplicationstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/jobs.ts",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_src": "actions_jobs_savejob",
+      "_tgt": "actions_jobs_tointornull",
+      "source": "actions_jobs_tointornull",
+      "target": "actions_jobs_savejob",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/applications.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "src_lib_actions_applications_ts",
+      "_tgt": "actions_applications_applytojob",
+      "source": "src_lib_actions_applications_ts",
+      "target": "actions_applications_applytojob",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/auth.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "src_lib_actions_auth_ts",
+      "_tgt": "actions_auth_authenticate",
+      "source": "src_lib_actions_auth_ts",
+      "target": "actions_auth_authenticate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/auth.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_src": "src_lib_actions_auth_ts",
+      "_tgt": "actions_auth_registeruser",
+      "source": "src_lib_actions_auth_ts",
+      "target": "actions_auth_registeruser",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": []
+}

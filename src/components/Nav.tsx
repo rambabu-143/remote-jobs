@@ -1,57 +1,31 @@
 import Link from "next/link";
 import { auth, signOut } from "@/lib/auth";
+import NavLinks from "@/components/NavLinks";
 
 export default async function Nav() {
   const session = await auth();
+  const isAdmin = session?.user?.role === "ADMIN";
+  const isAuthed = !!session?.user;
+
+  const links = [
+    { href: "/jobs", label: "Browse jobs" },
+    ...(isAdmin ? [{ href: "/admin/jobs", label: "Admin" }, { href: "/docs", label: "Docs" }] : []),
+    ...(isAuthed ? [{ href: "/dashboard", label: "My applications" }] : [{ href: "/login", label: "Log in" }]),
+  ];
+
+  async function signOutAction() {
+    "use server";
+    await signOut({ redirectTo: "/" });
+  }
 
   return (
-    <header className="border-b border-zinc-800 bg-black">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-        <Link href="/" className="text-lg font-semibold text-white">
+    <header className="sticky top-0 z-10 border-b border-zinc-800 bg-black/80 backdrop-blur-md">
+      <div className="relative mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
+        <Link href="/" className="flex items-center gap-2 text-lg font-semibold text-white">
+          <span className="size-2 rounded-full bg-copper-500" />
           RemoteJobs
         </Link>
-        <nav className="flex items-center gap-4 text-sm">
-          <Link href="/" className="text-zinc-400 hover:text-white">
-            Browse jobs
-          </Link>
-          {session?.user?.role === "ADMIN" && (
-            <>
-              <Link href="/admin/jobs" className="text-zinc-400 hover:text-white">
-                Admin
-              </Link>
-              <Link href="/docs" className="text-zinc-400 hover:text-white">
-                Docs
-              </Link>
-            </>
-          )}
-          {session?.user && (
-            <Link href="/dashboard" className="text-zinc-400 hover:text-white">
-              My applications
-            </Link>
-          )}
-          {session?.user ? (
-            <form
-              action={async () => {
-                "use server";
-                await signOut({ redirectTo: "/" });
-              }}
-            >
-              <button className="text-zinc-400 hover:text-white">Sign out</button>
-            </form>
-          ) : (
-            <>
-              <Link href="/login" className="text-zinc-400 hover:text-white">
-                Log in
-              </Link>
-              <Link
-                href="/register"
-                className="rounded-md bg-white px-3 py-1.5 font-medium text-black hover:bg-zinc-200"
-              >
-                Sign up
-              </Link>
-            </>
-          )}
-        </nav>
+        <NavLinks links={links} isAuthed={isAuthed} signOutAction={signOutAction} />
       </div>
     </header>
   );

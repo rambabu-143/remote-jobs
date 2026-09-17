@@ -17,19 +17,19 @@ export default async function JobApplicationsPage({ params }: { params: Promise<
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">Applicants for {job.title}</h1>
+      <h1 className="text-2xl font-bold tracking-tight text-white">Applicants for {job.title}</h1>
       <div className="mt-6 grid gap-3">
         {job.applications.map((app) => (
-          <div key={app.id} className="rounded-lg border border-zinc-800 bg-black p-4">
+          <div key={app.id} className="card">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="font-medium">{app.applicant.name}</p>
+                <p className="font-medium text-white">{app.applicant.name}</p>
                 <p className="text-sm text-zinc-400">{app.applicant.email}</p>
                 <a
                   href={`/api/files/resumes/${app.resumeFileName}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-1 inline-block text-sm underline"
+                  className="mt-1 inline-block text-sm text-copper-400 underline hover:text-copper-300"
                 >
                   View resume
                 </a>
@@ -50,7 +50,7 @@ export default async function JobApplicationsPage({ params }: { params: Promise<
           </div>
         ))}
         {job.applications.length === 0 && (
-          <p className="rounded-lg border border-zinc-800 border-dashed p-8 text-center text-zinc-500">
+          <p className="rounded-xl border border-dashed border-zinc-800 p-8 text-center text-zinc-500">
             No applications yet.
           </p>
         )}

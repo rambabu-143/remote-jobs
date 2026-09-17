@@ -19,7 +19,7 @@ export default function StatusSelect({
       defaultValue={status}
       disabled={pending}
       onChange={(e) => startTransition(() => updateApplicationStatus(applicationId, e.target.value))}
-      className="rounded-md border border-zinc-800 px-2 py-1 text-xs bg-black text-white disabled:opacity-50"
+      className="field-input mt-0 w-auto px-2 py-1 text-xs"
     >
       {statuses.map((s) => (
         <option key={s} value={s}>

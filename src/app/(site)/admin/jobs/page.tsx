@@ -10,10 +10,10 @@ export default async function AdminJobsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">Manage jobs</h1>
-      <div className="mt-6 overflow-x-auto rounded-lg border border-zinc-800 bg-black">
+      <h1 className="text-2xl font-bold tracking-tight text-white">Manage jobs</h1>
+      <div className="mt-6 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-950">
         <table className="w-full text-sm">
-          <thead className="border-b border-zinc-800 bg-black text-left text-xs uppercase text-zinc-500">
+          <thead className="border-b border-zinc-800 text-left text-xs uppercase tracking-wide text-zinc-500">
             <tr>
               <th className="px-4 py-3">Title</th>
               <th className="px-4 py-3">Company</th>
@@ -24,20 +24,16 @@ export default async function AdminJobsPage() {
           </thead>
           <tbody>
             {jobs.map((job) => (
-              <tr key={job.id} className="border-b border-zinc-800 last:border-0">
-                <td className="px-4 py-3 font-medium">{job.title}</td>
+              <tr key={job.id} className="border-b border-zinc-800 last:border-0 hover:bg-zinc-900/50">
+                <td className="px-4 py-3 font-medium text-white">{job.title}</td>
                 <td className="px-4 py-3 text-zinc-400">{job.company}</td>
                 <td className="px-4 py-3">
-                  <span
-                    className={`rounded-full px-2 py-1 text-xs ${
-                      job.isActive ? "bg-emerald-950 text-emerald-400" : "bg-zinc-800 text-zinc-500"
-                    }`}
-                  >
+                  <span className={`badge ${job.isActive ? "bg-emerald-950 text-emerald-400" : "bg-zinc-800 text-zinc-500"}`}>
                     {job.isActive ? "Active" : "Inactive"}
                   </span>
                 </td>
                 <td className="px-4 py-3">
-                  <Link href={`/admin/jobs/${job.id}/applications`} className="underline">
+                  <Link href={`/admin/jobs/${job.id}/applications`} className="text-copper-400 underline hover:text-copper-300">
                     {job._count.applications}
                   </Link>
                 </td>

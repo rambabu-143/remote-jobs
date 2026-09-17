@@ -12,7 +12,7 @@ export default async function EditJobPage({ params }: { params: Promise<{ id: st
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">Edit job</h1>
+      <h1 className="text-2xl font-bold tracking-tight text-white">Edit job</h1>
       <div className="mt-6">
         <JobForm job={job} />
       </div>

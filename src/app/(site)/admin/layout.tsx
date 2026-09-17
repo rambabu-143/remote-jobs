@@ -8,11 +8,11 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
 
   return (
     <div>
-      <nav className="mb-6 flex gap-4 border-b border-zinc-800 pb-3 text-sm">
+      <nav className="mb-6 flex gap-5 border-b border-zinc-800 pb-3 text-sm">
         <Link href="/admin/jobs" className="font-medium text-white">
           Jobs
         </Link>
-        <Link href="/admin/jobs/new" className="text-zinc-400 hover:text-white">
+        <Link href="/admin/jobs/new" className="text-zinc-400 transition-colors hover:text-white">
           Post a new job
         </Link>
       </nav>

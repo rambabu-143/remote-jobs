@@ -1,19 +1,25 @@
 "use server";
 
 import bcrypt from "bcryptjs";
+import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { signIn } from "@/lib/auth";
 
 export async function authenticate(_prevState: string | undefined, formData: FormData) {
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+
   try {
-    await signIn("credentials", { ...Object.fromEntries(formData), redirectTo: "/" });
+    await signIn("credentials", { ...Object.fromEntries(formData), redirect: false });
   } catch (error) {
     if (error instanceof AuthError) {
       return "Invalid email or password.";
     }
     throw error;
   }
+
+  const user = await prisma.user.findUnique({ where: { email } });
+  redirect(user?.role === "ADMIN" ? "/admin/jobs" : "/dashboard");
 }
 
 export async function registerUser(_prevState: string | undefined, formData: FormData) {
@@ -34,7 +40,8 @@ export async function registerUser(_prevState: string | undefined, formData: For
   await prisma.user.create({ data: { name, email, passwordHash, role: "USER" } });
 
   try {
-    await signIn("credentials", { ...Object.fromEntries(formData), redirectTo: "/" });
+    // Public registration always creates a USER, so this can go straight to the user dashboard.
+    await signIn("credentials", { ...Object.fromEntries(formData), redirectTo: "/dashboard" });
   } catch (error) {
     if (error instanceof AuthError) {
       return "Account created, but sign-in failed. Please log in.";

@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { statusLabel } from "@/lib/job-labels";
 
 export default async function DashboardPage() {
   const session = await auth();
-  if (!session?.user) return null;
+  if (!session?.user) redirect("/login");
 
   const applications = await prisma.application.findMany({
     where: { applicantId: session.user.id },
@@ -14,25 +16,25 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">My applications</h1>
+      <h1 className="text-2xl font-bold tracking-tight text-white">My applications</h1>
       <div className="mt-6 grid gap-3">
         {applications.map((app) => (
           <Link
             key={app.id}
             href={`/jobs/${app.jobId}`}
-            className="flex items-center justify-between rounded-lg border border-zinc-800 bg-black p-4 hover:border-zinc-600"
+            className="card flex items-center justify-between transition-colors hover:border-zinc-600"
           >
             <div>
-              <p className="font-medium">{app.job.title}</p>
+              <p className="font-medium text-white">{app.job.title}</p>
               <p className="text-sm text-zinc-400">{app.job.company}</p>
             </div>
-            <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-300">
-              {app.status}
+            <span className={`badge ${statusLabel[app.status].className}`}>
+              {statusLabel[app.status].text}
             </span>
           </Link>
         ))}
         {applications.length === 0 && (
-          <p className="rounded-lg border border-zinc-800 border-dashed p-8 text-center text-zinc-500">
+          <p className="rounded-xl border border-dashed border-zinc-800 p-8 text-center text-zinc-500">
             You haven&apos;t applied to any jobs yet.
           </p>
         )}

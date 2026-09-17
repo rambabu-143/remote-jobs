@@ -16,6 +16,18 @@ async function main() {
     },
   });
 
+  const userPassword = await bcrypt.hash("user1234", 10);
+  await prisma.user.upsert({
+    where: { email: "jane@example.com" },
+    update: {},
+    create: {
+      name: "Jane Doe",
+      email: "jane@example.com",
+      passwordHash: userPassword,
+      role: "USER",
+    },
+  });
+
   const jobs = [
     {
       title: "Senior Frontend Engineer",
@@ -65,6 +77,7 @@ async function main() {
   }
 
   console.log("Seeded admin login: admin@example.com / admin1234");
+  console.log("Seeded user login: jane@example.com / user1234");
 }
 
 main()

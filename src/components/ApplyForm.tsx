@@ -11,39 +11,21 @@ export default function ApplyForm({ jobId, questions }: { jobId: string; questio
     <form action={formAction} className="mt-3 space-y-3">
       <input type="hidden" name="jobId" value={jobId} />
       <div>
-        <label className="block text-xs font-medium text-zinc-300">Resume (PDF or Word, max 4MB)</label>
-        <input
-          type="file"
-          name="resume"
-          required
-          accept=".pdf,.doc,.docx"
-          className="mt-1 w-full rounded-md border border-zinc-800 px-3 py-2 text-sm bg-black text-white"
-        />
+        <label className="field-label">Resume (PDF or Word, max 4MB)</label>
+        <input type="file" name="resume" required accept=".pdf,.doc,.docx" className="field-input" />
       </div>
       <div>
-        <label className="block text-xs font-medium text-zinc-300">Cover note (optional)</label>
-        <textarea
-          name="coverNote"
-          rows={3}
-          className="mt-1 w-full rounded-md border border-zinc-800 px-3 py-2 text-sm bg-black text-white"
-        />
+        <label className="field-label">Cover note (optional)</label>
+        <textarea name="coverNote" rows={3} className="field-input" />
       </div>
       {questions.map((q) => (
         <div key={q.id}>
-          <label className="block text-xs font-medium text-zinc-300">{q.question}</label>
-          <input
-            name={`answer_${q.id}`}
-            required
-            className="mt-1 w-full rounded-md border border-zinc-800 px-3 py-2 text-sm bg-black text-white"
-          />
+          <label className="field-label">{q.question}</label>
+          <input name={`answer_${q.id}`} required className="field-input" />
         </div>
       ))}
       {message && <p className="text-sm text-zinc-300">{message}</p>}
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-md bg-white px-4 py-2 text-sm font-medium text-black hover:bg-zinc-200 disabled:opacity-50"
-      >
+      <button type="submit" disabled={pending} className="btn-primary">
         {pending ? "Submitting…" : "Submit application"}
       </button>
     </form>
