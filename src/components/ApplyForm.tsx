@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { applyToJob } from "@/lib/actions/applications";
-import type { JobQuestion } from "@/generated/prisma/client";
+import type { JobQuestion } from "@prisma/client";
 
 export default function ApplyForm({ jobId, questions }: { jobId: string; questions: JobQuestion[] }) {
   const [message, formAction, pending] = useActionState(applyToJob, undefined);

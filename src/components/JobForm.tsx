@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { saveJob } from "@/lib/actions/jobs";
-import type { Job, JobQuestion } from "@/generated/prisma/client";
+import type { Job, JobQuestion } from "@prisma/client";
 
 export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion[] } }) {
   const [error, formAction, pending] = useActionState(saveJob, undefined);

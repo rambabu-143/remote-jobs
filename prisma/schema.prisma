@@ -1,6 +1,11 @@
+// ponytail: classic prisma-client-js generator, not the newer prisma-client one.
+// The newer generator bakes an absolute build-time path into the client for
+// locating its query engine binary, which breaks on Vercel's Lambda runtime
+// (build path and execution path differ there). prisma-client-js resolves
+// relatively and has long-standing, battle-tested support in Next.js's own
+// output file tracing.
 generator client {
-  provider      = "prisma-client"
-  output        = "../src/generated/prisma"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 

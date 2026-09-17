@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import JobCard from "@/components/JobCard";
-import type { Prisma } from "@/generated/prisma/client";
+import type { Prisma } from "@prisma/client";
 
 export default async function Home({
   searchParams,
