@@ -2,15 +2,20 @@
 
 import Link from "next/link";
 import { useRef } from "react";
+import { JOB_CATEGORIES, LOCATIONS } from "@/lib/job-labels";
 
 export default function FilterBar({
   q,
   remote,
   type,
+  category,
+  location,
 }: {
   q?: string;
   remote?: string;
   type?: string;
+  category?: string;
+  location?: string;
 }) {
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -58,8 +63,34 @@ export default function FilterBar({
         <option value="CONTRACT">Contract</option>
         <option value="INTERNSHIP">Internship</option>
       </select>
+      <select
+        name="category"
+        defaultValue={category ?? ""}
+        onChange={() => formRef.current?.requestSubmit()}
+        className="field-input mt-0 w-auto"
+      >
+        <option value="">Any category</option>
+        {JOB_CATEGORIES.map((c) => (
+          <option key={c} value={c}>
+            {c}
+          </option>
+        ))}
+      </select>
+      <select
+        name="location"
+        defaultValue={location ?? ""}
+        onChange={() => formRef.current?.requestSubmit()}
+        className="field-input mt-0 w-auto"
+      >
+        <option value="">Any location</option>
+        {LOCATIONS.map((l) => (
+          <option key={l} value={l}>
+            {l}
+          </option>
+        ))}
+      </select>
       <button className="btn-primary">Search</button>
-      {(q || remote || type) && (
+      {(q || remote || type || category || location) && (
         <Link href="/jobs" className="btn-secondary flex items-center">
           Clear
         </Link>

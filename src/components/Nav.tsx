@@ -9,7 +9,7 @@ export default async function Nav() {
 
   const links = [
     { href: "/jobs", label: "Browse jobs" },
-    ...(isAdmin ? [{ href: "/admin/jobs", label: "Admin" }, { href: "/docs", label: "Docs" }] : []),
+    ...(isAdmin ? [{ href: "/admin/jobs", label: "Admin" }] : []),
     ...(isAuthed ? [{ href: "/dashboard", label: "My applications" }] : [{ href: "/login", label: "Log in" }]),
   ];
 

@@ -7,16 +7,16 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
   if (session?.user?.role !== "ADMIN") redirect("/login");
 
   return (
-    <div>
-      <nav className="mb-6 flex gap-5 border-b border-zinc-800 pb-3 text-sm">
-        <Link href="/admin/jobs" className="font-medium text-white">
+    <div className="flex flex-col gap-8 sm:flex-row">
+      <aside className="flex shrink-0 gap-4 sm:w-40 sm:flex-col sm:gap-2">
+        <Link href="/admin/jobs" className="text-sm text-zinc-300 hover:text-white">
           Jobs
         </Link>
-        <Link href="/admin/jobs/new" className="text-zinc-400 transition-colors hover:text-white">
-          Post a new job
+        <Link href="/docs" className="text-sm text-zinc-300 hover:text-white">
+          Docs
         </Link>
-      </nav>
-      {children}
+      </aside>
+      <div className="min-w-0 flex-1">{children}</div>
     </div>
   );
 }

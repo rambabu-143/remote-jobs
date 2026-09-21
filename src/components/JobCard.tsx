@@ -10,9 +10,18 @@ export default function JobCard({ job }: { job: Job }) {
       href={`/jobs/${job.id}`}
       className="card flex gap-4 transition-colors hover:border-copper-800"
     >
-      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-sm font-semibold text-zinc-300">
-        {initials(job.company)}
-      </div>
+      {job.logoUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={job.logoUrl}
+          alt={`${job.company} logo`}
+          className="size-10 shrink-0 rounded-lg object-cover"
+        />
+      ) : (
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-sm font-semibold text-zinc-300">
+          {initials(job.company)}
+        </div>
+      )}
       <div className="flex-1">
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -28,6 +37,7 @@ export default function JobCard({ job }: { job: Job }) {
           <span className="badge bg-copper-950 text-copper-400">{remoteLabel[job.remoteType]}</span>
           <span className="badge bg-zinc-800 text-zinc-300">{employmentLabel[job.employmentType]}</span>
           <span className="badge bg-zinc-800 text-zinc-300">{job.location}</span>
+          <span className="badge bg-zinc-800 text-zinc-300">{job.category}</span>
         </div>
         {job.tags && (
           <div className="mt-3 flex flex-wrap gap-1.5">

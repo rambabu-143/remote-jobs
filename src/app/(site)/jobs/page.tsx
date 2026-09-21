@@ -6,9 +6,9 @@ import type { Prisma } from "@prisma/client";
 export default async function JobsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; remote?: string; type?: string }>;
+  searchParams: Promise<{ q?: string; remote?: string; type?: string; category?: string; location?: string }>;
 }) {
-  const { q, remote, type } = await searchParams;
+  const { q, remote, type, category, location } = await searchParams;
 
   const where: Prisma.JobWhereInput = { isActive: true };
   if (q) {
@@ -20,6 +20,8 @@ export default async function JobsPage({
   }
   if (remote) where.remoteType = remote as "REMOTE" | "HYBRID" | "ONSITE";
   if (type) where.employmentType = type as "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP";
+  if (category) where.category = category;
+  if (location) where.location = location;
 
   const jobs = await prisma.job.findMany({ where, orderBy: { createdAt: "desc" } });
 
@@ -32,7 +34,7 @@ export default async function JobsPage({
         {jobs.length} open position{jobs.length === 1 ? "" : "s"}
       </p>
 
-      <FilterBar q={q} remote={remote} type={type} />
+      <FilterBar q={q} remote={remote} type={type} category={category} location={location} />
 
       <div className="mt-6 grid gap-4">
         {jobs.map((job) => (

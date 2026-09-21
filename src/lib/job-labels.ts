@@ -1,3 +1,30 @@
+export const JOB_CATEGORIES = [
+  "Software Development",
+  "Customer Support",
+  "Sales",
+  "Marketing",
+  "Design",
+  "Front End",
+  "Back End",
+  "Fullstack",
+  "Non-Tech",
+  "Other",
+];
+
+export const LOCATIONS = [
+  "Worldwide",
+  "India",
+  "USA",
+  "Canada",
+  "England",
+  "Africa",
+  "Asia",
+  "Europe",
+  "Latin America",
+  "Middle East",
+  "Oceania",
+];
+
 export const remoteLabel: Record<string, string> = {
   REMOTE: "Remote",
   HYBRID: "Hybrid",

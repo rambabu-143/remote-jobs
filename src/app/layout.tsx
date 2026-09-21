@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RemoteJobs — remote job board",
-  description: "Browse and apply to remote jobs, or post one as an admin.",
+  title: "RemoteJobs - remote jobs from verified employers",
+  description: "Browse and apply to remote jobs from verified employers, or post one as an admin.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

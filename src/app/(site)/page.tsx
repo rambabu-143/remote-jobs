@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import JobCard from "@/components/JobCard";
 
 export default async function LandingPage() {
-  const [openCount, companies, applicationCount, featuredJobs] = await Promise.all([
+  const [session, openCount, featuredJobs] = await Promise.all([
+    auth(),
     prisma.job.count({ where: { isActive: true } }),
-    prisma.job.findMany({ where: { isActive: true }, distinct: ["company"], select: { company: true } }),
-    prisma.application.count(),
     prisma.job.findMany({ where: { isActive: true }, orderBy: { createdAt: "desc" }, take: 3 }),
   ]);
 
@@ -15,13 +15,13 @@ export default async function LandingPage() {
       {/* Hero */}
       <section className="py-16 text-center sm:py-24">
         <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          Work from anywhere.
+          Remote jobs from
           <br />
-          <span className="text-copper-400">Hire from anywhere.</span>
+          <span className="text-copper-400">verified employers.</span>
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-zinc-400">
-          RemoteJobs connects remote-first companies with people who want to do their best work
-          from wherever they are — no relocation, no commute, no office politics.
+          Every company on RemoteJobs lists a real address, phone, and email before a role goes
+          live. Apply straight to the company, no recruiters, no spam.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link href="/jobs" className="btn-primary">
@@ -31,27 +31,18 @@ export default async function LandingPage() {
             Post a job
           </Link>
         </div>
-      </section>
-
-      {/* Stats */}
-      <section className="grid grid-cols-3 gap-4 border-t border-zinc-800 py-10 text-center">
-        <div>
-          <p className="text-3xl font-bold text-white">{openCount}</p>
-          <p className="mt-1 text-sm text-zinc-500">Open roles</p>
-        </div>
-        <div>
-          <p className="text-3xl font-bold text-white">{companies.length}</p>
-          <p className="mt-1 text-sm text-zinc-500">Companies hiring</p>
-        </div>
-        <div>
-          <p className="text-3xl font-bold text-white">{applicationCount}</p>
-          <p className="mt-1 text-sm text-zinc-500">Applications sent</p>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-zinc-500">
+          <span>✓ Verified employers</span>
+          <span>✓ Apply directly</span>
+          <span>✓ No recruiter spam</span>
         </div>
       </section>
 
       {/* How it works */}
       <section className="border-t border-zinc-800 py-16">
-        <h2 className="text-center text-2xl font-bold tracking-tight text-white">How it works</h2>
+        <h2 className="text-center text-2xl font-bold tracking-tight text-white">
+          Find your next role in 3 steps
+        </h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           <div className="card">
             <span className="flex size-8 items-center justify-center rounded-full bg-copper-950 font-mono text-sm text-copper-400">
@@ -59,8 +50,8 @@ export default async function LandingPage() {
             </span>
             <h3 className="mt-3 font-semibold text-white">Search &amp; filter</h3>
             <p className="mt-2 text-sm text-zinc-400">
-              Filter every listing by remote/hybrid/on-site, employment type, or a free-text
-              search across title, company, and tags.
+              Filter every listing by category, location, remote/hybrid/on-site, or employment
+              type to find roles that actually fit.
             </p>
           </div>
           <div className="card">
@@ -70,7 +61,7 @@ export default async function LandingPage() {
             <h3 className="mt-3 font-semibold text-white">Apply once, per role</h3>
             <p className="mt-2 text-sm text-zinc-400">
               Upload a resume, add a cover note, and answer any screening questions the company
-              set — all on the job page, no separate account per employer.
+              set, all on the job page. No separate account per employer.
             </p>
           </div>
           <div className="card">
@@ -79,8 +70,8 @@ export default async function LandingPage() {
             </span>
             <h3 className="mt-3 font-semibold text-white">Track the outcome</h3>
             <p className="mt-2 text-sm text-zinc-400">
-              Your dashboard shows every application&apos;s status — pending, reviewed, accepted, or
-              rejected — updated the moment the employer acts on it.
+              Your dashboard shows every application&apos;s status: pending, reviewed, accepted, or
+              rejected. It updates the moment the employer acts on it.
             </p>
           </div>
         </div>
@@ -103,40 +94,24 @@ export default async function LandingPage() {
         </section>
       )}
 
-      {/* For employers */}
-      <section className="border-t border-zinc-800 py-16">
-        <div className="card sm:flex sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-xl font-bold text-white">Hiring remotely?</h2>
-            <p className="mt-2 max-w-md text-sm text-zinc-400">
-              Post a role, set optional screening questions, and manage every applicant&apos;s status
-              from one admin dashboard.
-            </p>
-          </div>
-          <Link href="/admin/jobs/new" className="btn-primary mt-4 inline-block sm:mt-0">
-            Post a job
-          </Link>
-        </div>
-      </section>
-
       {/* Final CTA */}
-      <section className="border-t border-zinc-800 py-16 text-center">
-        <h2 className="text-2xl font-bold tracking-tight text-white">Ready to find your next role?</h2>
-        <p className="mx-auto mt-2 max-w-md text-sm text-zinc-400">
-          Create a free account to apply and track every application in one place.
-        </p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-          <Link href="/register" className="btn-primary">
-            Sign up free
-          </Link>
-          <Link href="/jobs" className="btn-secondary">
-            Browse jobs
-          </Link>
-        </div>
-      </section>
+      {!session?.user && (
+        <section className="border-t border-zinc-800 py-16 text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-white">Ready to find your next role?</h2>
+          <p className="mx-auto mt-2 max-w-md text-sm text-zinc-400">
+            Create a free account to apply to verified employers and track every application in
+            one place.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <Link href="/register" className="btn-primary">
+              Sign up free
+            </Link>
+          </div>
+        </section>
+      )}
 
       <footer className="border-t border-zinc-800 py-8 text-center text-sm text-zinc-500">
-        RemoteJobs — a demo job board.
+        RemoteJobs. Remote jobs from verified employers.
       </footer>
     </div>
   );

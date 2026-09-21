@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
+import { isAllowedLogoType, saveLogoFile } from "@/lib/storage";
 
 async function requireAdmin() {
   const session = await auth();
@@ -26,8 +27,11 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
   const id = String(formData.get("id") ?? "");
   const title = String(formData.get("title") ?? "").trim();
   const company = String(formData.get("company") ?? "").trim();
+  const category = String(formData.get("category") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
-  const location = String(formData.get("location") ?? "").trim();
+  const locationChoice = String(formData.get("locationChoice") ?? "").trim();
+  const location =
+    locationChoice === "Other" ? String(formData.get("locationOther") ?? "").trim() : locationChoice;
   const remoteType = String(formData.get("remoteType") ?? "REMOTE");
   const employmentType = String(formData.get("employmentType") ?? "FULL_TIME");
   const tags = String(formData.get("tags") ?? "")
@@ -37,6 +41,9 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
     .join(",");
   const applyUrl = String(formData.get("applyUrl") ?? "").trim() || null;
   const applyEmail = String(formData.get("applyEmail") ?? "").trim() || null;
+  const companyAddress = String(formData.get("companyAddress") ?? "").trim() || null;
+  const companyEmail = String(formData.get("companyEmail") ?? "").trim() || null;
+  const companyPhone = String(formData.get("companyPhone") ?? "").trim() || null;
   const salaryMin = toIntOrNull(formData.get("salaryMin"));
   const salaryMax = toIntOrNull(formData.get("salaryMax"));
   const questions = String(formData.get("questions") ?? "")
@@ -44,13 +51,24 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
     .map((q) => q.trim())
     .filter(Boolean);
 
-  if (!title || !company || !description || !location) {
-    return "Title, company, description, and location are required.";
+  if (!title || !company || !category || !description || !location) {
+    return "Title, company, category, description, and location are required.";
+  }
+
+  const logoFile = formData.get("logo");
+  let logoUrl = String(formData.get("existingLogoUrl") ?? "") || null;
+  if (logoFile instanceof File && logoFile.size > 0) {
+    if (!isAllowedLogoType(logoFile.type)) {
+      return "Company logo must be a PNG, JPEG, WebP, or SVG image.";
+    }
+    const fileName = await saveLogoFile(logoFile);
+    logoUrl = `/api/files/logos/${fileName}`;
   }
 
   const data = {
     title,
     company,
+    category,
     description,
     location,
     remoteType: remoteType as "REMOTE" | "HYBRID" | "ONSITE",
@@ -58,6 +76,10 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
     tags,
     applyUrl,
     applyEmail,
+    logoUrl,
+    companyAddress,
+    companyEmail,
+    companyPhone,
     salaryMin,
     salaryMax,
   };

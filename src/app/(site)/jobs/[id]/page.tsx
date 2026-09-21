@@ -29,9 +29,18 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
       </Link>
 
       <div className="mt-4 flex items-start gap-4">
-        <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-base font-semibold text-zinc-300">
-          {initials(job.company)}
-        </div>
+        {job.logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={job.logoUrl}
+            alt={`${job.company} logo`}
+            className="size-12 shrink-0 rounded-lg object-cover"
+          />
+        ) : (
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-base font-semibold text-zinc-300">
+            {initials(job.company)}
+          </div>
+        )}
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white">{job.title}</h1>
           <p className="mt-1 text-zinc-400">
@@ -45,6 +54,7 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
           <div className="flex flex-wrap gap-2 text-xs">
             <span className="badge bg-copper-950 text-copper-400">{remoteLabel[job.remoteType]}</span>
             <span className="badge bg-zinc-800 text-zinc-300">{employmentLabel[job.employmentType]}</span>
+            <span className="badge bg-zinc-800 text-zinc-300">{job.category}</span>
             {salary && <span className="badge bg-zinc-800 font-mono text-zinc-300">{salary}</span>}
           </div>
 
@@ -65,7 +75,7 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
               </p>
             ) : existingApplication ? (
               <p className="mt-2 text-sm text-emerald-400">
-                You already applied — status: {existingApplication.status}
+                You already applied. Status: {existingApplication.status}
               </p>
             ) : (
               <ApplyForm jobId={job.id} questions={job.questions} />

@@ -18,16 +18,21 @@ export default function NavLinks({
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const linkClass = (href: string) => {
-    const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
-    return active ? "text-white" : "text-zinc-400 transition-colors hover:text-white";
-  };
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  const linkClass = (href: string) =>
+    isActive(href)
+      ? "border-b border-copper-400 text-white"
+      : "border-b border-transparent text-zinc-400 transition-colors hover:text-white";
+  const mobileLinkClass = (href: string) =>
+    isActive(href)
+      ? "border-l-2 border-copper-400 text-white"
+      : "border-l-2 border-transparent text-zinc-400 hover:text-white";
 
   return (
     <>
-      <nav className="hidden items-center gap-5 text-sm sm:flex">
+      <nav className="hidden items-center gap-6 text-sm sm:flex">
         {links.map((l) => (
-          <Link key={l.href} href={l.href} className={linkClass(l.href)}>
+          <Link key={l.href} href={l.href} className={`pb-0.5 ${linkClass(l.href)}`}>
             {l.label}
           </Link>
         ))}
@@ -66,7 +71,7 @@ export default function NavLinks({
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className={`rounded-md px-3 py-2 ${linkClass(l.href)}`}
+              className={`px-3 py-2 ${mobileLinkClass(l.href)}`}
             >
               {l.label}
             </Link>

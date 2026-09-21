@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { saveJob } from "@/lib/actions/jobs";
+import { JOB_CATEGORIES, LOCATIONS } from "@/lib/job-labels";
 import type { Job, JobQuestion } from "@prisma/client";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -15,10 +16,14 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion[] } }) {
   const [error, formAction, pending] = useActionState(saveJob, undefined);
+  const [locationIsOther, setLocationIsOther] = useState(
+    Boolean(job && !LOCATIONS.includes(job.location)),
+  );
 
   return (
     <form action={formAction} className="card max-w-2xl">
       {job && <input type="hidden" name="id" value={job.id} />}
+      {job?.logoUrl && <input type="hidden" name="existingLogoUrl" value={job.logoUrl} />}
 
       {/* Next injects hidden fields for the server action before this div, so
           `first:` classes on sections need their own DOM scope to work. */}
@@ -31,6 +36,23 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
           <div>
             <label className="field-label">Company</label>
             <input name="company" required defaultValue={job?.company} className="field-input" />
+          </div>
+          <div>
+            <label className="field-label">Company logo</label>
+            <input type="file" name="logo" accept="image/png,image/jpeg,image/webp,image/svg+xml" className="field-input" />
+            {job?.logoUrl && (
+              <p className="mt-1 text-xs text-zinc-500">Leave empty to keep the current logo.</p>
+            )}
+          </div>
+          <div>
+            <label className="field-label">Job category</label>
+            <select name="category" required defaultValue={job?.category ?? JOB_CATEGORIES[0]} className="field-input">
+              {JOB_CATEGORIES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <label className="field-label">Description</label>
@@ -48,13 +70,28 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="field-label">Location</label>
-              <input
-                name="location"
-                required
-                defaultValue={job?.location}
-                placeholder="Worldwide, US only, ..."
+              <select
+                name="locationChoice"
+                defaultValue={locationIsOther ? "Other" : job?.location ?? LOCATIONS[0]}
+                onChange={(e) => setLocationIsOther(e.target.value === "Other")}
                 className="field-input"
-              />
+              >
+                {LOCATIONS.map((l) => (
+                  <option key={l} value={l}>
+                    {l}
+                  </option>
+                ))}
+                <option value="Other">Other</option>
+              </select>
+              {locationIsOther && (
+                <input
+                  name="locationOther"
+                  required
+                  defaultValue={locationIsOther ? job?.location : ""}
+                  placeholder="Specify location"
+                  className="field-input mt-2"
+                />
+              )}
             </div>
             <div>
               <label className="field-label">Tags (comma separated)</label>
@@ -143,6 +180,37 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
             <p className="mt-1 text-xs text-zinc-500">
               Shown to applicants as required fields on the apply form.
             </p>
+          </div>
+        </Section>
+
+        <Section title="Company verification">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="field-label">Company address</label>
+              <input
+                name="companyAddress"
+                defaultValue={job?.companyAddress ?? undefined}
+                className="field-input"
+              />
+            </div>
+            <div>
+              <label className="field-label">Company phone number</label>
+              <input
+                type="tel"
+                name="companyPhone"
+                defaultValue={job?.companyPhone ?? undefined}
+                className="field-input"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="field-label">Company email</label>
+            <input
+              type="email"
+              name="companyEmail"
+              defaultValue={job?.companyEmail ?? undefined}
+              className="field-input"
+            />
           </div>
         </Section>
 

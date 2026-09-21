@@ -10,7 +10,12 @@ export default async function AdminJobsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold tracking-tight text-white">Manage jobs</h1>
+      <div className="flex items-center justify-between gap-4">
+        <h1 className="text-2xl font-bold tracking-tight text-white">Manage jobs</h1>
+        <Link href="/admin/jobs/new" className="btn-primary">
+          Post a new job
+        </Link>
+      </div>
       <div className="mt-6 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-950">
         <table className="w-full text-sm">
           <thead className="border-b border-zinc-800 text-left text-xs uppercase tracking-wide text-zinc-500">
