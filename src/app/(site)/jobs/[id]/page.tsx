@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import ApplyForm from "@/components/ApplyForm";
+import { hasActiveSubscription } from "@/lib/actions/subscription";
 import { employmentLabel, formatSalary, initials, remoteLabel } from "@/lib/job-labels";
 
 export default async function JobPage({ params }: { params: Promise<{ id: string }> }) {
@@ -14,11 +15,15 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
   if (!job || !job.isActive) notFound();
 
   const session = await auth();
-  const existingApplication = session?.user
-    ? await prisma.application.findUnique({
-        where: { jobId_applicantId: { jobId: job.id, applicantId: session.user.id } },
-      })
-    : null;
+  const isAdmin = session?.user?.role === "ADMIN";
+  const [existingApplication, subscribed] = await Promise.all([
+    session?.user
+      ? prisma.application.findUnique({
+          where: { jobId_applicantId: { jobId: job.id, applicantId: session.user.id } },
+        })
+      : null,
+    session?.user && !isAdmin ? hasActiveSubscription(session.user.id) : true,
+  ]);
 
   const salary = formatSalary(job.salaryMin, job.salaryMax);
 
@@ -77,11 +82,20 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
               <p className="mt-2 text-sm text-emerald-400">
                 You already applied. Status: {existingApplication.status}
               </p>
+            ) : !subscribed ? (
+              <div className="mt-2">
+                <p className="text-sm text-zinc-400">
+                  Subscribe to unlock the apply form and this company&apos;s contact details.
+                </p>
+                <Link href="/pricing" className="btn-primary mt-3 inline-block">
+                  See plans
+                </Link>
+              </div>
             ) : (
               <ApplyForm jobId={job.id} questions={job.questions} />
             )}
 
-            {(job.applyUrl || job.applyEmail) && (
+            {subscribed && (job.applyUrl || job.applyEmail) && (
               <p className="mt-4 border-t border-zinc-800 pt-4 text-sm text-zinc-400">
                 Prefer to apply directly?{" "}
                 {job.applyUrl && (

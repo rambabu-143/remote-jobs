@@ -8,15 +8,35 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user) redirect("/login");
 
-  const applications = await prisma.application.findMany({
-    where: { applicantId: session.user.id },
-    include: { job: true },
-    orderBy: { createdAt: "desc" },
-  });
+  const [applications, user] = await Promise.all([
+    prisma.application.findMany({
+      where: { applicantId: session.user.id },
+      include: { job: true },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.user.findUniqueOrThrow({ where: { id: session.user.id } }),
+  ]);
+  const isActive = Boolean(user.subscriptionExpiresAt && user.subscriptionExpiresAt > new Date());
 
   return (
     <div>
       <h1 className="text-2xl font-bold tracking-tight text-white">My applications</h1>
+
+      {session.user.role !== "ADMIN" && (
+        <p className="mt-2 text-sm text-zinc-400">
+          {isActive ? (
+            <>Apply access active until {user.subscriptionExpiresAt!.toLocaleDateString()}.</>
+          ) : (
+            <>
+              No active plan.{" "}
+              <Link href="/pricing" className="text-copper-400 underline hover:text-copper-300">
+                See plans
+              </Link>
+            </>
+          )}
+        </p>
+      )}
+
       <div className="mt-6 grid gap-3">
         {applications.map((app) => (
           <Link

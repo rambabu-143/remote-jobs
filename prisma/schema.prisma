@@ -39,15 +39,44 @@ enum ApplicationStatus {
   ACCEPTED
 }
 
+enum SubscriptionPlan {
+  MONTH_1
+  MONTH_6
+  YEAR_1
+}
+
+enum PaymentStatus {
+  CREATED
+  PAID
+  FAILED
+}
+
 model User {
-  id           String        @id @default(cuid())
-  name         String
-  email        String        @unique
-  passwordHash String
-  role         Role          @default(USER)
-  createdAt    DateTime      @default(now())
-  jobs         Job[]         @relation("PostedJobs")
-  applications Application[]
+  id                    String            @id @default(cuid())
+  name                  String
+  email                 String            @unique
+  passwordHash          String
+  role                  Role              @default(USER)
+  subscriptionPlan      SubscriptionPlan?
+  subscriptionExpiresAt DateTime?
+  createdAt             DateTime          @default(now())
+  jobs                  Job[]             @relation("PostedJobs")
+  applications          Application[]
+  payments              Payment[]
+}
+
+// ponytail: fixed-term access (pay once, expires, pay again), not recurring
+// billing. No Razorpay Subscriptions API / renewal webhooks needed.
+model Payment {
+  id                String           @id @default(cuid())
+  user              User             @relation(fields: [userId], references: [id])
+  userId            String
+  plan              SubscriptionPlan
+  amountInPaise     Int
+  razorpayOrderId   String           @unique
+  razorpayPaymentId String?
+  status            PaymentStatus    @default(CREATED)
+  createdAt         DateTime         @default(now())
 }
 
 model Job {
@@ -75,6 +104,14 @@ model Job {
   postedById     String
   applications   Application[]
   questions      JobQuestion[]
+
+  // ponytail: covers the default (unfiltered) listing query; the other
+  // indexes cover the equality filters the jobs page's FilterBar exposes.
+  @@index([isActive, createdAt])
+  @@index([category])
+  @@index([location])
+  @@index([remoteType])
+  @@index([employmentType])
 }
 
 // ponytail: admin re-saving a job replaces its question set wholesale (deleteMany + createMany);

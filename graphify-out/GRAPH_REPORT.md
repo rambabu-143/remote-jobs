@@ -1,12 +1,12 @@
-# Graph Report - remote-jobs-board  (2026-09-21)
+# Graph Report - remote-jobs-board  (2026-09-22)
 
 ## Corpus Check
-- 46 files · ~11,920 words
+- 52 files · ~13,464 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 86 nodes · 60 edges · 5 communities detected
-- Extraction: 80% EXTRACTED · 20% INFERRED · 0% AMBIGUOUS · INFERRED: 12 edges (avg confidence: 0.8)
+- 104 nodes · 79 edges · 6 communities detected
+- Extraction: 77% EXTRACTED · 23% INFERRED · 0% AMBIGUOUS · INFERRED: 18 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -15,6 +15,7 @@
 - [[_COMMUNITY_Community 2|Community 2]]
 - [[_COMMUNITY_Community 3|Community 3]]
 - [[_COMMUNITY_Community 4|Community 4]]
+- [[_COMMUNITY_Community 5|Community 5]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `requireAdmin()` - 5 edges
@@ -22,11 +23,11 @@
 3. `GET()` - 4 edges
 4. `updateApplicationStatus()` - 4 edges
 5. `applyToJob()` - 4 edges
-6. `isActive()` - 3 edges
-7. `sendEmail()` - 3 edges
-8. `toggleJobActive()` - 3 edges
-9. `Layout()` - 2 edges
-10. `async()` - 2 edges
+6. `activateSubscription()` - 4 edges
+7. `POST()` - 3 edges
+8. `isActive()` - 3 edges
+9. `sendEmail()` - 3 edges
+10. `toggleJobActive()` - 3 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `isAllowedLogoType()` --calls--> `saveJob()`  [INFERRED]
@@ -43,38 +44,44 @@
 ## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.22
-Nodes (10): deleteJob(), requireAdmin(), saveJob(), toggleJobActive(), toIntOrNull(), updateApplicationStatus(), StatusSelect(), async() (+2 more)
+Cohesion: 0.17
+Nodes (9): activateSubscription(), createRazorpayOrder(), verifyRazorpayPayment(), subscribe(), extendExpiry(), getRazorpayClient(), verifyPaymentSignature(), verifyWebhookSignature() (+1 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.2
-Nodes (7): applyToJob(), GET(), sendEmail(), isAllowedResumeType(), readLogoFile(), readResumeFile(), saveResumeFile()
+Cohesion: 0.16
+Nodes (9): applyToJob(), GET(), sendEmail(), isAllowedLogoType(), isAllowedResumeType(), readLogoFile(), readResumeFile(), saveLogoFile() (+1 more)
 
 ### Community 2 - "Community 2"
+Cohesion: 0.27
+Nodes (8): deleteJob(), requireAdmin(), saveJob(), toggleJobActive(), toIntOrNull(), updateApplicationStatus(), StatusSelect(), async()
+
+### Community 3 - "Community 3"
 Cohesion: 0.33
 Nodes (2): JobCard(), formatSalary()
 
-### Community 3 - "Community 3"
+### Community 4 - "Community 4"
 Cohesion: 0.83
 Nodes (3): isActive(), linkClass(), mobileLinkClass()
 
-### Community 4 - "Community 4"
+### Community 5 - "Community 5"
 Cohesion: 0.5
 Nodes (2): Layout(), baseOptions()
 
 ## Knowledge Gaps
-- **Thin community `Community 2`** (6 nodes): `JobCard()`, `formatRelativeTime()`, `formatSalary()`, `initials()`, `JobCard.tsx`, `job-labels.ts`
+- **Thin community `Community 3`** (6 nodes): `JobCard()`, `formatRelativeTime()`, `formatSalary()`, `initials()`, `JobCard.tsx`, `job-labels.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 4`** (4 nodes): `Layout()`, `baseOptions()`, `layout.tsx`, `layout.shared.tsx`
+- **Thin community `Community 5`** (4 nodes): `Layout()`, `baseOptions()`, `layout.tsx`, `layout.shared.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `updateApplicationStatus()` connect `Community 0` to `Community 1`?**
-  _High betweenness centrality (0.023) - this node is a cross-community bridge._
-- **Why does `sendEmail()` connect `Community 1` to `Community 0`?**
+- **Why does `saveJob()` connect `Community 2` to `Community 1`?**
   _High betweenness centrality (0.017) - this node is a cross-community bridge._
+- **Why does `updateApplicationStatus()` connect `Community 2` to `Community 1`?**
+  _High betweenness centrality (0.015) - this node is a cross-community bridge._
+- **Why does `sendEmail()` connect `Community 1` to `Community 2`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `saveJob()` (e.g. with `isAllowedLogoType()` and `saveLogoFile()`) actually correct?**
   _`saveJob()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 2 inferred relationships involving `GET()` (e.g. with `readResumeFile()` and `readLogoFile()`) actually correct?**
