@@ -1,12 +1,12 @@
-# Graph Report - remote-jobs-board  (2026-09-22)
+# Graph Report - remote-jobs-board  (2026-09-23)
 
 ## Corpus Check
-- 52 files · ~13,464 words
+- 52 files · ~13,549 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 104 nodes · 79 edges · 6 communities detected
-- Extraction: 77% EXTRACTED · 23% INFERRED · 0% AMBIGUOUS · INFERRED: 18 edges (avg confidence: 0.8)
+- 104 nodes · 80 edges · 6 communities detected
+- Extraction: 76% EXTRACTED · 24% INFERRED · 0% AMBIGUOUS · INFERRED: 19 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -23,11 +23,11 @@
 3. `GET()` - 4 edges
 4. `updateApplicationStatus()` - 4 edges
 5. `applyToJob()` - 4 edges
-6. `activateSubscription()` - 4 edges
-7. `POST()` - 3 edges
-8. `isActive()` - 3 edges
-9. `sendEmail()` - 3 edges
-10. `toggleJobActive()` - 3 edges
+6. `createRazorpayOrder()` - 4 edges
+7. `activateSubscription()` - 4 edges
+8. `POST()` - 3 edges
+9. `isActive()` - 3 edges
+10. `sendEmail()` - 3 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `isAllowedLogoType()` --calls--> `saveJob()`  [INFERRED]
@@ -44,8 +44,8 @@
 ## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.17
-Nodes (9): activateSubscription(), createRazorpayOrder(), verifyRazorpayPayment(), subscribe(), extendExpiry(), getRazorpayClient(), verifyPaymentSignature(), verifyWebhookSignature() (+1 more)
+Cohesion: 0.18
+Nodes (10): activateSubscription(), createRazorpayOrder(), verifyRazorpayPayment(), subscribe(), extendExpiry(), getRazorpayClient(), isRazorpayConfigured(), verifyPaymentSignature() (+2 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.16

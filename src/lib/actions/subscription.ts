@@ -3,15 +3,26 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { getRazorpayClient, verifyPaymentSignature, extendExpiry, PLANS } from "@/lib/razorpay";
+import { getRazorpayClient, isRazorpayConfigured, verifyPaymentSignature, extendExpiry, PLANS } from "@/lib/razorpay";
 import type { SubscriptionPlan } from "@prisma/client";
 
-export async function createRazorpayOrder(plan: SubscriptionPlan) {
+// Next.js redacts thrown Server Action errors in production builds (only a
+// generic message reaches the client). Expected/known failures are returned
+// as data instead of thrown, so the real message survives to the UI.
+type ActionResult<T> = ({ ok: true } & T) | { ok: false; error: string };
+
+export async function createRazorpayOrder(
+  plan: SubscriptionPlan,
+): Promise<ActionResult<{ orderId: string; amountInPaise: number; keyId: string }>> {
   const session = await auth();
-  if (!session?.user) throw new Error("You must be logged in to subscribe.");
+  if (!session?.user) return { ok: false, error: "You must be logged in to subscribe." };
 
   const config = PLANS[plan];
-  if (!config) throw new Error("Unknown plan.");
+  if (!config) return { ok: false, error: "Unknown plan." };
+
+  if (!isRazorpayConfigured()) {
+    return { ok: false, error: "Payments aren't configured yet. Check back soon." };
+  }
 
   const razorpay = getRazorpayClient();
   const order = await razorpay.orders.create({
@@ -29,22 +40,22 @@ export async function createRazorpayOrder(plan: SubscriptionPlan) {
     },
   });
 
-  return { orderId: order.id, amountInPaise: config.amountInPaise, keyId: process.env.RAZORPAY_KEY_ID };
+  return { ok: true, orderId: order.id, amountInPaise: config.amountInPaise, keyId: process.env.RAZORPAY_KEY_ID! };
 }
 
 export async function verifyRazorpayPayment(input: {
   orderId: string;
   paymentId: string;
   signature: string;
-}) {
+}): Promise<ActionResult<object>> {
   const session = await auth();
-  if (!session?.user) throw new Error("You must be logged in.");
+  if (!session?.user) return { ok: false, error: "You must be logged in." };
 
   const valid = verifyPaymentSignature(input.orderId, input.paymentId, input.signature);
-  if (!valid) throw new Error("Payment verification failed.");
+  if (!valid) return { ok: false, error: "Payment verification failed." };
 
   const payment = await prisma.payment.findUnique({ where: { razorpayOrderId: input.orderId } });
-  if (!payment || payment.userId !== session.user.id) throw new Error("Payment not found.");
+  if (!payment || payment.userId !== session.user.id) return { ok: false, error: "Payment not found." };
 
   if (payment.status !== "PAID") {
     await activateSubscription(payment.id, input.paymentId);

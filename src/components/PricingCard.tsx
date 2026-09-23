@@ -54,39 +54,37 @@ export default function PricingCard({
   async function subscribe() {
     setPending(true);
     setError(null);
-    try {
-      const order = await createRazorpayOrder(plan);
-      if (!order.keyId) throw new Error("Payments aren't configured yet.");
 
-      const razorpay = new window.Razorpay({
-        key: order.keyId,
-        amount: order.amountInPaise,
-        currency: "INR",
-        name: "RemoteJobs",
-        order_id: order.orderId,
-        prefill: { name: userName, email: userEmail },
-        theme: { color: "#a8623a" },
-        handler: async (response) => {
-          try {
-            await verifyRazorpayPayment({
-              orderId: response.razorpay_order_id,
-              paymentId: response.razorpay_payment_id,
-              signature: response.razorpay_signature,
-            });
-            router.refresh();
-          } catch {
-            setError("Payment succeeded but activation failed. Contact support with your payment ID.");
-          } finally {
-            setPending(false);
-          }
-        },
-      });
-      razorpay.open();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+    const order = await createRazorpayOrder(plan);
+    if (!order.ok) {
+      setError(order.error);
       setPending(false);
       return;
     }
+
+    const razorpay = new window.Razorpay({
+      key: order.keyId,
+      amount: order.amountInPaise,
+      currency: "INR",
+      name: "RemoteJobs",
+      order_id: order.orderId,
+      prefill: { name: userName, email: userEmail },
+      theme: { color: "#a8623a" },
+      handler: async (response) => {
+        const result = await verifyRazorpayPayment({
+          orderId: response.razorpay_order_id,
+          paymentId: response.razorpay_payment_id,
+          signature: response.razorpay_signature,
+        });
+        if (!result.ok) {
+          setError("Payment succeeded but activation failed. Contact support with your payment ID.");
+        } else {
+          router.refresh();
+        }
+        setPending(false);
+      },
+    });
+    razorpay.open();
     setPending(false);
   }
 
