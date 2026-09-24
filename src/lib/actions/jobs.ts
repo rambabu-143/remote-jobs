@@ -61,8 +61,7 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
     if (!isAllowedLogoType(logoFile.type)) {
       return "Company logo must be a PNG, JPEG, WebP, or SVG image.";
     }
-    const fileName = await saveLogoFile(logoFile);
-    logoUrl = `/api/files/logos/${fileName}`;
+    logoUrl = await saveLogoFile(logoFile);
   }
 
   const data = {

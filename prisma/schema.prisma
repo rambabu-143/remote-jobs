@@ -10,8 +10,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum Role {
@@ -51,11 +52,12 @@ enum PaymentStatus {
   FAILED
 }
 
+// id is not auto-generated: it must match the Supabase Auth user's id
+// (auth.users.id) so this row is that user's profile + role.
 model User {
-  id                    String            @id @default(cuid())
+  id                    String            @id
   name                  String
   email                 String            @unique
-  passwordHash          String
   role                  Role              @default(USER)
   subscriptionPlan      SubscriptionPlan?
   subscriptionExpiresAt DateTime?

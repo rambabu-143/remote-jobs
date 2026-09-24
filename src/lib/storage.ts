@@ -1,11 +1,8 @@
 import { randomUUID } from "crypto";
-import { mkdir, readFile, writeFile } from "fs/promises";
-import path from "path";
+import { createAdminClient } from "@/lib/supabase/admin";
 
-// ponytail: local disk storage, fine for single-instance/local dev. Swap for
-// S3/R2 + presigned uploads before deploying to a serverless/multi-instance host.
-const RESUME_DIR = path.join(process.cwd(), "uploads", "resumes");
-const LOGO_DIR = path.join(process.cwd(), "uploads", "logos");
+const RESUME_BUCKET = "resumes";
+const LOGO_BUCKET = "logos";
 
 const ALLOWED_TYPES = new Set([
   "application/pdf",
@@ -23,30 +20,34 @@ export function isAllowedLogoType(type: string) {
   return ALLOWED_LOGO_TYPES.has(type);
 }
 
+function extOf(name: string) {
+  const i = name.lastIndexOf(".");
+  return i === -1 ? "" : name.slice(i);
+}
+
+// resumes bucket is private: uploaded/read with the service-role client, and
+// access is gated in the API route (owner or admin) before a read happens.
 export async function saveResumeFile(file: File): Promise<string> {
-  await mkdir(RESUME_DIR, { recursive: true });
-  const ext = path.extname(file.name) || ".pdf";
-  const fileName = `${randomUUID()}${ext}`;
-  const buffer = Buffer.from(await file.arrayBuffer());
-  await writeFile(path.join(RESUME_DIR, fileName), buffer);
+  const fileName = `${randomUUID()}${extOf(file.name) || ".pdf"}`;
+  const { error } = await createAdminClient()
+    .storage.from(RESUME_BUCKET)
+    .upload(fileName, file, { contentType: file.type });
+  if (error) throw error;
   return fileName;
 }
 
 export async function readResumeFile(fileName: string): Promise<Buffer> {
-  const safeName = path.basename(fileName);
-  return readFile(path.join(RESUME_DIR, safeName));
+  const { data, error } = await createAdminClient().storage.from(RESUME_BUCKET).download(fileName);
+  if (error) throw error;
+  return Buffer.from(await data.arrayBuffer());
 }
 
+// logos bucket is public: the returned value is the full public URL, stored
+// directly as Job.logoUrl and rendered with a plain <img>, no proxy route.
 export async function saveLogoFile(file: File): Promise<string> {
-  await mkdir(LOGO_DIR, { recursive: true });
-  const ext = path.extname(file.name) || ".png";
-  const fileName = `${randomUUID()}${ext}`;
-  const buffer = Buffer.from(await file.arrayBuffer());
-  await writeFile(path.join(LOGO_DIR, fileName), buffer);
-  return fileName;
-}
-
-export async function readLogoFile(fileName: string): Promise<Buffer> {
-  const safeName = path.basename(fileName);
-  return readFile(path.join(LOGO_DIR, safeName));
+  const fileName = `${randomUUID()}${extOf(file.name) || ".png"}`;
+  const client = createAdminClient();
+  const { error } = await client.storage.from(LOGO_BUCKET).upload(fileName, file, { contentType: file.type });
+  if (error) throw error;
+  return client.storage.from(LOGO_BUCKET).getPublicUrl(fileName).data.publicUrl;
 }

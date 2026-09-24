@@ -1,31 +1,34 @@
-import bcrypt from "bcryptjs";
+import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
+import { createAdminClient } from "../src/lib/supabase/admin";
 
 const prisma = new PrismaClient();
+const supabase = createAdminClient();
+
+// Idempotent: creates the Supabase Auth user if missing, otherwise reuses it.
+async function getOrCreateAuthUser(email: string, password: string) {
+  const { data, error } = await supabase.auth.admin.createUser({ email, password, email_confirm: true });
+  if (!error) return data.user;
+  const { data: list, error: listError } = await supabase.auth.admin.listUsers();
+  if (listError) throw listError;
+  const existing = list.users.find((u) => u.email === email);
+  if (!existing) throw error;
+  return existing;
+}
 
 async function main() {
-  const adminPassword = await bcrypt.hash("admin1234", 10);
+  const adminAuth = await getOrCreateAuthUser("admin@example.com", "admin1234");
   const admin = await prisma.user.upsert({
     where: { email: "admin@example.com" },
     update: {},
-    create: {
-      name: "Admin",
-      email: "admin@example.com",
-      passwordHash: adminPassword,
-      role: "ADMIN",
-    },
+    create: { id: adminAuth.id, name: "Admin", email: "admin@example.com", role: "ADMIN" },
   });
 
-  const userPassword = await bcrypt.hash("user1234", 10);
+  const janeAuth = await getOrCreateAuthUser("jane@example.com", "user1234");
   await prisma.user.upsert({
     where: { email: "jane@example.com" },
     update: {},
-    create: {
-      name: "Jane Doe",
-      email: "jane@example.com",
-      passwordHash: userPassword,
-      role: "USER",
-    },
+    create: { id: janeAuth.id, name: "Jane Doe", email: "jane@example.com", role: "USER" },
   });
 
   const jobs = [

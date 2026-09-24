@@ -1,25 +1,19 @@
 "use server";
 
-import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
-import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prisma";
-import { signIn } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/server";
 
 export async function authenticate(_prevState: string | undefined, formData: FormData) {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const password = String(formData.get("password") ?? "");
 
-  try {
-    await signIn("credentials", { ...Object.fromEntries(formData), redirect: false });
-  } catch (error) {
-    if (error instanceof AuthError) {
-      return "Invalid email or password.";
-    }
-    throw error;
-  }
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) return "Invalid email or password.";
 
-  const user = await prisma.user.findUnique({ where: { email } });
-  redirect(user?.role === "ADMIN" ? "/admin/jobs" : "/dashboard");
+  const profile = await prisma.user.findUnique({ where: { email } });
+  redirect(profile?.role === "ADMIN" ? "/admin/jobs" : "/dashboard");
 }
 
 export async function registerUser(_prevState: string | undefined, formData: FormData) {
@@ -36,16 +30,17 @@ export async function registerUser(_prevState: string | undefined, formData: For
     return "An account with that email already exists.";
   }
 
-  const passwordHash = await bcrypt.hash(password, 10);
-  await prisma.user.create({ data: { name, email, passwordHash, role: "USER" } });
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signUp({ email, password });
+  if (error || !data.user) return error?.message ?? "Could not create account.";
 
-  try {
-    // Public registration always creates a USER, so this can go straight to the user dashboard.
-    await signIn("credentials", { ...Object.fromEntries(formData), redirectTo: "/dashboard" });
-  } catch (error) {
-    if (error instanceof AuthError) {
-      return "Account created, but sign-in failed. Please log in.";
-    }
-    throw error;
+  await prisma.user.create({ data: { id: data.user.id, name, email, role: "USER" } });
+
+  // If the project requires email confirmation, signUp doesn't grant a session yet.
+  if (!data.session) {
+    return "Account created! Check your email to confirm it, then log in.";
   }
+
+  // Public registration always creates a USER, so this can go straight to the user dashboard.
+  redirect("/dashboard");
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { auth, signOut } from "@/lib/auth";
 import NavLinks from "@/components/NavLinks";
 
@@ -16,7 +17,8 @@ export default async function Nav() {
 
   async function signOutAction() {
     "use server";
-    await signOut({ redirectTo: "/" });
+    await signOut();
+    redirect("/");
   }
 
   return (
