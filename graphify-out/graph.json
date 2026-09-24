@@ -9,7 +9,7 @@
       "source_file": "postcss.config.mjs",
       "source_location": "L1",
       "id": "postcss_config_mjs",
-      "community": 19,
+      "community": 22,
       "norm_label": "postcss.config.mjs"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "prisma.config.ts",
       "source_location": "L1",
       "id": "prisma_config_ts",
-      "community": 20,
+      "community": 23,
       "norm_label": "prisma.config.ts"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "next-env.d.ts",
       "source_location": "L1",
       "id": "next_env_d_ts",
-      "community": 21,
+      "community": 24,
       "norm_label": "next-env.d.ts"
     },
     {
@@ -36,7 +36,7 @@
       "source_file": "eslint.config.mjs",
       "source_location": "L1",
       "id": "eslint_config_mjs",
-      "community": 22,
+      "community": 25,
       "norm_label": "eslint.config.mjs"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "next.config.ts",
       "source_location": "L1",
       "id": "next_config_ts",
-      "community": 23,
+      "community": 26,
       "norm_label": "next.config.ts"
     },
     {
@@ -58,10 +58,19 @@
       "norm_label": "seed.ts"
     },
     {
+      "label": "getOrCreateAuthUser()",
+      "file_type": "code",
+      "source_file": "prisma/seed.ts",
+      "source_location": "L9",
+      "id": "prisma_seed_getorcreateauthuser",
+      "community": 7,
+      "norm_label": "getorcreateauthuser()"
+    },
+    {
       "label": "main()",
       "file_type": "code",
       "source_file": "prisma/seed.ts",
-      "source_location": "L6",
+      "source_location": "L19",
       "id": "prisma_seed_main",
       "community": 7,
       "norm_label": "main()"
@@ -83,15 +92,6 @@
       "id": "src_proxy_proxy",
       "community": 8,
       "norm_label": "proxy()"
-    },
-    {
-      "label": "next-auth.d.ts",
-      "file_type": "code",
-      "source_file": "src/types/next-auth.d.ts",
-      "source_location": "L1",
-      "id": "src_types_next_auth_d_ts",
-      "community": 24,
-      "norm_label": "next-auth.d.ts"
     },
     {
       "label": "layout.tsx",
@@ -135,7 +135,7 @@
       "source_file": "src/app/docs/[[...slug]]/page.tsx",
       "source_location": "L1",
       "id": "src_app_docs_slug_page_tsx",
-      "community": 25,
+      "community": 27,
       "norm_label": "page.tsx"
     },
     {
@@ -162,7 +162,7 @@
       "source_file": "src/app/(site)/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_page_tsx",
-      "community": 26,
+      "community": 28,
       "norm_label": "page.tsx"
     },
     {
@@ -189,7 +189,7 @@
       "source_file": "src/app/(site)/admin/jobs/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_admin_jobs_page_tsx",
-      "community": 3,
+      "community": 2,
       "norm_label": "page.tsx"
     },
     {
@@ -198,7 +198,7 @@
       "source_file": "src/app/(site)/admin/jobs/page.tsx",
       "source_location": "L51",
       "id": "jobs_page_async",
-      "community": 3,
+      "community": 2,
       "norm_label": "async()"
     },
     {
@@ -243,7 +243,7 @@
       "source_file": "src/app/(site)/admin/jobs/[id]/applications/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_admin_jobs_id_applications_page_tsx",
-      "community": 27,
+      "community": 29,
       "norm_label": "page.tsx"
     },
     {
@@ -252,7 +252,7 @@
       "source_file": "src/app/(site)/dashboard/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_dashboard_page_tsx",
-      "community": 28,
+      "community": 30,
       "norm_label": "page.tsx"
     },
     {
@@ -276,10 +276,46 @@
     {
       "label": "page.tsx",
       "file_type": "code",
+      "source_file": "src/app/(site)/forgot-password/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_forgot_password_page_tsx",
+      "community": 14,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "ForgotPasswordPage()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/forgot-password/page.tsx",
+      "source_location": "L4",
+      "id": "forgot_password_page_forgotpasswordpage",
+      "community": 14,
+      "norm_label": "forgotpasswordpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/reset-password/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_reset_password_page_tsx",
+      "community": 15,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "ResetPasswordPage()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/reset-password/page.tsx",
+      "source_location": "L3",
+      "id": "reset_password_page_resetpasswordpage",
+      "community": 15,
+      "norm_label": "resetpasswordpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
       "source_file": "src/app/(site)/jobs/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_jobs_page_tsx",
-      "community": 14,
+      "community": 16,
       "norm_label": "page.tsx"
     },
     {
@@ -288,7 +324,7 @@
       "source_file": "src/app/(site)/jobs/page.tsx",
       "source_location": "L48",
       "id": "jobs_page_pagehref",
-      "community": 14,
+      "community": 16,
       "norm_label": "pagehref()"
     },
     {
@@ -297,7 +333,7 @@
       "source_file": "src/app/(site)/jobs/[id]/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_jobs_id_page_tsx",
-      "community": 29,
+      "community": 31,
       "norm_label": "page.tsx"
     },
     {
@@ -306,7 +342,7 @@
       "source_file": "src/app/(site)/pricing/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_pricing_page_tsx",
-      "community": 30,
+      "community": 32,
       "norm_label": "page.tsx"
     },
     {
@@ -315,17 +351,8 @@
       "source_file": "src/app/(site)/login/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_login_page_tsx",
-      "community": 31,
+      "community": 33,
       "norm_label": "page.tsx"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "src/app/api/auth/[...nextauth]/route.ts",
-      "source_location": "L1",
-      "id": "src_app_api_auth_nextauth_route_ts",
-      "community": 32,
-      "norm_label": "route.ts"
     },
     {
       "label": "route.ts",
@@ -333,26 +360,17 @@
       "source_file": "src/app/api/files/resumes/[filename]/route.ts",
       "source_location": "L1",
       "id": "src_app_api_files_resumes_filename_route_ts",
-      "community": 2,
+      "community": 1,
       "norm_label": "route.ts"
     },
     {
       "label": "GET()",
       "file_type": "code",
-      "source_file": "src/app/api/files/logos/[filename]/route.ts",
+      "source_file": "src/app/api/files/resumes/[filename]/route.ts",
       "source_location": "L12",
       "id": "filename_route_get",
-      "community": 2,
+      "community": 1,
       "norm_label": "get()"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "src/app/api/files/logos/[filename]/route.ts",
-      "source_location": "L1",
-      "id": "src_app_api_files_logos_filename_route_ts",
-      "community": 2,
-      "norm_label": "route.ts"
     },
     {
       "label": "route.ts",
@@ -385,7 +403,7 @@
       "label": "Nav()",
       "file_type": "code",
       "source_file": "src/components/Nav.tsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "id": "components_nav_nav",
       "community": 1,
       "norm_label": "nav()"
@@ -396,7 +414,7 @@
       "source_file": "src/components/mdx.tsx",
       "source_location": "L1",
       "id": "src_components_mdx_tsx",
-      "community": 15,
+      "community": 17,
       "norm_label": "mdx.tsx"
     },
     {
@@ -405,7 +423,7 @@
       "source_file": "src/components/mdx.tsx",
       "source_location": "L4",
       "id": "components_mdx_getmdxcomponents",
-      "community": 15,
+      "community": 17,
       "norm_label": "getmdxcomponents()"
     },
     {
@@ -414,7 +432,7 @@
       "source_file": "src/components/ApplyForm.tsx",
       "source_location": "L1",
       "id": "src_components_applyform_tsx",
-      "community": 16,
+      "community": 18,
       "norm_label": "applyform.tsx"
     },
     {
@@ -423,7 +441,7 @@
       "source_file": "src/components/ApplyForm.tsx",
       "source_location": "L7",
       "id": "components_applyform_applyform",
-      "community": 16,
+      "community": 18,
       "norm_label": "applyform()"
     },
     {
@@ -450,7 +468,7 @@
       "source_file": "src/components/LoginForm.tsx",
       "source_location": "L1",
       "id": "src_components_loginform_tsx",
-      "community": 17,
+      "community": 19,
       "norm_label": "loginform.tsx"
     },
     {
@@ -459,7 +477,7 @@
       "source_file": "src/components/LoginForm.tsx",
       "source_location": "L6",
       "id": "components_loginform_loginform",
-      "community": 17,
+      "community": 19,
       "norm_label": "loginform()"
     },
     {
@@ -468,7 +486,7 @@
       "source_file": "src/components/RegisterForm.tsx",
       "source_location": "L1",
       "id": "src_components_registerform_tsx",
-      "community": 33,
+      "community": 34,
       "norm_label": "registerform.tsx"
     },
     {
@@ -531,7 +549,7 @@
       "source_file": "src/components/FilterBar.tsx",
       "source_location": "L1",
       "id": "src_components_filterbar_tsx",
-      "community": 34,
+      "community": 35,
       "norm_label": "filterbar.tsx"
     },
     {
@@ -540,7 +558,7 @@
       "source_file": "src/components/StatusSelect.tsx",
       "source_location": "L1",
       "id": "src_components_statusselect_tsx",
-      "community": 3,
+      "community": 2,
       "norm_label": "statusselect.tsx"
     },
     {
@@ -549,7 +567,7 @@
       "source_file": "src/components/StatusSelect.tsx",
       "source_location": "L8",
       "id": "components_statusselect_statusselect",
-      "community": 3,
+      "community": 2,
       "norm_label": "statusselect()"
     },
     {
@@ -558,7 +576,7 @@
       "source_file": "src/components/JobForm.tsx",
       "source_location": "L1",
       "id": "src_components_jobform_tsx",
-      "community": 18,
+      "community": 20,
       "norm_label": "jobform.tsx"
     },
     {
@@ -567,7 +585,7 @@
       "source_file": "src/components/JobForm.tsx",
       "source_location": "L8",
       "id": "components_jobform_section",
-      "community": 18,
+      "community": 20,
       "norm_label": "section()"
     },
     {
@@ -612,7 +630,7 @@
       "source_file": "src/lib/prisma.ts",
       "source_location": "L1",
       "id": "src_lib_prisma_ts",
-      "community": 35,
+      "community": 36,
       "norm_label": "prisma.ts"
     },
     {
@@ -639,7 +657,7 @@
       "source_file": "src/lib/source.ts",
       "source_location": "L1",
       "id": "src_lib_source_ts",
-      "community": 36,
+      "community": 37,
       "norm_label": "source.ts"
     },
     {
@@ -648,7 +666,7 @@
       "source_file": "src/lib/razorpay.test.ts",
       "source_location": "L1",
       "id": "src_lib_razorpay_test_ts",
-      "community": 37,
+      "community": 38,
       "norm_label": "razorpay.test.ts"
     },
     {
@@ -657,62 +675,62 @@
       "source_file": "src/lib/storage.ts",
       "source_location": "L1",
       "id": "src_lib_storage_ts",
-      "community": 2,
+      "community": 3,
       "norm_label": "storage.ts"
     },
     {
       "label": "isAllowedResumeType()",
       "file_type": "code",
       "source_file": "src/lib/storage.ts",
-      "source_location": "L18",
+      "source_location": "L15",
       "id": "lib_storage_isallowedresumetype",
-      "community": 2,
+      "community": 3,
       "norm_label": "isallowedresumetype()"
     },
     {
       "label": "isAllowedLogoType()",
       "file_type": "code",
       "source_file": "src/lib/storage.ts",
-      "source_location": "L22",
+      "source_location": "L19",
       "id": "lib_storage_isallowedlogotype",
-      "community": 2,
+      "community": 3,
       "norm_label": "isallowedlogotype()"
+    },
+    {
+      "label": "extOf()",
+      "file_type": "code",
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L23",
+      "id": "lib_storage_extof",
+      "community": 3,
+      "norm_label": "extof()"
     },
     {
       "label": "saveResumeFile()",
       "file_type": "code",
       "source_file": "src/lib/storage.ts",
-      "source_location": "L26",
+      "source_location": "L30",
       "id": "lib_storage_saveresumefile",
-      "community": 2,
+      "community": 3,
       "norm_label": "saveresumefile()"
     },
     {
       "label": "readResumeFile()",
       "file_type": "code",
       "source_file": "src/lib/storage.ts",
-      "source_location": "L35",
+      "source_location": "L39",
       "id": "lib_storage_readresumefile",
-      "community": 2,
+      "community": 3,
       "norm_label": "readresumefile()"
     },
     {
       "label": "saveLogoFile()",
       "file_type": "code",
       "source_file": "src/lib/storage.ts",
-      "source_location": "L40",
+      "source_location": "L47",
       "id": "lib_storage_savelogofile",
-      "community": 2,
+      "community": 3,
       "norm_label": "savelogofile()"
-    },
-    {
-      "label": "readLogoFile()",
-      "file_type": "code",
-      "source_file": "src/lib/storage.ts",
-      "source_location": "L49",
-      "id": "lib_storage_readlogofile",
-      "community": 2,
-      "norm_label": "readlogofile()"
     },
     {
       "label": "email.ts",
@@ -819,7 +837,7 @@
       "source_file": "src/lib/supabase/admin.ts",
       "source_location": "L1",
       "id": "src_lib_supabase_admin_ts",
-      "community": 1,
+      "community": 3,
       "norm_label": "admin.ts"
     },
     {
@@ -828,8 +846,26 @@
       "source_file": "src/lib/supabase/admin.ts",
       "source_location": "L5",
       "id": "supabase_admin_createadminclient",
-      "community": 1,
+      "community": 3,
       "norm_label": "createadminclient()"
+    },
+    {
+      "label": "client.ts",
+      "file_type": "code",
+      "source_file": "src/lib/supabase/client.ts",
+      "source_location": "L1",
+      "id": "src_lib_supabase_client_ts",
+      "community": 21,
+      "norm_label": "client.ts"
+    },
+    {
+      "label": "createClient()",
+      "file_type": "code",
+      "source_file": "src/lib/supabase/client.ts",
+      "source_location": "L6",
+      "id": "supabase_client_createclient",
+      "community": 21,
+      "norm_label": "createclient()"
     },
     {
       "label": "server.ts",
@@ -855,7 +891,7 @@
       "source_file": "src/lib/actions/jobs.ts",
       "source_location": "L1",
       "id": "src_lib_actions_jobs_ts",
-      "community": 3,
+      "community": 2,
       "norm_label": "jobs.ts"
     },
     {
@@ -864,7 +900,7 @@
       "source_file": "src/lib/actions/jobs.ts",
       "source_location": "L10",
       "id": "actions_jobs_requireadmin",
-      "community": 3,
+      "community": 2,
       "norm_label": "requireadmin()"
     },
     {
@@ -873,7 +909,7 @@
       "source_file": "src/lib/actions/jobs.ts",
       "source_location": "L18",
       "id": "actions_jobs_tointornull",
-      "community": 3,
+      "community": 2,
       "norm_label": "tointornull()"
     },
     {
@@ -882,34 +918,34 @@
       "source_file": "src/lib/actions/jobs.ts",
       "source_location": "L24",
       "id": "actions_jobs_savejob",
-      "community": 3,
+      "community": 2,
       "norm_label": "savejob()"
     },
     {
       "label": "toggleJobActive()",
       "file_type": "code",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L106",
+      "source_location": "L105",
       "id": "actions_jobs_togglejobactive",
-      "community": 3,
+      "community": 2,
       "norm_label": "togglejobactive()"
     },
     {
       "label": "deleteJob()",
       "file_type": "code",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L114",
+      "source_location": "L113",
       "id": "actions_jobs_deletejob",
-      "community": 3,
+      "community": 2,
       "norm_label": "deletejob()"
     },
     {
       "label": "updateApplicationStatus()",
       "file_type": "code",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L121",
+      "source_location": "L120",
       "id": "actions_jobs_updateapplicationstatus",
-      "community": 3,
+      "community": 2,
       "norm_label": "updateapplicationstatus()"
     },
     {
@@ -918,7 +954,7 @@
       "source_file": "src/lib/actions/applications.ts",
       "source_location": "L1",
       "id": "src_lib_actions_applications_ts",
-      "community": 2,
+      "community": 3,
       "norm_label": "applications.ts"
     },
     {
@@ -927,7 +963,7 @@
       "source_file": "src/lib/actions/applications.ts",
       "source_location": "L11",
       "id": "actions_applications_applytojob",
-      "community": 2,
+      "community": 3,
       "norm_label": "applytojob()"
     },
     {
@@ -1008,11 +1044,35 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "prisma/seed.ts",
-      "source_location": "L6",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "prisma_seed_ts",
+      "_tgt": "prisma_seed_getorcreateauthuser",
+      "source": "prisma_seed_ts",
+      "target": "prisma_seed_getorcreateauthuser",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "prisma/seed.ts",
+      "source_location": "L19",
       "weight": 1.0,
       "_src": "prisma_seed_ts",
       "_tgt": "prisma_seed_main",
       "source": "prisma_seed_ts",
+      "target": "prisma_seed_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "prisma/seed.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "prisma_seed_main",
+      "_tgt": "prisma_seed_getorcreateauthuser",
+      "source": "prisma_seed_getorcreateauthuser",
       "target": "prisma_seed_main",
       "confidence_score": 1.0
     },
@@ -1175,6 +1235,30 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/forgot-password/page.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "src_app_site_forgot_password_page_tsx",
+      "_tgt": "forgot_password_page_forgotpasswordpage",
+      "source": "src_app_site_forgot_password_page_tsx",
+      "target": "forgot_password_page_forgotpasswordpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/reset-password/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "src_app_site_reset_password_page_tsx",
+      "_tgt": "reset_password_page_resetpasswordpage",
+      "source": "src_app_site_reset_password_page_tsx",
+      "target": "reset_password_page_resetpasswordpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/app/(site)/jobs/page.tsx",
       "source_location": "L48",
       "weight": 1.0,
@@ -1194,18 +1278,6 @@
       "_tgt": "filename_route_get",
       "source": "src_app_api_files_resumes_filename_route_ts",
       "target": "filename_route_get",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/api/files/logos/[filename]/route.ts",
-      "source_location": "L12",
-      "weight": 1.0,
-      "_src": "src_app_api_files_logos_filename_route_ts",
-      "_tgt": "filename_route_get",
-      "source": "filename_route_get",
-      "target": "src_app_api_files_logos_filename_route_ts",
       "confidence_score": 1.0
     },
     {
@@ -1231,18 +1303,6 @@
       "_tgt": "lib_storage_readresumefile",
       "source": "filename_route_get",
       "target": "lib_storage_readresumefile"
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "src/app/api/files/logos/[filename]/route.ts",
-      "source_location": "L17",
-      "weight": 1.0,
-      "_src": "filename_route_get",
-      "_tgt": "lib_storage_readlogofile",
-      "source": "filename_route_get",
-      "target": "lib_storage_readlogofile"
     },
     {
       "relation": "contains",
@@ -1284,7 +1344,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/Nav.tsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0,
       "_src": "src_components_nav_tsx",
       "_tgt": "components_nav_nav",
@@ -1536,7 +1596,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/storage.ts",
-      "source_location": "L18",
+      "source_location": "L15",
       "weight": 1.0,
       "_src": "src_lib_storage_ts",
       "_tgt": "lib_storage_isallowedresumetype",
@@ -1548,7 +1608,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/storage.ts",
-      "source_location": "L22",
+      "source_location": "L19",
       "weight": 1.0,
       "_src": "src_lib_storage_ts",
       "_tgt": "lib_storage_isallowedlogotype",
@@ -1560,7 +1620,19 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/storage.ts",
-      "source_location": "L26",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_src": "src_lib_storage_ts",
+      "_tgt": "lib_storage_extof",
+      "source": "src_lib_storage_ts",
+      "target": "lib_storage_extof",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L30",
       "weight": 1.0,
       "_src": "src_lib_storage_ts",
       "_tgt": "lib_storage_saveresumefile",
@@ -1572,7 +1644,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/storage.ts",
-      "source_location": "L35",
+      "source_location": "L39",
       "weight": 1.0,
       "_src": "src_lib_storage_ts",
       "_tgt": "lib_storage_readresumefile",
@@ -1584,24 +1656,12 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/storage.ts",
-      "source_location": "L40",
+      "source_location": "L47",
       "weight": 1.0,
       "_src": "src_lib_storage_ts",
       "_tgt": "lib_storage_savelogofile",
       "source": "src_lib_storage_ts",
       "target": "lib_storage_savelogofile",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/storage.ts",
-      "source_location": "L49",
-      "weight": 1.0,
-      "_src": "src_lib_storage_ts",
-      "_tgt": "lib_storage_readlogofile",
-      "source": "src_lib_storage_ts",
-      "target": "lib_storage_readlogofile",
       "confidence_score": 1.0
     },
     {
@@ -1630,6 +1690,42 @@
     },
     {
       "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_src": "lib_storage_saveresumefile",
+      "_tgt": "lib_storage_extof",
+      "source": "lib_storage_extof",
+      "target": "lib_storage_saveresumefile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_src": "lib_storage_savelogofile",
+      "_tgt": "lib_storage_extof",
+      "source": "lib_storage_extof",
+      "target": "lib_storage_savelogofile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_src": "lib_storage_saveresumefile",
+      "_tgt": "supabase_admin_createadminclient",
+      "source": "lib_storage_saveresumefile",
+      "target": "supabase_admin_createadminclient"
+    },
+    {
+      "relation": "calls",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "src/lib/actions/applications.ts",
@@ -1639,6 +1735,30 @@
       "_tgt": "actions_applications_applytojob",
       "source": "lib_storage_saveresumefile",
       "target": "actions_applications_applytojob"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_src": "lib_storage_readresumefile",
+      "_tgt": "supabase_admin_createadminclient",
+      "source": "lib_storage_readresumefile",
+      "target": "supabase_admin_createadminclient"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/lib/storage.ts",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_src": "lib_storage_savelogofile",
+      "_tgt": "supabase_admin_createadminclient",
+      "source": "lib_storage_savelogofile",
+      "target": "supabase_admin_createadminclient"
     },
     {
       "relation": "calls",
@@ -1919,6 +2039,18 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/lib/supabase/client.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "src_lib_supabase_client_ts",
+      "_tgt": "supabase_client_createclient",
+      "source": "src_lib_supabase_client_ts",
+      "target": "supabase_client_createclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/lib/supabase/server.ts",
       "source_location": "L8",
       "weight": 1.0,
@@ -1992,7 +2124,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L106",
+      "source_location": "L105",
       "weight": 1.0,
       "_src": "src_lib_actions_jobs_ts",
       "_tgt": "actions_jobs_togglejobactive",
@@ -2004,7 +2136,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L114",
+      "source_location": "L113",
       "weight": 1.0,
       "_src": "src_lib_actions_jobs_ts",
       "_tgt": "actions_jobs_deletejob",
@@ -2016,7 +2148,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L121",
+      "source_location": "L120",
       "weight": 1.0,
       "_src": "src_lib_actions_jobs_ts",
       "_tgt": "actions_jobs_updateapplicationstatus",
@@ -2040,7 +2172,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L107",
+      "source_location": "L106",
       "weight": 1.0,
       "_src": "actions_jobs_togglejobactive",
       "_tgt": "actions_jobs_requireadmin",
@@ -2052,7 +2184,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L115",
+      "source_location": "L114",
       "weight": 1.0,
       "_src": "actions_jobs_deletejob",
       "_tgt": "actions_jobs_requireadmin",
@@ -2064,7 +2196,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L122",
+      "source_location": "L121",
       "weight": 1.0,
       "_src": "actions_jobs_updateapplicationstatus",
       "_tgt": "actions_jobs_requireadmin",
