@@ -29,14 +29,20 @@ export function verifyPaymentSignature(orderId: string, paymentId: string, signa
   const key_secret = process.env.RAZORPAY_KEY_SECRET;
   if (!key_secret) throw new Error("RAZORPAY_KEY_SECRET missing.");
   const expected = crypto.createHmac("sha256", key_secret).update(`${orderId}|${paymentId}`).digest("hex");
-  return expected === signature;
+  return safeEqual(expected, signature);
+}
+
+function safeEqual(a: string, b: string) {
+  const ab = Buffer.from(a);
+  const bb = Buffer.from(b);
+  return ab.length === bb.length && crypto.timingSafeEqual(ab, bb);
 }
 
 export function verifyWebhookSignature(rawBody: string, signature: string) {
   const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
   if (!secret) throw new Error("RAZORPAY_WEBHOOK_SECRET missing.");
   const expected = crypto.createHmac("sha256", secret).update(rawBody).digest("hex");
-  return expected === signature;
+  return safeEqual(expected, signature);
 }
 
 // Renewing before expiry stacks onto the remaining time; renewing after
