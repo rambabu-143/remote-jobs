@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyWebhookSignature } from "@/lib/razorpay";
 import { activateSubscription } from "@/lib/actions/subscription";
+import { markJobPaidAndPending } from "@/lib/actions/job-payments";
 
-// Fallback for when the client never returns to call verifyRazorpayPayment
-// (closed tab, network drop after a successful charge). Idempotent via
-// activateSubscription's payment.status check.
+// Fallback for when the client never returns to call verifyRazorpayPayment /
+// verifyJobListingPayment (closed tab, network drop after a successful
+// charge). Idempotent via each payment row's status check.
 export async function POST(req: Request) {
   const rawBody = await req.text();
   const signature = req.headers.get("x-razorpay-signature");
@@ -18,8 +19,12 @@ export async function POST(req: Request) {
     const orderId = event.payload?.payment?.entity?.order_id;
     const paymentId = event.payload?.payment?.entity?.id;
     if (orderId && paymentId) {
-      const payment = await prisma.payment.findUnique({ where: { razorpayOrderId: orderId } });
-      if (payment) await activateSubscription(payment.id, paymentId);
+      const [subscriptionPayment, jobPayment] = await Promise.all([
+        prisma.payment.findUnique({ where: { razorpayOrderId: orderId } }),
+        prisma.jobPayment.findUnique({ where: { razorpayOrderId: orderId } }),
+      ]);
+      if (subscriptionPayment) await activateSubscription(subscriptionPayment.id, paymentId);
+      if (jobPayment) await markJobPaidAndPending(jobPayment.id, paymentId);
     }
   }
 

@@ -11,7 +11,7 @@ export async function sendEmail({ to, subject, html }: { to: string; subject: st
   }
 
   const resend = new Resend(apiKey);
-  const from = process.env.EMAIL_FROM ?? "RemoteJobs <onboarding@resend.dev>";
+  const from = process.env.EMAIL_FROM ?? "365DaysJobsTeam <onboarding@resend.dev>";
 
   const { error } = await resend.emails.send({ from, to, subject, html });
   if (error) console.error("Email send failed:", error);

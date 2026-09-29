@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createRazorpayOrder, verifyRazorpayPayment } from "@/lib/actions/subscription";
 import type { SubscriptionPlan } from "@prisma/client";
+import Spinner from "./Spinner";
 
 type RazorpaySuccessResponse = {
   razorpay_order_id: string;
@@ -66,7 +67,7 @@ export default function PricingCard({
       key: order.keyId,
       amount: order.amountInPaise,
       currency: "INR",
-      name: "RemoteJobs",
+      name: "365DaysJobsTeam",
       order_id: order.orderId,
       prefill: { name: userName, email: userEmail },
       theme: { color: "#a8623a" },
@@ -89,22 +90,23 @@ export default function PricingCard({
   }
 
   return (
-    <div className={`card relative ${highlight ? "border-copper-500" : ""}`}>
+    <div className={`card relative ${highlight ? "border-ink-500" : ""}`}>
       {highlight && (
-        <span className="badge absolute -top-3 left-5 bg-copper-500 text-white">{highlight}</span>
+        <span className="badge absolute -top-3 left-5 bg-ink-500 text-zinc-900">{highlight}</span>
       )}
-      <h3 className="text-lg font-semibold text-white">{label}</h3>
+      <h3 className="text-lg font-semibold text-zinc-900">{label}</h3>
       <div className="mt-3 flex items-baseline gap-2">
-        <span className="text-3xl font-bold text-white">₹{offerPrice}</span>
+        <span className="text-3xl font-bold text-zinc-900">₹{offerPrice}</span>
         {offerPrice < normalPrice && (
           <span className="text-sm text-zinc-500 line-through">₹{normalPrice}</span>
         )}
       </div>
-      <p className="mt-1 text-sm text-zinc-400">₹{perMonth} / month{saving ? ` · save ${saving}` : ""}</p>
-      <button onClick={subscribe} disabled={pending} className="btn-primary mt-4 w-full">
+      <p className="mt-1 text-sm text-zinc-600">₹{perMonth} / month{saving ? ` · save ${saving}` : ""}</p>
+      <button onClick={subscribe} disabled={pending} className="btn-primary mt-4 flex w-full items-center justify-center gap-2">
+        {pending && <Spinner className="size-4" />}
         {pending ? "Opening checkout…" : "Subscribe"}
       </button>
-      {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
+      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
     </div>
   );
 }

@@ -21,12 +21,12 @@ export default function NavLinks({
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
   const linkClass = (href: string) =>
     isActive(href)
-      ? "border-b border-copper-400 text-white"
-      : "border-b border-transparent text-zinc-400 transition-colors hover:text-white";
+      ? "border-b border-ink-400 text-zinc-900"
+      : "border-b border-transparent text-zinc-600 transition-colors hover:text-zinc-900";
   const mobileLinkClass = (href: string) =>
     isActive(href)
-      ? "border-l-2 border-copper-400 text-white"
-      : "border-l-2 border-transparent text-zinc-400 hover:text-white";
+      ? "border-l-2 border-ink-400 text-zinc-900"
+      : "border-l-2 border-transparent text-zinc-600 hover:text-zinc-900";
 
   return (
     <>
@@ -38,7 +38,7 @@ export default function NavLinks({
         ))}
         {isAuthed ? (
           <form action={signOutAction}>
-            <button className="text-zinc-400 transition-colors hover:text-white">Sign out</button>
+            <button className="text-zinc-600 transition-colors hover:text-zinc-900">Sign out</button>
           </form>
         ) : (
           <Link href="/register" className="btn-primary">
@@ -51,7 +51,7 @@ export default function NavLinks({
         onClick={() => setOpen((v) => !v)}
         aria-label="Toggle menu"
         aria-expanded={open}
-        className="flex size-9 items-center justify-center rounded-lg border border-zinc-800 text-zinc-300 sm:hidden"
+        className="flex size-9 items-center justify-center rounded-lg border border-zinc-900 text-zinc-900 sm:hidden"
       >
         {open ? (
           <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -65,7 +65,7 @@ export default function NavLinks({
       </button>
 
       {open && (
-        <nav className="absolute top-full right-0 left-0 flex flex-col gap-1 border-b border-zinc-800 bg-black p-4 text-sm sm:hidden">
+        <nav className="absolute top-full inset-x-0 mt-2 flex flex-col gap-1 rounded-2xl bg-paper/70 p-4 text-sm backdrop-blur-xl sm:hidden">
           {links.map((l) => (
             <Link
               key={l.href}
@@ -78,7 +78,7 @@ export default function NavLinks({
           ))}
           {isAuthed ? (
             <form action={signOutAction}>
-              <button className="w-full rounded-md px-3 py-2 text-left text-zinc-400 hover:text-white">
+              <button className="w-full rounded-md px-3 py-2 text-left text-zinc-600 hover:text-zinc-900">
                 Sign out
               </button>
             </form>

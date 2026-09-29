@@ -1,29 +1,29 @@
 ---
 title: Overview
-description: What RemoteJobs is and how the pieces fit together.
+description: What 365DaysJobsTeam is and how the pieces fit together.
 ---
 
-RemoteJobs is a remote-job board: admins post jobs (with optional screening
+365DaysJobsTeam is a remote-job board: admins post jobs (with optional screening
 questions), job seekers browse/search/apply (with a resume upload and
 answers to those questions), and admins review applicants and update their
-status. Everyone gets notified by email at the two moments that matter —
+status. Everyone gets notified by email at the two moments that matter,
 a new application, and a status change.
 
-This section of the site (`/docs`) is admin-only — see
+This section of the site (`/docs`) is admin-only, see
 [Auth & Roles](/docs/auth-roles) for how that's enforced.
 
 ## Stack
 
-- **Next.js 16** (App Router, Server Actions, Turbopack) — see
+- **Next.js 16** (App Router, Server Actions, Turbopack), see
   [Architecture](/docs/architecture)
-- **Prisma + SQLite** for data — see [Data Model](/docs/data-model)
-- **Auth.js v5** (credentials/email+password) for sessions — see
+- **Prisma + SQLite** for data, see [Data Model](/docs/data-model)
+- **Auth.js v5** (credentials/email+password) for sessions, see
   [Auth & Roles](/docs/auth-roles)
 - **Resend** for transactional email (optional; no-ops without an API key)
-  — see [Email Notifications](/docs/email-notifications)
-- **Local disk storage** for resume files — see [Resume Uploads](/docs/resume-uploads)
+ , see [Email Notifications](/docs/email-notifications)
+- **Local disk storage** for resume files, see [Resume Uploads](/docs/resume-uploads)
 - **Tailwind CSS v4** for styling
-- **Fumadocs** (this docs site) — MDX content under `content/docs/`
+- **Fumadocs** (this docs site), MDX content under `content/docs/`
 
 ## Two roles, one app
 
@@ -33,7 +33,7 @@ This section of the site (`/docs`) is admin-only — see
 | `ADMIN` | Everything a `USER` can do, plus: post/edit/deactivate/delete jobs, define screening questions per job, review applicants and change their status, and read this docs site |
 
 The seeded admin account (from `prisma/seed.ts`) is
-`admin@example.com` / `admin1234` — change or remove this before any real
+`admin@example.com` / `admin1234`, change or remove this before any real
 deployment.
 
 ## Where things live
@@ -41,7 +41,7 @@ deployment.
 ```
 src/
   app/
-    (site)/          # everything except /docs — grouped so it can share
+    (site)/          # everything except /docs, grouped so it can share
                       # a <main max-w-5xl> wrapper that /docs doesn't want
       page.tsx        # public job listing + search/filter
       jobs/[id]/       # job detail + apply form

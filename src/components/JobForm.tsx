@@ -4,11 +4,12 @@ import { useActionState, useState } from "react";
 import { saveJob } from "@/lib/actions/jobs";
 import { JOB_CATEGORIES, LOCATIONS } from "@/lib/job-labels";
 import type { Job, JobQuestion } from "@prisma/client";
+import Spinner from "./Spinner";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="border-t border-zinc-800 pt-6 first:border-t-0 first:pt-0">
-      <h2 className="text-sm font-semibold text-white">{title}</h2>
+    <div className="border-t border-zinc-200 pt-6 first:border-t-0 first:pt-0">
+      <h2 className="text-sm font-semibold text-zinc-900">{title}</h2>
       <div className="mt-4 space-y-4">{children}</div>
     </div>
   );
@@ -214,9 +215,10 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
           </div>
         </Section>
 
-        {error && <p className="text-sm text-red-400">{error}</p>}
+        {error && <p className="text-sm text-red-600">{error}</p>}
 
-        <button type="submit" disabled={pending} className="btn-primary">
+        <button type="submit" disabled={pending} className="btn-primary flex items-center gap-2">
+          {pending && <Spinner className="size-4" />}
           {pending ? "Saving…" : job ? "Save changes" : "Post job"}
         </button>
       </div>

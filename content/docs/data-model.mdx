@@ -1,10 +1,10 @@
 ---
 title: Data Model
-description: The Prisma schema — every model, field, and why the relations are shaped the way they are.
+description: The Prisma schema, every model, field, and why the relations are shaped the way they are.
 ---
 
 Full source: `prisma/schema.prisma`. SQLite locally (`prisma/dev.db`), one
-line-swap to Postgres for production — see [Deployment & Scaling](/docs/deployment-scaling).
+line-swap to Postgres for production, see [Deployment & Scaling](/docs/deployment-scaling).
 
 ## `User`
 
@@ -34,7 +34,7 @@ Relations: `jobs` (jobs this user posted, only meaningful for admins),
 | `postedBy` / `postedById` | relation to `User` | who created it |
 
 `tags` being a plain comma-separated string (not a `Tag` model +
-many-to-many join table) is a deliberate simplification — see the
+many-to-many join table) is a deliberate simplification, see the
 `ponytail:` note in `prisma/schema.prisma`. It's enough for `contains`
 search and simple display; a real tag-browsing UI would want a proper
 join table.
@@ -50,7 +50,7 @@ Per-job screening questions, admin-defined.
 | `order` | `Int` | display order on the apply form |
 
 **Important caveat**: when an admin re-saves a job, its question set is
-**replaced wholesale** (`deleteMany` then `createMany` — see
+**replaced wholesale** (`deleteMany` then `createMany`, see
 `saveJob` in `src/lib/actions/jobs.ts`). Because `ApplicationAnswer.questionId`
 also cascades, editing a job's questions after people have already applied
 deletes their old answers along with the old questions. This is called out
@@ -64,12 +64,12 @@ delete) to fix properly.
 |---|---|---|
 | `job` / `jobId` | relation to `Job` | `onDelete: Cascade` |
 | `applicant` / `applicantId` | relation to `User` | |
-| `resumeFileName` | `String` | filename under `uploads/resumes/` — see [Resume Uploads](/docs/resume-uploads) |
+| `resumeFileName` | `String` | filename under `uploads/resumes/`, see [Resume Uploads](/docs/resume-uploads) |
 | `coverNote` | `String?` | optional |
 | `status` | `ApplicationStatus` | `PENDING` (default) \| `REVIEWED` \| `ACCEPTED` \| `REJECTED` |
 | `createdAt` | `DateTime` | |
 
-`@@unique([jobId, applicantId])` — the schema itself prevents double
+`@@unique([jobId, applicantId])`, the schema itself prevents double
 applications; `applyToJob` also checks this explicitly first so it can
 return a friendly message instead of a raw constraint-violation error.
 

@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { applyToJob } from "@/lib/actions/applications";
 import type { JobQuestion } from "@prisma/client";
+import Spinner from "./Spinner";
 
 export default function ApplyForm({ jobId, questions }: { jobId: string; questions: JobQuestion[] }) {
   const [message, formAction, pending] = useActionState(applyToJob, undefined);
@@ -24,8 +25,9 @@ export default function ApplyForm({ jobId, questions }: { jobId: string; questio
           <input name={`answer_${q.id}`} required className="field-input" />
         </div>
       ))}
-      {message && <p className="text-sm text-zinc-300">{message}</p>}
-      <button type="submit" disabled={pending} className="btn-primary">
+      {message && <p className="text-sm text-zinc-700">{message}</p>}
+      <button type="submit" disabled={pending} className="btn-primary flex items-center gap-2">
+        {pending && <Spinner className="size-4" />}
         {pending ? "Submitting…" : "Submit application"}
       </button>
     </form>

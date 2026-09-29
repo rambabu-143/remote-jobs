@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-// Server Component / Server Action client — reads the session from cookies.
+// Server Component / Server Action client, reads the session from cookies.
 // Writing cookies from a Server Component throws (Next.js restriction); the
 // try/catch below is a no-op there, relying on proxy.ts to refresh the
 // session cookie on every request instead.

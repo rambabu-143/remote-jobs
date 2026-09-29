@@ -1,118 +1,205 @@
+import { Suspense } from "react";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { unstable_cache } from "next/cache";
 import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import Hero from "@/components/Hero";
+import Reveal from "@/components/Reveal";
+import LandingBackground from "@/components/LandingBackground";
 import JobCard from "@/components/JobCard";
+import Skeleton from "@/components/Skeleton";
 
 export default async function LandingPage() {
-  const [session, openCount, featuredJobs] = await Promise.all([
-    auth(),
-    prisma.job.count({ where: { isActive: true } }),
-    prisma.job.findMany({ where: { isActive: true }, orderBy: { createdAt: "desc" }, take: 3 }),
-  ]);
+  const session = await auth();
 
   return (
-    <div>
-      {/* Hero */}
-      <section className="py-16 text-center sm:py-24">
-        <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          Remote jobs from
-          <br />
-          <span className="text-copper-400">verified employers.</span>
-        </h1>
-        <p className="mx-auto mt-4 max-w-xl text-zinc-400">
-          Every company on RemoteJobs lists a real address, phone, and email before a role goes
-          live. Apply straight to the company, no recruiters, no spam.
-        </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link href="/jobs" className="btn-primary">
-            Browse {openCount} open role{openCount === 1 ? "" : "s"}
-          </Link>
-          <Link href="/admin/jobs/new" className="btn-secondary">
-            Post a job
+    <div className="relative">
+      <LandingBackground />
+      <Hero />
+
+      {/* Recent postings */}
+      <section className="border-t border-zinc-200 py-16">
+        <div className="flex items-center justify-between gap-4">
+          <h2 className="text-2xl font-bold tracking-tight text-zinc-900">Recent postings</h2>
+          <Link href="/jobs" className="text-sm font-medium text-ink-600 underline hover:text-ink-700">
+            View all jobs →
           </Link>
         </div>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-zinc-500">
-          <span>✓ Verified employers</span>
-          <span>✓ Apply directly</span>
-          <span>✓ No recruiter spam</span>
-        </div>
+        <Reveal className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Suspense fallback={<RecentJobsSkeleton />}>
+            <RecentJobs />
+          </Suspense>
+        </Reveal>
+      </section>
+
+      {/* For seekers / employers */}
+      <section className="border-t border-zinc-200 py-16">
+        <Reveal className="grid gap-4 sm:grid-cols-2">
+          <div className="card-glass">
+            <span className="badge bg-ink-50 text-ink-600">For job seekers</span>
+            <h2 className="mt-3 text-xl font-bold tracking-tight text-zinc-900">
+              Skip the recruiter spam.
+            </h2>
+            <p className="mt-2 text-sm text-zinc-600">
+              Every listing comes from a company we&apos;ve verified, not a staffing agency. Filter
+              by location, remote/hybrid/on-site, or employment type, then apply straight to the
+              employer and track every application from one dashboard.
+            </p>
+            <Link
+              href="/jobs"
+              className="mt-4 inline-block text-sm font-medium text-ink-600 underline hover:text-ink-700"
+            >
+              Browse open roles →
+            </Link>
+          </div>
+          <div className="card-glass">
+            <span className="badge bg-ink-50 text-ink-600">For employers</span>
+            <h2 className="mt-3 text-xl font-bold tracking-tight text-zinc-900">
+              Reach candidates directly.
+            </h2>
+            <p className="mt-2 text-sm text-zinc-600">
+              Post a role with your own screening questions, and applications land straight in
+              your dashboard, resume, cover note, and answers included. No bidding against other
+              job boards for attention.
+            </p>
+            <Link
+              href="/admin/jobs/new"
+              className="mt-4 inline-block text-sm font-medium text-ink-600 underline hover:text-ink-700"
+            >
+              Post a job →
+            </Link>
+          </div>
+        </Reveal>
       </section>
 
       {/* How it works */}
-      <section className="border-t border-zinc-800 py-16">
-        <h2 className="text-center text-2xl font-bold tracking-tight text-white">
+      <section className="border-t border-zinc-200 py-16">
+        <h2 className="text-center text-2xl font-bold tracking-tight text-zinc-900">
           Find your next role in 3 steps
         </h2>
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          <div className="card">
-            <span className="flex size-8 items-center justify-center rounded-full bg-copper-950 font-mono text-sm text-copper-400">
+        <Reveal className="mt-8 grid gap-4 sm:grid-cols-3">
+          <div className="card-glass">
+            <span className="flex size-8 items-center justify-center rounded-full bg-ink-50 font-mono text-sm text-ink-600">
               1
             </span>
-            <h3 className="mt-3 font-semibold text-white">Search &amp; filter</h3>
-            <p className="mt-2 text-sm text-zinc-400">
+            <h3 className="mt-3 font-semibold text-zinc-900">Search &amp; filter</h3>
+            <p className="mt-2 text-sm text-zinc-600">
               Filter every listing by category, location, remote/hybrid/on-site, or employment
               type to find roles that actually fit.
             </p>
           </div>
-          <div className="card">
-            <span className="flex size-8 items-center justify-center rounded-full bg-copper-950 font-mono text-sm text-copper-400">
+          <div className="card-glass">
+            <span className="flex size-8 items-center justify-center rounded-full bg-ink-50 font-mono text-sm text-ink-600">
               2
             </span>
-            <h3 className="mt-3 font-semibold text-white">Apply once, per role</h3>
-            <p className="mt-2 text-sm text-zinc-400">
+            <h3 className="mt-3 font-semibold text-zinc-900">Apply once, per role</h3>
+            <p className="mt-2 text-sm text-zinc-600">
               Upload a resume, add a cover note, and answer any screening questions the company
               set, all on the job page. No separate account per employer.
             </p>
           </div>
-          <div className="card">
-            <span className="flex size-8 items-center justify-center rounded-full bg-copper-950 font-mono text-sm text-copper-400">
+          <div className="card-glass">
+            <span className="flex size-8 items-center justify-center rounded-full bg-ink-50 font-mono text-sm text-ink-600">
               3
             </span>
-            <h3 className="mt-3 font-semibold text-white">Track the outcome</h3>
-            <p className="mt-2 text-sm text-zinc-400">
+            <h3 className="mt-3 font-semibold text-zinc-900">Track the outcome</h3>
+            <p className="mt-2 text-sm text-zinc-600">
               Your dashboard shows every application&apos;s status: pending, reviewed, accepted, or
               rejected. It updates the moment the employer acts on it.
             </p>
           </div>
-        </div>
+        </Reveal>
       </section>
 
-      {/* Featured jobs */}
-      {featuredJobs.length > 0 && (
-        <section className="border-t border-zinc-800 py-16">
-          <div className="flex items-baseline justify-between">
-            <h2 className="text-2xl font-bold tracking-tight text-white">Recently posted</h2>
-            <Link href="/jobs" className="text-sm text-copper-400 underline hover:text-copper-300">
-              View all jobs
-            </Link>
+      {/* Why 365DaysJobsTeam */}
+      <section className="border-t border-zinc-200 py-16">
+        <h2 className="text-center text-2xl font-bold tracking-tight text-zinc-900">
+          Built to cut out the noise
+        </h2>
+        <Reveal className="mt-8 grid gap-4 sm:grid-cols-3">
+          <div>
+            <h3 className="font-semibold text-zinc-900">Verified companies only</h3>
+            <p className="mt-2 text-sm text-zinc-600">
+              A real address, phone number, and email are required before any role goes live.
+            </p>
           </div>
-          <div className="mt-6 grid gap-4">
-            {featuredJobs.map((job) => (
-              <JobCard key={job.id} job={job} />
-            ))}
+          <div>
+            <h3 className="font-semibold text-zinc-900">Direct applications</h3>
+            <p className="mt-2 text-sm text-zinc-600">
+              Your application goes to the employer, not a recruiter&apos;s inbox waiting to be
+              resold.
+            </p>
           </div>
-        </section>
-      )}
+          <div>
+            <h3 className="font-semibold text-zinc-900">One dashboard</h3>
+            <p className="mt-2 text-sm text-zinc-600">
+              Every role you&apos;ve applied to, and its status, in one place, updated in real time.
+            </p>
+          </div>
+        </Reveal>
+      </section>
 
       {/* Final CTA */}
       {!session?.user && (
-        <section className="border-t border-zinc-800 py-16 text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-white">Ready to find your next role?</h2>
-          <p className="mx-auto mt-2 max-w-md text-sm text-zinc-400">
-            Create a free account to apply to verified employers and track every application in
-            one place.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/register" className="btn-primary">
-              Sign up free
-            </Link>
-          </div>
+        <section className="border-t border-zinc-200 py-16 text-center">
+          <Reveal>
+            <h2 className="text-2xl font-bold tracking-tight text-zinc-900">
+              Ready to find your next role?
+            </h2>
+            <p className="mx-auto mt-2 max-w-md text-sm text-zinc-600">
+              Create a free account to apply to verified employers and track every application in
+              one place.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Link href="/register" className="btn-primary">
+                Sign up free
+              </Link>
+            </div>
+          </Reveal>
         </section>
       )}
 
-      <footer className="border-t border-zinc-800 py-8 text-center text-sm text-zinc-500">
-        RemoteJobs. Remote jobs from verified employers.
+      <footer className="border-t border-zinc-200 py-8 text-center text-sm text-zinc-500">
+        365DaysJobsTeam. Remote jobs from verified employers.
       </footer>
     </div>
   );
+}
+
+const getRecentJobs = unstable_cache(
+  () =>
+    prisma.job.findMany({
+      where: { status: "PUBLISHED" },
+      orderBy: { createdAt: "desc" },
+      take: 6,
+    }),
+  ["recent-jobs"],
+  { tags: ["jobs"], revalidate: 60 }
+);
+
+async function RecentJobs() {
+  const jobs = await getRecentJobs();
+
+  if (jobs.length === 0) {
+    return (
+      <p className="col-span-full rounded-xl border border-dashed border-zinc-200 p-8 text-center text-zinc-500">
+        No roles posted yet, check back soon.
+      </p>
+    );
+  }
+
+  return jobs.map((job) => <JobCard key={job.id} job={job} />);
+}
+
+function RecentJobsSkeleton() {
+  return Array.from({ length: 6 }).map((_, i) => (
+    <div key={i} className="card flex gap-4">
+      <Skeleton className="size-10 shrink-0" />
+      <div className="flex-1 space-y-2">
+        <Skeleton className="h-4 w-1/3" />
+        <Skeleton className="h-3 w-1/4" />
+        <Skeleton className="h-3 w-2/3" />
+      </div>
+    </div>
+  ));
 }

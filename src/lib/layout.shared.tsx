@@ -3,7 +3,7 @@ import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: "RemoteJobs Docs",
+      title: "365DaysJobsTeam Docs",
     },
   };
 }

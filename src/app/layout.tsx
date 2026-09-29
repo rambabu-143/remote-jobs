@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RemoteJobs - remote jobs from verified employers",
+  title: "365DaysJobsTeam - remote jobs from verified employers",
   description: "Browse and apply to remote jobs from verified employers, or post one as an admin.",
 };
 
@@ -26,8 +26,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-black text-white">
-        <RootProvider theme={{ forcedTheme: "dark", defaultTheme: "dark" }}>
+      <body className="min-h-full flex flex-col bg-paper text-zinc-900">
+        <RootProvider theme={{ forcedTheme: "light", defaultTheme: "light" }}>
           <Nav />
           {children}
         </RootProvider>

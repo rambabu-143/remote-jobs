@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
@@ -93,10 +93,16 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
     ]);
   } else {
     await prisma.job.create({
-      data: { ...data, postedById: session.user.id, questions: { create: questionRows } },
+      data: {
+        ...data,
+        status: "PUBLISHED",
+        postedById: session.user.id,
+        questions: { create: questionRows },
+      },
     });
   }
 
+  revalidateTag("jobs", "max");
   revalidatePath("/");
   revalidatePath("/admin/jobs");
   redirect("/admin/jobs");
@@ -105,7 +111,11 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
 export async function toggleJobActive(jobId: string) {
   await requireAdmin();
   const job = await prisma.job.findUniqueOrThrow({ where: { id: jobId } });
-  await prisma.job.update({ where: { id: jobId }, data: { isActive: !job.isActive } });
+  await prisma.job.update({
+    where: { id: jobId },
+    data: { status: job.status === "PUBLISHED" ? "CLOSED" : "PUBLISHED" },
+  });
+  revalidateTag("jobs", "max");
   revalidatePath("/");
   revalidatePath("/admin/jobs");
 }
@@ -113,6 +123,7 @@ export async function toggleJobActive(jobId: string) {
 export async function deleteJob(jobId: string) {
   await requireAdmin();
   await prisma.job.delete({ where: { id: jobId } });
+  revalidateTag("jobs", "max");
   revalidatePath("/");
   revalidatePath("/admin/jobs");
 }

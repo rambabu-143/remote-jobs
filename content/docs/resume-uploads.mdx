@@ -6,7 +6,7 @@ description: How resume files are validated, stored, and served securely.
 ## Upload path
 
 The apply form's file input (`<input type="file" name="resume" accept=".pdf,.doc,.docx">`)
-submits as part of the same `FormData` the Server Action already reads —
+submits as part of the same `FormData` the Server Action already reads,
 no separate upload endpoint, no client-side fetch to a signed URL. Server
 Actions accept `multipart/form-data` natively; `formData.get("resume")`
 comes back as a `File`.
@@ -32,7 +32,7 @@ Allowed MIME types (`src/lib/storage.ts`): `application/pdf`,
 
 ## Server Action body size limit
 
-Next.js caps Server Action request bodies at **1MB by default** — too
+Next.js caps Server Action request bodies at **1MB by default**: too
 small for most resumes. `next.config.ts` raises it:
 
 ```ts
@@ -46,18 +46,17 @@ per Next's own sizing guidance.)
 
 ## Storage
 
-`saveResumeFile()` in `src/lib/storage.ts` writes to `uploads/resumes/`
-(project root, gitignored) under a random UUID filename with the original
-extension preserved — never the user-supplied filename, which avoids path
-traversal and collisions entirely. Only the generated filename is stored
-in `Application.resumeFileName`.
+`saveResumeFile()` in `src/lib/storage.ts` uploads to the private Supabase
+Storage bucket `resumes`, using the service-role client (`createAdminClient()`),
+under a random UUID filename with the original extension preserved, never the
+user-supplied filename, which avoids path traversal and collisions entirely.
+Only the generated filename is stored in `Application.resumeFileName`.
 
-<Callout type="info">
-This is local disk storage — fine for one instance, but it won't survive
-or be shared across a serverless/multi-instance deployment (e.g. Vercel).
-Swap to S3/R2 + presigned uploads before deploying there — see
-[Deployment & Scaling](/docs/deployment-scaling).
-</Callout>
+The bucket is **private**: nothing is reachable by URL. Every read goes
+through the route below, which does the access check first.
+
+Company logos use a separate **public** bucket, `logos`; `saveLogoFile()` stores
+the full public URL in `Job.logoUrl`, rendered with a plain `<img>`.
 
 ## Serving files securely
 
@@ -68,8 +67,8 @@ world-readable). They're served through
 1. Requires a session at all (`401` if signed out)
 2. Looks up the `Application` row by `resumeFileName`
 3. Allows the request only if the caller **is the applicant** or **is an
-   ADMIN** — otherwise `401`
-4. Reads the file and returns it with the right `Content-Type`
+   ADMIN**, otherwise `401`
+4. Downloads the file from Supabase Storage and returns it with the right `Content-Type`
    (looked up by extension) and `Content-Disposition: inline`
 
 This was verified directly: a signed-out `fetch()` to a real resume URL

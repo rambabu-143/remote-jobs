@@ -9,6 +9,9 @@ export const PLANS: Record<SubscriptionPlan, { label: string; amountInPaise: num
   YEAR_1: { label: "1 Year", amountInPaise: 39900, months: 12 },
 };
 
+// Flat fee to publish one job listing (employer self-serve posting).
+export const JOB_LISTING_PRICE_PAISE = 99900;
+
 export function isRazorpayConfigured() {
   return Boolean(process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET);
 }

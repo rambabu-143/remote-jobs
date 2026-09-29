@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import Spinner from "./Spinner";
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ export default function ForgotPasswordForm() {
       setError(error.message);
       return;
     }
-    // Don't reveal whether the email exists — same message either way.
+    // Don't reveal whether the email exists, same message either way.
     setMessage("If an account exists for that email, a reset link is on its way.");
   }
 
@@ -41,9 +42,10 @@ export default function ForgotPasswordForm() {
           className="field-input"
         />
       </div>
-      {error && <p className="text-sm text-red-400">{error}</p>}
-      {message && <p className="text-sm text-emerald-400">{message}</p>}
-      <button type="submit" disabled={pending} className="btn-primary w-full">
+      {error && <p className="text-sm text-red-600">{error}</p>}
+      {message && <p className="text-sm text-emerald-600">{message}</p>}
+      <button type="submit" disabled={pending} className="btn-primary flex w-full items-center justify-center gap-2">
+        {pending && <Spinner className="size-4" />}
         {pending ? "Sending…" : "Send reset link"}
       </button>
     </form>

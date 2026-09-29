@@ -14,14 +14,14 @@ export default async function PricingPage() {
   return (
     <div>
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
-      <h1 className="text-2xl font-bold tracking-tight text-white">Unlock apply access</h1>
-      <p className="mt-2 max-w-xl text-sm text-zinc-400">
+      <h1 className="text-2xl font-bold tracking-tight text-zinc-900">Unlock apply access</h1>
+      <p className="mt-2 max-w-xl text-sm text-zinc-600">
         Browsing jobs is always free. Subscribe to unlock the apply form and contact details on
         every listing.
       </p>
 
       {isActive && (
-        <p className="mt-4 rounded-lg border border-emerald-900 bg-emerald-950/50 px-4 py-3 text-sm text-emerald-400">
+        <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50/50 px-4 py-3 text-sm text-emerald-600">
           Your access is active until {user.subscriptionExpiresAt!.toLocaleDateString()}.
         </p>
       )}

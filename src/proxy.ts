@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 // Refreshes the Supabase session cookie on every request so Server Components
 // see a valid (non-expired) session. Role-based authorization (ADMIN-only
-// routes) is enforced per-page via auth() + a Prisma lookup, not here —
+// routes) is enforced per-page via auth() + a Prisma lookup, not here,
 // middleware can't reach Prisma without adding an edge DB round-trip, and
 // every gated layout (admin, docs) already does its own check.
 export default async function proxy(req: NextRequest) {

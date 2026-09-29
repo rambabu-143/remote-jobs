@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import Spinner from "./Spinner";
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -62,9 +63,9 @@ export default function ResetPasswordForm() {
 
   if (linkInvalid) {
     return (
-      <p className="text-sm text-red-400">
+      <p className="text-sm text-red-600">
         This reset link is invalid or has expired. Request a new one from the{" "}
-        <a href="/forgot-password" className="text-copper-400 underline hover:text-copper-300">
+        <a href="/forgot-password" className="text-ink-600 underline hover:text-ink-700">
           forgot password
         </a>{" "}
         page.
@@ -73,7 +74,7 @@ export default function ResetPasswordForm() {
   }
 
   if (!ready) {
-    return <p className="text-sm text-zinc-400">Verifying your reset link…</p>;
+    return <p className="text-sm text-zinc-600">Verifying your reset link…</p>;
   }
 
   return (
@@ -89,8 +90,9 @@ export default function ResetPasswordForm() {
           className="field-input"
         />
       </div>
-      {error && <p className="text-sm text-red-400">{error}</p>}
-      <button type="submit" disabled={pending} className="btn-primary w-full">
+      {error && <p className="text-sm text-red-600">{error}</p>}
+      <button type="submit" disabled={pending} className="btn-primary flex w-full items-center justify-center gap-2">
+        {pending && <Spinner className="size-4" />}
         {pending ? "Updating…" : "Update password"}
       </button>
     </form>

@@ -1,10 +1,39 @@
+import { Suspense } from "react";
 import Link from "next/link";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import JobCard from "@/components/JobCard";
 import FilterBar from "@/components/FilterBar";
+import Skeleton from "@/components/Skeleton";
 import type { Prisma } from "@prisma/client";
 
 const PAGE_SIZE = 20;
+
+const getJobsPage = unstable_cache(
+  async (where: Prisma.JobWhereInput, page: number) => {
+    const [jobs, total] = await prisma.$transaction([
+      prisma.job.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip: (page - 1) * PAGE_SIZE,
+        take: PAGE_SIZE,
+      }),
+      prisma.job.count({ where }),
+    ]);
+    return { jobs, total };
+  },
+  ["jobs-list"],
+  { tags: ["jobs"], revalidate: 60 }
+);
+
+type Filters = {
+  q?: string;
+  remote?: string;
+  type?: string;
+  category?: string;
+  location?: string;
+  page: number;
+};
 
 export default async function JobsPage({
   searchParams,
@@ -21,7 +50,23 @@ export default async function JobsPage({
   const { q, remote, type, category, location, page: pageParam } = await searchParams;
   const page = Math.max(1, Number(pageParam) || 1);
 
-  const where: Prisma.JobWhereInput = { isActive: true };
+  return (
+    <div>
+      <h1 className="text-3xl font-bold tracking-tight text-zinc-900">
+        Find your next <span className="text-ink-600">remote</span> role
+      </h1>
+
+      <FilterBar q={q} remote={remote} type={type} category={category} location={location} />
+
+      <Suspense key={`${q ?? ""}|${remote ?? ""}|${type ?? ""}|${category ?? ""}|${location ?? ""}|${page}`} fallback={<JobListSkeleton />}>
+        <JobResults q={q} remote={remote} type={type} category={category} location={location} page={page} />
+      </Suspense>
+    </div>
+  );
+}
+
+async function JobResults({ q, remote, type, category, location, page }: Filters) {
+  const where: Prisma.JobWhereInput = { status: "PUBLISHED" };
   if (q) {
     where.OR = [
       { title: { contains: q } },
@@ -34,15 +79,7 @@ export default async function JobsPage({
   if (category) where.category = category;
   if (location) where.location = location;
 
-  const [jobs, total] = await prisma.$transaction([
-    prisma.job.findMany({
-      where,
-      orderBy: { createdAt: "desc" },
-      skip: (page - 1) * PAGE_SIZE,
-      take: PAGE_SIZE,
-    }),
-    prisma.job.count({ where }),
-  ]);
+  const { jobs, total } = await getJobsPage(where, page);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   const pageHref = (p: number) => {
@@ -58,22 +95,17 @@ export default async function JobsPage({
   };
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold tracking-tight text-white">
-        Find your next <span className="text-copper-400">remote</span> role
-      </h1>
-      <p className="mt-2 text-zinc-400">
+    <>
+      <p className="mt-2 text-zinc-600">
         {total} open position{total === 1 ? "" : "s"}
       </p>
-
-      <FilterBar q={q} remote={remote} type={type} category={category} location={location} />
 
       <div className="mt-6 grid gap-4">
         {jobs.map((job) => (
           <JobCard key={job.id} job={job} />
         ))}
         {jobs.length === 0 && (
-          <p className="rounded-xl border border-dashed border-zinc-800 p-8 text-center text-zinc-500">
+          <p className="rounded-xl border border-dashed border-zinc-200 p-8 text-center text-zinc-500">
             No jobs match your filters.
           </p>
         )}
@@ -100,6 +132,26 @@ export default async function JobsPage({
           )}
         </div>
       )}
-    </div>
+    </>
+  );
+}
+
+function JobListSkeleton() {
+  return (
+    <>
+      <Skeleton className="mt-2 h-5 w-40" />
+      <div className="mt-6 grid gap-4">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="card flex gap-4">
+            <Skeleton className="size-10 shrink-0" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-4 w-1/3" />
+              <Skeleton className="h-3 w-1/4" />
+              <Skeleton className="h-3 w-2/3" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }

@@ -5,10 +5,10 @@ description: How requests flow through the app, and the Next.js 16 conventions i
 
 ## Request flow
 
-Almost everything is a **Server Component** reading straight from Prisma —
+Almost everything is a **Server Component** reading straight from Prisma,
 there's no separate client-side data-fetching layer. Mutations go through
 **Server Actions** (`"use server"` functions in `src/lib/actions/*.ts`),
-called directly from `<form action={...}>` — no hand-written API routes for
+called directly from `<form action={...}>`, no hand-written API routes for
 CRUD, no client-side fetch/JSON wiring.
 
 ```mermaid
@@ -22,8 +22,9 @@ graph LR
 
 The only real Route Handlers (`route.ts`) in the app are:
 
-- `app/api/auth/[...nextauth]/route.ts` — Auth.js's own handler
-- `app/api/files/resumes/[filename]/route.ts` — streams a resume file back
+- `app/api/webhooks/razorpay/route.ts`, Razorpay's `payment.captured` webhook,
+  a fallback that activates a payment if the browser never returned to verify it
+- `app/api/files/resumes/[filename]/route.ts`, streams a resume file back
   after an auth + ownership check (see [Resume Uploads](/docs/resume-uploads))
 
 ## Next.js 16 conventions this app relies on
@@ -35,18 +36,18 @@ from earlier versions that are easy to get wrong if you're used to Next 14/15:
   `const { id } = await params`. Every dynamic page in this app follows
   that pattern.
 - **`middleware.ts` is renamed `proxy.ts`**, and the exported function is
-  `proxy`, not `middleware`. See [Auth & Roles](/docs/auth-roles) — this is
+  `proxy`, not `middleware`. See [Auth & Roles](/docs/auth-roles), this is
   where route-level admin gating happens.
 - **Turbopack is the default** dev/build bundler (no `--turbopack` flag
   needed).
-- **Server Actions have a request body size limit** (1MB by default) — this
+- **Server Actions have a request body size limit** (1MB by default), this
   app raises it to 5MB in `next.config.ts` so resume uploads fit. See
   [Resume Uploads](/docs/resume-uploads).
 
 ## Route groups
 
 Everything except `/docs` lives under `app/(site)/`. That's a
-[route group](https://nextjs.org/docs/app/api-reference/file-conventions/route-groups) —
+[route group](https://nextjs.org/docs/app/api-reference/file-conventions/route-groups),
 the parentheses don't appear in the URL, they just let `(site)/layout.tsx`
 apply a `max-w-5xl` centered `<main>` wrapper to the public site without
 also squashing the Fumadocs sidebar layout under `/docs`, which needs full
@@ -58,13 +59,15 @@ width. The root `layout.tsx` only holds what's truly global: fonts, the
 Both `/admin/*` and `/docs/*` are admin-only, and both are checked in two
 places:
 
-1. **`src/proxy.ts`** — runs before the request reaches any page, redirects
-   non-admins to `/login`. This is the fast, request-level check.
+1. **`src/proxy.ts`**: runs before the request reaches any page, refreshes the
+   Supabase session and redirects signed-out users to `/login`. It only checks
+   that a session exists, not the role.
 2. **The route's own layout** (`app/(site)/admin/layout.tsx`,
-   `app/docs/layout.tsx`) — re-checks the session and redirects again.
+   `app/docs/layout.tsx`), calls `auth()`, which looks up the role in Prisma,
+   and redirects non-admins.
 
 The second check isn't redundant: `proxy.ts` is explicitly documented by
 Next.js as an *optimistic* check, not a full authorization solution (it
 can't safely do slow work like a database read on every request). Real
 authorization always happens again inside the Server Component or Server
-Action that actually touches data — see [Auth & Roles](/docs/auth-roles).
+Action that actually touches data, see [Auth & Roles](/docs/auth-roles).

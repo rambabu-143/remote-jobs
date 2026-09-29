@@ -9,7 +9,7 @@
       "source_file": "postcss.config.mjs",
       "source_location": "L1",
       "id": "postcss_config_mjs",
-      "community": 22,
+      "community": 28,
       "norm_label": "postcss.config.mjs"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "prisma.config.ts",
       "source_location": "L1",
       "id": "prisma_config_ts",
-      "community": 23,
+      "community": 29,
       "norm_label": "prisma.config.ts"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "next-env.d.ts",
       "source_location": "L1",
       "id": "next_env_d_ts",
-      "community": 24,
+      "community": 30,
       "norm_label": "next-env.d.ts"
     },
     {
@@ -36,7 +36,7 @@
       "source_file": "eslint.config.mjs",
       "source_location": "L1",
       "id": "eslint_config_mjs",
-      "community": 25,
+      "community": 31,
       "norm_label": "eslint.config.mjs"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "next.config.ts",
       "source_location": "L1",
       "id": "next_config_ts",
-      "community": 26,
+      "community": 32,
       "norm_label": "next.config.ts"
     },
     {
@@ -54,26 +54,8 @@
       "source_file": "prisma/seed.ts",
       "source_location": "L1",
       "id": "prisma_seed_ts",
-      "community": 7,
+      "community": 33,
       "norm_label": "seed.ts"
-    },
-    {
-      "label": "getOrCreateAuthUser()",
-      "file_type": "code",
-      "source_file": "prisma/seed.ts",
-      "source_location": "L9",
-      "id": "prisma_seed_getorcreateauthuser",
-      "community": 7,
-      "norm_label": "getorcreateauthuser()"
-    },
-    {
-      "label": "main()",
-      "file_type": "code",
-      "source_file": "prisma/seed.ts",
-      "source_location": "L19",
-      "id": "prisma_seed_main",
-      "community": 7,
-      "norm_label": "main()"
     },
     {
       "label": "proxy.ts",
@@ -81,7 +63,7 @@
       "source_file": "src/proxy.ts",
       "source_location": "L1",
       "id": "src_proxy_ts",
-      "community": 8,
+      "community": 9,
       "norm_label": "proxy.ts"
     },
     {
@@ -90,7 +72,7 @@
       "source_file": "src/proxy.ts",
       "source_location": "L9",
       "id": "src_proxy_proxy",
-      "community": 8,
+      "community": 9,
       "norm_label": "proxy()"
     },
     {
@@ -99,7 +81,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L1",
       "id": "src_app_layout_tsx",
-      "community": 9,
+      "community": 10,
       "norm_label": "layout.tsx"
     },
     {
@@ -108,7 +90,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L22",
       "id": "app_layout_rootlayout",
-      "community": 9,
+      "community": 10,
       "norm_label": "rootlayout()"
     },
     {
@@ -117,7 +99,7 @@
       "source_file": "src/app/docs/layout.tsx",
       "source_location": "L1",
       "id": "src_app_docs_layout_tsx",
-      "community": 6,
+      "community": 7,
       "norm_label": "layout.tsx"
     },
     {
@@ -126,7 +108,7 @@
       "source_file": "src/app/docs/layout.tsx",
       "source_location": "L7",
       "id": "docs_layout_layout",
-      "community": 6,
+      "community": 7,
       "norm_label": "layout()"
     },
     {
@@ -135,7 +117,7 @@
       "source_file": "src/app/docs/[[...slug]]/page.tsx",
       "source_location": "L1",
       "id": "src_app_docs_slug_page_tsx",
-      "community": 27,
+      "community": 34,
       "norm_label": "page.tsx"
     },
     {
@@ -144,7 +126,7 @@
       "source_file": "src/app/(site)/layout.tsx",
       "source_location": "L1",
       "id": "src_app_site_layout_tsx",
-      "community": 10,
+      "community": 11,
       "norm_label": "layout.tsx"
     },
     {
@@ -153,7 +135,7 @@
       "source_file": "src/app/(site)/layout.tsx",
       "source_location": "L1",
       "id": "site_layout_sitelayout",
-      "community": 10,
+      "community": 11,
       "norm_label": "sitelayout()"
     },
     {
@@ -162,7 +144,7 @@
       "source_file": "src/app/(site)/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_page_tsx",
-      "community": 28,
+      "community": 35,
       "norm_label": "page.tsx"
     },
     {
@@ -171,7 +153,7 @@
       "source_file": "src/app/(site)/admin/layout.tsx",
       "source_location": "L1",
       "id": "src_app_site_admin_layout_tsx",
-      "community": 1,
+      "community": 3,
       "norm_label": "layout.tsx"
     },
     {
@@ -180,8 +162,17 @@
       "source_file": "src/app/(site)/admin/layout.tsx",
       "source_location": "L5",
       "id": "admin_layout_adminlayout",
-      "community": 1,
+      "community": 3,
       "norm_label": "adminlayout()"
+    },
+    {
+      "label": "loading.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/admin/jobs/loading.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_admin_jobs_loading_tsx",
+      "community": 36,
+      "norm_label": "loading.tsx"
     },
     {
       "label": "page.tsx",
@@ -196,7 +187,7 @@
       "label": "async()",
       "file_type": "code",
       "source_file": "src/app/(site)/admin/jobs/page.tsx",
-      "source_location": "L51",
+      "source_location": "L73",
       "id": "jobs_page_async",
       "community": 2,
       "norm_label": "async()"
@@ -207,7 +198,7 @@
       "source_file": "src/app/(site)/admin/jobs/new/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_admin_jobs_new_page_tsx",
-      "community": 11,
+      "community": 12,
       "norm_label": "page.tsx"
     },
     {
@@ -216,7 +207,7 @@
       "source_file": "src/app/(site)/admin/jobs/new/page.tsx",
       "source_location": "L3",
       "id": "new_page_newjobpage",
-      "community": 11,
+      "community": 12,
       "norm_label": "newjobpage()"
     },
     {
@@ -225,7 +216,7 @@
       "source_file": "src/app/(site)/admin/jobs/[id]/edit/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_admin_jobs_id_edit_page_tsx",
-      "community": 12,
+      "community": 13,
       "norm_label": "page.tsx"
     },
     {
@@ -234,8 +225,17 @@
       "source_file": "src/app/(site)/admin/jobs/[id]/edit/page.tsx",
       "source_location": "L5",
       "id": "edit_page_editjobpage",
-      "community": 12,
+      "community": 13,
       "norm_label": "editjobpage()"
+    },
+    {
+      "label": "loading.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/admin/jobs/[id]/applications/loading.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_admin_jobs_id_applications_loading_tsx",
+      "community": 37,
+      "norm_label": "loading.tsx"
     },
     {
       "label": "page.tsx",
@@ -243,8 +243,17 @@
       "source_file": "src/app/(site)/admin/jobs/[id]/applications/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_admin_jobs_id_applications_page_tsx",
-      "community": 29,
+      "community": 38,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "loading.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/dashboard/loading.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_dashboard_loading_tsx",
+      "community": 39,
+      "norm_label": "loading.tsx"
     },
     {
       "label": "page.tsx",
@@ -252,8 +261,17 @@
       "source_file": "src/app/(site)/dashboard/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_dashboard_page_tsx",
-      "community": 30,
+      "community": 3,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "DashboardPage()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/dashboard/page.tsx",
+      "source_location": "L9",
+      "id": "dashboard_page_dashboardpage",
+      "community": 3,
+      "norm_label": "dashboardpage()"
     },
     {
       "label": "page.tsx",
@@ -261,7 +279,7 @@
       "source_file": "src/app/(site)/register/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_register_page_tsx",
-      "community": 13,
+      "community": 14,
       "norm_label": "page.tsx"
     },
     {
@@ -270,7 +288,7 @@
       "source_file": "src/app/(site)/register/page.tsx",
       "source_location": "L4",
       "id": "register_page_registerpage",
-      "community": 13,
+      "community": 14,
       "norm_label": "registerpage()"
     },
     {
@@ -279,7 +297,7 @@
       "source_file": "src/app/(site)/forgot-password/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_forgot_password_page_tsx",
-      "community": 14,
+      "community": 15,
       "norm_label": "page.tsx"
     },
     {
@@ -288,7 +306,7 @@
       "source_file": "src/app/(site)/forgot-password/page.tsx",
       "source_location": "L4",
       "id": "forgot_password_page_forgotpasswordpage",
-      "community": 14,
+      "community": 15,
       "norm_label": "forgotpasswordpage()"
     },
     {
@@ -297,7 +315,7 @@
       "source_file": "src/app/(site)/reset-password/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_reset_password_page_tsx",
-      "community": 15,
+      "community": 16,
       "norm_label": "page.tsx"
     },
     {
@@ -306,8 +324,17 @@
       "source_file": "src/app/(site)/reset-password/page.tsx",
       "source_location": "L3",
       "id": "reset_password_page_resetpasswordpage",
-      "community": 15,
+      "community": 16,
       "norm_label": "resetpasswordpage()"
+    },
+    {
+      "label": "loading.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/jobs/loading.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_jobs_loading_tsx",
+      "community": 40,
+      "norm_label": "loading.tsx"
     },
     {
       "label": "page.tsx",
@@ -315,17 +342,44 @@
       "source_file": "src/app/(site)/jobs/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_jobs_page_tsx",
-      "community": 16,
+      "community": 8,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "JobsPage()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/jobs/page.tsx",
+      "source_location": "L20",
+      "id": "jobs_page_jobspage",
+      "community": 8,
+      "norm_label": "jobspage()"
     },
     {
       "label": "pageHref()",
       "file_type": "code",
       "source_file": "src/app/(site)/jobs/page.tsx",
-      "source_location": "L48",
+      "source_location": "L75",
       "id": "jobs_page_pagehref",
-      "community": 16,
+      "community": 8,
       "norm_label": "pagehref()"
+    },
+    {
+      "label": "loading.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(site)/jobs/[id]/loading.tsx",
+      "source_location": "L1",
+      "id": "src_app_site_jobs_id_loading_tsx",
+      "community": 17,
+      "norm_label": "loading.tsx"
+    },
+    {
+      "label": "JobDetailLoading()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/jobs/[id]/loading.tsx",
+      "source_location": "L3",
+      "id": "id_loading_jobdetailloading",
+      "community": 17,
+      "norm_label": "jobdetailloading()"
     },
     {
       "label": "page.tsx",
@@ -333,8 +387,17 @@
       "source_file": "src/app/(site)/jobs/[id]/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_jobs_id_page_tsx",
-      "community": 31,
+      "community": 18,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "JobPage()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/jobs/[id]/page.tsx",
+      "source_location": "L11",
+      "id": "id_page_jobpage",
+      "community": 18,
+      "norm_label": "jobpage()"
     },
     {
       "label": "page.tsx",
@@ -342,7 +405,7 @@
       "source_file": "src/app/(site)/pricing/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_pricing_page_tsx",
-      "community": 32,
+      "community": 41,
       "norm_label": "page.tsx"
     },
     {
@@ -351,8 +414,17 @@
       "source_file": "src/app/(site)/login/page.tsx",
       "source_location": "L1",
       "id": "src_app_site_login_page_tsx",
-      "community": 33,
+      "community": 19,
       "norm_label": "page.tsx"
+    },
+    {
+      "label": "LoginPage()",
+      "file_type": "code",
+      "source_file": "src/app/(site)/login/page.tsx",
+      "source_location": "L4",
+      "id": "login_page_loginpage",
+      "community": 19,
+      "norm_label": "loginpage()"
     },
     {
       "label": "route.ts",
@@ -360,7 +432,7 @@
       "source_file": "src/app/api/files/resumes/[filename]/route.ts",
       "source_location": "L1",
       "id": "src_app_api_files_resumes_filename_route_ts",
-      "community": 1,
+      "community": 0,
       "norm_label": "route.ts"
     },
     {
@@ -369,7 +441,7 @@
       "source_file": "src/app/api/files/resumes/[filename]/route.ts",
       "source_location": "L12",
       "id": "filename_route_get",
-      "community": 1,
+      "community": 0,
       "norm_label": "get()"
     },
     {
@@ -378,17 +450,26 @@
       "source_file": "src/app/api/webhooks/razorpay/route.ts",
       "source_location": "L1",
       "id": "src_app_api_webhooks_razorpay_route_ts",
-      "community": 0,
+      "community": 1,
       "norm_label": "route.ts"
     },
     {
       "label": "POST()",
       "file_type": "code",
       "source_file": "src/app/api/webhooks/razorpay/route.ts",
-      "source_location": "L9",
+      "source_location": "L10",
       "id": "razorpay_route_post",
-      "community": 0,
+      "community": 1,
       "norm_label": "post()"
+    },
+    {
+      "label": "Hero.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Hero.tsx",
+      "source_location": "L1",
+      "id": "src_components_hero_tsx",
+      "community": 42,
+      "norm_label": "hero.tsx"
     },
     {
       "label": "Nav.tsx",
@@ -396,7 +477,7 @@
       "source_file": "src/components/Nav.tsx",
       "source_location": "L1",
       "id": "src_components_nav_tsx",
-      "community": 1,
+      "community": 3,
       "norm_label": "nav.tsx"
     },
     {
@@ -405,7 +486,7 @@
       "source_file": "src/components/Nav.tsx",
       "source_location": "L6",
       "id": "components_nav_nav",
-      "community": 1,
+      "community": 3,
       "norm_label": "nav()"
     },
     {
@@ -414,7 +495,7 @@
       "source_file": "src/components/mdx.tsx",
       "source_location": "L1",
       "id": "src_components_mdx_tsx",
-      "community": 17,
+      "community": 20,
       "norm_label": "mdx.tsx"
     },
     {
@@ -423,7 +504,7 @@
       "source_file": "src/components/mdx.tsx",
       "source_location": "L4",
       "id": "components_mdx_getmdxcomponents",
-      "community": 17,
+      "community": 20,
       "norm_label": "getmdxcomponents()"
     },
     {
@@ -432,16 +513,16 @@
       "source_file": "src/components/ApplyForm.tsx",
       "source_location": "L1",
       "id": "src_components_applyform_tsx",
-      "community": 18,
+      "community": 21,
       "norm_label": "applyform.tsx"
     },
     {
       "label": "ApplyForm()",
       "file_type": "code",
       "source_file": "src/components/ApplyForm.tsx",
-      "source_location": "L7",
+      "source_location": "L8",
       "id": "components_applyform_applyform",
-      "community": 18,
+      "community": 21,
       "norm_label": "applyform()"
     },
     {
@@ -450,7 +531,7 @@
       "source_file": "src/components/JobCard.tsx",
       "source_location": "L1",
       "id": "src_components_jobcard_tsx",
-      "community": 4,
+      "community": 5,
       "norm_label": "jobcard.tsx"
     },
     {
@@ -459,7 +540,7 @@
       "source_file": "src/components/JobCard.tsx",
       "source_location": "L5",
       "id": "components_jobcard_jobcard",
-      "community": 4,
+      "community": 5,
       "norm_label": "jobcard()"
     },
     {
@@ -468,17 +549,8 @@
       "source_file": "src/components/LoginForm.tsx",
       "source_location": "L1",
       "id": "src_components_loginform_tsx",
-      "community": 19,
+      "community": 43,
       "norm_label": "loginform.tsx"
-    },
-    {
-      "label": "LoginForm()",
-      "file_type": "code",
-      "source_file": "src/components/LoginForm.tsx",
-      "source_location": "L6",
-      "id": "components_loginform_loginform",
-      "community": 19,
-      "norm_label": "loginform()"
     },
     {
       "label": "RegisterForm.tsx",
@@ -486,7 +558,7 @@
       "source_file": "src/components/RegisterForm.tsx",
       "source_location": "L1",
       "id": "src_components_registerform_tsx",
-      "community": 34,
+      "community": 44,
       "norm_label": "registerform.tsx"
     },
     {
@@ -495,16 +567,16 @@
       "source_file": "src/components/PricingCard.tsx",
       "source_location": "L1",
       "id": "src_components_pricingcard_tsx",
-      "community": 0,
+      "community": 3,
       "norm_label": "pricingcard.tsx"
     },
     {
       "label": "subscribe()",
       "file_type": "code",
       "source_file": "src/components/PricingCard.tsx",
-      "source_location": "L54",
+      "source_location": "L55",
       "id": "components_pricingcard_subscribe",
-      "community": 0,
+      "community": 3,
       "norm_label": "subscribe()"
     },
     {
@@ -513,7 +585,7 @@
       "source_file": "src/components/NavLinks.tsx",
       "source_location": "L1",
       "id": "src_components_navlinks_tsx",
-      "community": 5,
+      "community": 6,
       "norm_label": "navlinks.tsx"
     },
     {
@@ -522,7 +594,7 @@
       "source_file": "src/components/NavLinks.tsx",
       "source_location": "L21",
       "id": "components_navlinks_isactive",
-      "community": 5,
+      "community": 6,
       "norm_label": "isactive()"
     },
     {
@@ -531,7 +603,7 @@
       "source_file": "src/components/NavLinks.tsx",
       "source_location": "L22",
       "id": "components_navlinks_linkclass",
-      "community": 5,
+      "community": 6,
       "norm_label": "linkclass()"
     },
     {
@@ -540,7 +612,7 @@
       "source_file": "src/components/NavLinks.tsx",
       "source_location": "L26",
       "id": "components_navlinks_mobilelinkclass",
-      "community": 5,
+      "community": 6,
       "norm_label": "mobilelinkclass()"
     },
     {
@@ -549,7 +621,7 @@
       "source_file": "src/components/FilterBar.tsx",
       "source_location": "L1",
       "id": "src_components_filterbar_tsx",
-      "community": 35,
+      "community": 45,
       "norm_label": "filterbar.tsx"
     },
     {
@@ -576,17 +648,89 @@
       "source_file": "src/components/JobForm.tsx",
       "source_location": "L1",
       "id": "src_components_jobform_tsx",
-      "community": 20,
+      "community": 22,
       "norm_label": "jobform.tsx"
     },
     {
       "label": "Section()",
       "file_type": "code",
       "source_file": "src/components/JobForm.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "id": "components_jobform_section",
-      "community": 20,
+      "community": 22,
       "norm_label": "section()"
+    },
+    {
+      "label": "LandingBackground.tsx",
+      "file_type": "code",
+      "source_file": "src/components/LandingBackground.tsx",
+      "source_location": "L1",
+      "id": "src_components_landingbackground_tsx",
+      "community": 23,
+      "norm_label": "landingbackground.tsx"
+    },
+    {
+      "label": "LandingBackground()",
+      "file_type": "code",
+      "source_file": "src/components/LandingBackground.tsx",
+      "source_location": "L2",
+      "id": "components_landingbackground_landingbackground",
+      "community": 23,
+      "norm_label": "landingbackground()"
+    },
+    {
+      "label": "Spinner.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Spinner.tsx",
+      "source_location": "L1",
+      "id": "src_components_spinner_tsx",
+      "community": 24,
+      "norm_label": "spinner.tsx"
+    },
+    {
+      "label": "Spinner()",
+      "file_type": "code",
+      "source_file": "src/components/Spinner.tsx",
+      "source_location": "L1",
+      "id": "components_spinner_spinner",
+      "community": 24,
+      "norm_label": "spinner()"
+    },
+    {
+      "label": "Skeleton.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Skeleton.tsx",
+      "source_location": "L1",
+      "id": "src_components_skeleton_tsx",
+      "community": 25,
+      "norm_label": "skeleton.tsx"
+    },
+    {
+      "label": "Skeleton()",
+      "file_type": "code",
+      "source_file": "src/components/Skeleton.tsx",
+      "source_location": "L1",
+      "id": "components_skeleton_skeleton",
+      "community": 25,
+      "norm_label": "skeleton()"
+    },
+    {
+      "label": "Reveal.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Reveal.tsx",
+      "source_location": "L1",
+      "id": "src_components_reveal_tsx",
+      "community": 26,
+      "norm_label": "reveal.tsx"
+    },
+    {
+      "label": "Reveal()",
+      "file_type": "code",
+      "source_file": "src/components/Reveal.tsx",
+      "source_location": "L5",
+      "id": "components_reveal_reveal",
+      "community": 26,
+      "norm_label": "reveal()"
     },
     {
       "label": "job-labels.ts",
@@ -594,7 +738,7 @@
       "source_file": "src/lib/job-labels.ts",
       "source_location": "L1",
       "id": "src_lib_job_labels_ts",
-      "community": 4,
+      "community": 5,
       "norm_label": "job-labels.ts"
     },
     {
@@ -603,7 +747,7 @@
       "source_file": "src/lib/job-labels.ts",
       "source_location": "L48",
       "id": "lib_job_labels_formatsalary",
-      "community": 4,
+      "community": 5,
       "norm_label": "formatsalary()"
     },
     {
@@ -612,7 +756,7 @@
       "source_file": "src/lib/job-labels.ts",
       "source_location": "L55",
       "id": "lib_job_labels_initials",
-      "community": 4,
+      "community": 5,
       "norm_label": "initials()"
     },
     {
@@ -621,7 +765,7 @@
       "source_file": "src/lib/job-labels.ts",
       "source_location": "L64",
       "id": "lib_job_labels_formatrelativetime",
-      "community": 4,
+      "community": 5,
       "norm_label": "formatrelativetime()"
     },
     {
@@ -630,7 +774,7 @@
       "source_file": "src/lib/prisma.ts",
       "source_location": "L1",
       "id": "src_lib_prisma_ts",
-      "community": 36,
+      "community": 46,
       "norm_label": "prisma.ts"
     },
     {
@@ -639,7 +783,7 @@
       "source_file": "src/lib/layout.shared.tsx",
       "source_location": "L1",
       "id": "src_lib_layout_shared_tsx",
-      "community": 6,
+      "community": 7,
       "norm_label": "layout.shared.tsx"
     },
     {
@@ -648,7 +792,7 @@
       "source_file": "src/lib/layout.shared.tsx",
       "source_location": "L3",
       "id": "lib_layout_shared_baseoptions",
-      "community": 6,
+      "community": 7,
       "norm_label": "baseoptions()"
     },
     {
@@ -657,7 +801,7 @@
       "source_file": "src/lib/source.ts",
       "source_location": "L1",
       "id": "src_lib_source_ts",
-      "community": 37,
+      "community": 47,
       "norm_label": "source.ts"
     },
     {
@@ -666,7 +810,7 @@
       "source_file": "src/lib/razorpay.test.ts",
       "source_location": "L1",
       "id": "src_lib_razorpay_test_ts",
-      "community": 38,
+      "community": 48,
       "norm_label": "razorpay.test.ts"
     },
     {
@@ -675,7 +819,7 @@
       "source_file": "src/lib/storage.ts",
       "source_location": "L1",
       "id": "src_lib_storage_ts",
-      "community": 3,
+      "community": 0,
       "norm_label": "storage.ts"
     },
     {
@@ -684,7 +828,7 @@
       "source_file": "src/lib/storage.ts",
       "source_location": "L15",
       "id": "lib_storage_isallowedresumetype",
-      "community": 3,
+      "community": 0,
       "norm_label": "isallowedresumetype()"
     },
     {
@@ -693,7 +837,7 @@
       "source_file": "src/lib/storage.ts",
       "source_location": "L19",
       "id": "lib_storage_isallowedlogotype",
-      "community": 3,
+      "community": 0,
       "norm_label": "isallowedlogotype()"
     },
     {
@@ -702,7 +846,7 @@
       "source_file": "src/lib/storage.ts",
       "source_location": "L23",
       "id": "lib_storage_extof",
-      "community": 3,
+      "community": 0,
       "norm_label": "extof()"
     },
     {
@@ -711,7 +855,7 @@
       "source_file": "src/lib/storage.ts",
       "source_location": "L30",
       "id": "lib_storage_saveresumefile",
-      "community": 3,
+      "community": 0,
       "norm_label": "saveresumefile()"
     },
     {
@@ -720,7 +864,7 @@
       "source_file": "src/lib/storage.ts",
       "source_location": "L39",
       "id": "lib_storage_readresumefile",
-      "community": 3,
+      "community": 0,
       "norm_label": "readresumefile()"
     },
     {
@@ -729,7 +873,7 @@
       "source_file": "src/lib/storage.ts",
       "source_location": "L47",
       "id": "lib_storage_savelogofile",
-      "community": 3,
+      "community": 0,
       "norm_label": "savelogofile()"
     },
     {
@@ -756,52 +900,52 @@
       "source_file": "src/lib/razorpay.ts",
       "source_location": "L1",
       "id": "src_lib_razorpay_ts",
-      "community": 0,
+      "community": 1,
       "norm_label": "razorpay.ts"
     },
     {
       "label": "isRazorpayConfigured()",
       "file_type": "code",
       "source_file": "src/lib/razorpay.ts",
-      "source_location": "L12",
+      "source_location": "L15",
       "id": "lib_razorpay_israzorpayconfigured",
-      "community": 0,
+      "community": 3,
       "norm_label": "israzorpayconfigured()"
     },
     {
       "label": "getRazorpayClient()",
       "file_type": "code",
       "source_file": "src/lib/razorpay.ts",
-      "source_location": "L16",
+      "source_location": "L19",
       "id": "lib_razorpay_getrazorpayclient",
-      "community": 0,
+      "community": 3,
       "norm_label": "getrazorpayclient()"
     },
     {
       "label": "verifyPaymentSignature()",
       "file_type": "code",
       "source_file": "src/lib/razorpay.ts",
-      "source_location": "L25",
+      "source_location": "L28",
       "id": "lib_razorpay_verifypaymentsignature",
-      "community": 0,
+      "community": 1,
       "norm_label": "verifypaymentsignature()"
     },
     {
       "label": "verifyWebhookSignature()",
       "file_type": "code",
       "source_file": "src/lib/razorpay.ts",
-      "source_location": "L32",
+      "source_location": "L35",
       "id": "lib_razorpay_verifywebhooksignature",
-      "community": 0,
+      "community": 1,
       "norm_label": "verifywebhooksignature()"
     },
     {
       "label": "extendExpiry()",
       "file_type": "code",
       "source_file": "src/lib/razorpay.ts",
-      "source_location": "L41",
+      "source_location": "L44",
       "id": "lib_razorpay_extendexpiry",
-      "community": 0,
+      "community": 1,
       "norm_label": "extendexpiry()"
     },
     {
@@ -810,7 +954,7 @@
       "source_file": "src/lib/auth.ts",
       "source_location": "L1",
       "id": "src_lib_auth_ts",
-      "community": 1,
+      "community": 4,
       "norm_label": "auth.ts"
     },
     {
@@ -819,7 +963,7 @@
       "source_file": "src/lib/auth.ts",
       "source_location": "L11",
       "id": "lib_auth_auth",
-      "community": 1,
+      "community": 3,
       "norm_label": "auth()"
     },
     {
@@ -828,7 +972,7 @@
       "source_file": "src/lib/auth.ts",
       "source_location": "L24",
       "id": "lib_auth_signout",
-      "community": 1,
+      "community": 4,
       "norm_label": "signout()"
     },
     {
@@ -837,7 +981,7 @@
       "source_file": "src/lib/supabase/admin.ts",
       "source_location": "L1",
       "id": "src_lib_supabase_admin_ts",
-      "community": 3,
+      "community": 0,
       "norm_label": "admin.ts"
     },
     {
@@ -846,7 +990,7 @@
       "source_file": "src/lib/supabase/admin.ts",
       "source_location": "L5",
       "id": "supabase_admin_createadminclient",
-      "community": 3,
+      "community": 0,
       "norm_label": "createadminclient()"
     },
     {
@@ -855,7 +999,7 @@
       "source_file": "src/lib/supabase/client.ts",
       "source_location": "L1",
       "id": "src_lib_supabase_client_ts",
-      "community": 21,
+      "community": 27,
       "norm_label": "client.ts"
     },
     {
@@ -864,7 +1008,7 @@
       "source_file": "src/lib/supabase/client.ts",
       "source_location": "L6",
       "id": "supabase_client_createclient",
-      "community": 21,
+      "community": 27,
       "norm_label": "createclient()"
     },
     {
@@ -873,7 +1017,7 @@
       "source_file": "src/lib/supabase/server.ts",
       "source_location": "L1",
       "id": "src_lib_supabase_server_ts",
-      "community": 1,
+      "community": 4,
       "norm_label": "server.ts"
     },
     {
@@ -882,7 +1026,7 @@
       "source_file": "src/lib/supabase/server.ts",
       "source_location": "L8",
       "id": "supabase_server_createclient",
-      "community": 1,
+      "community": 4,
       "norm_label": "createclient()"
     },
     {
@@ -925,7 +1069,7 @@
       "label": "toggleJobActive()",
       "file_type": "code",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L105",
+      "source_location": "L110",
       "id": "actions_jobs_togglejobactive",
       "community": 2,
       "norm_label": "togglejobactive()"
@@ -934,7 +1078,7 @@
       "label": "deleteJob()",
       "file_type": "code",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L113",
+      "source_location": "L121",
       "id": "actions_jobs_deletejob",
       "community": 2,
       "norm_label": "deletejob()"
@@ -943,10 +1087,46 @@
       "label": "updateApplicationStatus()",
       "file_type": "code",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L120",
+      "source_location": "L128",
       "id": "actions_jobs_updateapplicationstatus",
       "community": 2,
       "norm_label": "updateapplicationstatus()"
+    },
+    {
+      "label": "job-payments.ts",
+      "file_type": "code",
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L1",
+      "id": "src_lib_actions_job_payments_ts",
+      "community": 1,
+      "norm_label": "job-payments.ts"
+    },
+    {
+      "label": "createJobListingOrder()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L15",
+      "id": "actions_job_payments_createjoblistingorder",
+      "community": 3,
+      "norm_label": "createjoblistingorder()"
+    },
+    {
+      "label": "verifyJobListingPayment()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L50",
+      "id": "actions_job_payments_verifyjoblistingpayment",
+      "community": 1,
+      "norm_label": "verifyjoblistingpayment()"
+    },
+    {
+      "label": "markJobPaidAndPending()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L75",
+      "id": "actions_job_payments_markjobpaidandpending",
+      "community": 1,
+      "norm_label": "markjobpaidandpending()"
     },
     {
       "label": "applications.ts",
@@ -954,7 +1134,7 @@
       "source_file": "src/lib/actions/applications.ts",
       "source_location": "L1",
       "id": "src_lib_actions_applications_ts",
-      "community": 3,
+      "community": 0,
       "norm_label": "applications.ts"
     },
     {
@@ -963,7 +1143,7 @@
       "source_file": "src/lib/actions/applications.ts",
       "source_location": "L11",
       "id": "actions_applications_applytojob",
-      "community": 3,
+      "community": 0,
       "norm_label": "applytojob()"
     },
     {
@@ -972,7 +1152,7 @@
       "source_file": "src/lib/actions/subscription.ts",
       "source_location": "L1",
       "id": "src_lib_actions_subscription_ts",
-      "community": 0,
+      "community": 1,
       "norm_label": "subscription.ts"
     },
     {
@@ -981,7 +1161,7 @@
       "source_file": "src/lib/actions/subscription.ts",
       "source_location": "L14",
       "id": "actions_subscription_createrazorpayorder",
-      "community": 0,
+      "community": 3,
       "norm_label": "createrazorpayorder()"
     },
     {
@@ -990,7 +1170,7 @@
       "source_file": "src/lib/actions/subscription.ts",
       "source_location": "L46",
       "id": "actions_subscription_verifyrazorpaypayment",
-      "community": 0,
+      "community": 1,
       "norm_label": "verifyrazorpaypayment()"
     },
     {
@@ -999,7 +1179,7 @@
       "source_file": "src/lib/actions/subscription.ts",
       "source_location": "L71",
       "id": "actions_subscription_activatesubscription",
-      "community": 0,
+      "community": 1,
       "norm_label": "activatesubscription()"
     },
     {
@@ -1008,7 +1188,7 @@
       "source_file": "src/lib/actions/subscription.ts",
       "source_location": "L90",
       "id": "actions_subscription_hasactivesubscription",
-      "community": 0,
+      "community": 1,
       "norm_label": "hasactivesubscription()"
     },
     {
@@ -1017,7 +1197,7 @@
       "source_file": "src/lib/actions/auth.ts",
       "source_location": "L1",
       "id": "src_lib_actions_auth_ts",
-      "community": 1,
+      "community": 4,
       "norm_label": "auth.ts"
     },
     {
@@ -1026,7 +1206,7 @@
       "source_file": "src/lib/actions/auth.ts",
       "source_location": "L7",
       "id": "actions_auth_authenticate",
-      "community": 1,
+      "community": 4,
       "norm_label": "authenticate()"
     },
     {
@@ -1035,47 +1215,11 @@
       "source_file": "src/lib/actions/auth.ts",
       "source_location": "L19",
       "id": "actions_auth_registeruser",
-      "community": 1,
+      "community": 4,
       "norm_label": "registeruser()"
     }
   ],
   "links": [
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "prisma/seed.ts",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_src": "prisma_seed_ts",
-      "_tgt": "prisma_seed_getorcreateauthuser",
-      "source": "prisma_seed_ts",
-      "target": "prisma_seed_getorcreateauthuser",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "prisma/seed.ts",
-      "source_location": "L19",
-      "weight": 1.0,
-      "_src": "prisma_seed_ts",
-      "_tgt": "prisma_seed_main",
-      "source": "prisma_seed_ts",
-      "target": "prisma_seed_main",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "source_file": "prisma/seed.ts",
-      "source_location": "L20",
-      "weight": 1.0,
-      "_src": "prisma_seed_main",
-      "_tgt": "prisma_seed_getorcreateauthuser",
-      "source": "prisma_seed_getorcreateauthuser",
-      "target": "prisma_seed_main",
-      "confidence_score": 1.0
-    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -1176,7 +1320,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/app/(site)/admin/jobs/page.tsx",
-      "source_location": "L51",
+      "source_location": "L73",
       "weight": 1.0,
       "_src": "src_app_site_admin_jobs_page_tsx",
       "_tgt": "jobs_page_async",
@@ -1223,6 +1367,30 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/dashboard/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "src_app_site_dashboard_page_tsx",
+      "_tgt": "dashboard_page_dashboardpage",
+      "source": "src_app_site_dashboard_page_tsx",
+      "target": "dashboard_page_dashboardpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/app/(site)/dashboard/page.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "dashboard_page_dashboardpage",
+      "_tgt": "lib_auth_auth",
+      "source": "dashboard_page_dashboardpage",
+      "target": "lib_auth_auth"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/app/(site)/register/page.tsx",
       "source_location": "L4",
       "weight": 1.0,
@@ -1260,12 +1428,60 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/app/(site)/jobs/page.tsx",
-      "source_location": "L48",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "src_app_site_jobs_page_tsx",
+      "_tgt": "jobs_page_jobspage",
+      "source": "src_app_site_jobs_page_tsx",
+      "target": "jobs_page_jobspage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/jobs/page.tsx",
+      "source_location": "L75",
       "weight": 1.0,
       "_src": "src_app_site_jobs_page_tsx",
       "_tgt": "jobs_page_pagehref",
       "source": "src_app_site_jobs_page_tsx",
       "target": "jobs_page_pagehref",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/jobs/[id]/loading.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_src": "src_app_site_jobs_id_loading_tsx",
+      "_tgt": "id_loading_jobdetailloading",
+      "source": "src_app_site_jobs_id_loading_tsx",
+      "target": "id_loading_jobdetailloading",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/jobs/[id]/page.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "src_app_site_jobs_id_page_tsx",
+      "_tgt": "id_page_jobpage",
+      "source": "src_app_site_jobs_id_page_tsx",
+      "target": "id_page_jobpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(site)/login/page.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "src_app_site_login_page_tsx",
+      "_tgt": "login_page_loginpage",
+      "source": "src_app_site_login_page_tsx",
+      "target": "login_page_loginpage",
       "confidence_score": 1.0
     },
     {
@@ -1308,7 +1524,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/app/api/webhooks/razorpay/route.ts",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "_src": "src_app_api_webhooks_razorpay_route_ts",
       "_tgt": "razorpay_route_post",
@@ -1339,6 +1555,18 @@
       "_tgt": "actions_subscription_activatesubscription",
       "source": "razorpay_route_post",
       "target": "actions_subscription_activatesubscription"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/app/api/webhooks/razorpay/route.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_src": "razorpay_route_post",
+      "_tgt": "actions_job_payments_markjobpaidandpending",
+      "source": "razorpay_route_post",
+      "target": "actions_job_payments_markjobpaidandpending"
     },
     {
       "relation": "contains",
@@ -1380,7 +1608,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/ApplyForm.tsx",
-      "source_location": "L7",
+      "source_location": "L8",
       "weight": 1.0,
       "_src": "src_components_applyform_tsx",
       "_tgt": "components_applyform_applyform",
@@ -1415,20 +1643,8 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/LoginForm.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "_src": "src_components_loginform_tsx",
-      "_tgt": "components_loginform_loginform",
-      "source": "src_components_loginform_tsx",
-      "target": "components_loginform_loginform",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "src/components/PricingCard.tsx",
-      "source_location": "L54",
+      "source_location": "L55",
       "weight": 1.0,
       "_src": "src_components_pricingcard_tsx",
       "_tgt": "components_pricingcard_subscribe",
@@ -1536,12 +1752,60 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/JobForm.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "_src": "src_components_jobform_tsx",
       "_tgt": "components_jobform_section",
       "source": "src_components_jobform_tsx",
       "target": "components_jobform_section",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LandingBackground.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_src": "src_components_landingbackground_tsx",
+      "_tgt": "components_landingbackground_landingbackground",
+      "source": "src_components_landingbackground_tsx",
+      "target": "components_landingbackground_landingbackground",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Spinner.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_src": "src_components_spinner_tsx",
+      "_tgt": "components_spinner_spinner",
+      "source": "src_components_spinner_tsx",
+      "target": "components_spinner_spinner",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Skeleton.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_src": "src_components_skeleton_tsx",
+      "_tgt": "components_skeleton_skeleton",
+      "source": "src_components_skeleton_tsx",
+      "target": "components_skeleton_skeleton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Reveal.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "src_components_reveal_tsx",
+      "_tgt": "components_reveal_reveal",
+      "source": "src_components_reveal_tsx",
+      "target": "components_reveal_reveal",
       "confidence_score": 1.0
     },
     {
@@ -1812,7 +2076,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/razorpay.ts",
-      "source_location": "L12",
+      "source_location": "L15",
       "weight": 1.0,
       "_src": "src_lib_razorpay_ts",
       "_tgt": "lib_razorpay_israzorpayconfigured",
@@ -1824,7 +2088,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/razorpay.ts",
-      "source_location": "L16",
+      "source_location": "L19",
       "weight": 1.0,
       "_src": "src_lib_razorpay_ts",
       "_tgt": "lib_razorpay_getrazorpayclient",
@@ -1836,7 +2100,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/razorpay.ts",
-      "source_location": "L25",
+      "source_location": "L28",
       "weight": 1.0,
       "_src": "src_lib_razorpay_ts",
       "_tgt": "lib_razorpay_verifypaymentsignature",
@@ -1848,7 +2112,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/razorpay.ts",
-      "source_location": "L32",
+      "source_location": "L35",
       "weight": 1.0,
       "_src": "src_lib_razorpay_ts",
       "_tgt": "lib_razorpay_verifywebhooksignature",
@@ -1860,13 +2124,25 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/razorpay.ts",
-      "source_location": "L41",
+      "source_location": "L44",
       "weight": 1.0,
       "_src": "src_lib_razorpay_ts",
       "_tgt": "lib_razorpay_extendexpiry",
       "source": "src_lib_razorpay_ts",
       "target": "lib_razorpay_extendexpiry",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_src": "lib_razorpay_israzorpayconfigured",
+      "_tgt": "actions_job_payments_createjoblistingorder",
+      "source": "lib_razorpay_israzorpayconfigured",
+      "target": "actions_job_payments_createjoblistingorder"
     },
     {
       "relation": "calls",
@@ -1884,6 +2160,18 @@
       "relation": "calls",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_src": "lib_razorpay_getrazorpayclient",
+      "_tgt": "actions_job_payments_createjoblistingorder",
+      "source": "lib_razorpay_getrazorpayclient",
+      "target": "actions_job_payments_createjoblistingorder"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
       "source_file": "src/lib/actions/subscription.ts",
       "source_location": "L16",
       "weight": 1.0,
@@ -1891,6 +2179,18 @@
       "_tgt": "actions_subscription_createrazorpayorder",
       "source": "lib_razorpay_getrazorpayclient",
       "target": "actions_subscription_createrazorpayorder"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L58",
+      "weight": 1.0,
+      "_src": "lib_razorpay_verifypaymentsignature",
+      "_tgt": "actions_job_payments_verifyjoblistingpayment",
+      "source": "lib_razorpay_verifypaymentsignature",
+      "target": "actions_job_payments_verifyjoblistingpayment"
     },
     {
       "relation": "calls",
@@ -1963,6 +2263,30 @@
       "_tgt": "actions_jobs_requireadmin",
       "source": "lib_auth_auth",
       "target": "actions_jobs_requireadmin"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_src": "lib_auth_auth",
+      "_tgt": "actions_job_payments_createjoblistingorder",
+      "source": "lib_auth_auth",
+      "target": "actions_job_payments_createjoblistingorder"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L55",
+      "weight": 1.0,
+      "_src": "lib_auth_auth",
+      "_tgt": "actions_job_payments_verifyjoblistingpayment",
+      "source": "lib_auth_auth",
+      "target": "actions_job_payments_verifyjoblistingpayment"
     },
     {
       "relation": "calls",
@@ -2124,7 +2448,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L105",
+      "source_location": "L110",
       "weight": 1.0,
       "_src": "src_lib_actions_jobs_ts",
       "_tgt": "actions_jobs_togglejobactive",
@@ -2136,7 +2460,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L113",
+      "source_location": "L121",
       "weight": 1.0,
       "_src": "src_lib_actions_jobs_ts",
       "_tgt": "actions_jobs_deletejob",
@@ -2148,7 +2472,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L120",
+      "source_location": "L128",
       "weight": 1.0,
       "_src": "src_lib_actions_jobs_ts",
       "_tgt": "actions_jobs_updateapplicationstatus",
@@ -2172,7 +2496,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L106",
+      "source_location": "L111",
       "weight": 1.0,
       "_src": "actions_jobs_togglejobactive",
       "_tgt": "actions_jobs_requireadmin",
@@ -2184,7 +2508,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L114",
+      "source_location": "L122",
       "weight": 1.0,
       "_src": "actions_jobs_deletejob",
       "_tgt": "actions_jobs_requireadmin",
@@ -2196,7 +2520,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/actions/jobs.ts",
-      "source_location": "L121",
+      "source_location": "L129",
       "weight": 1.0,
       "_src": "actions_jobs_updateapplicationstatus",
       "_tgt": "actions_jobs_requireadmin",
@@ -2214,6 +2538,54 @@
       "_tgt": "actions_jobs_tointornull",
       "source": "actions_jobs_tointornull",
       "target": "actions_jobs_savejob",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "src_lib_actions_job_payments_ts",
+      "_tgt": "actions_job_payments_createjoblistingorder",
+      "source": "src_lib_actions_job_payments_ts",
+      "target": "actions_job_payments_createjoblistingorder",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_src": "src_lib_actions_job_payments_ts",
+      "_tgt": "actions_job_payments_verifyjoblistingpayment",
+      "source": "src_lib_actions_job_payments_ts",
+      "target": "actions_job_payments_verifyjoblistingpayment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_src": "src_lib_actions_job_payments_ts",
+      "_tgt": "actions_job_payments_markjobpaidandpending",
+      "source": "src_lib_actions_job_payments_ts",
+      "target": "actions_job_payments_markjobpaidandpending",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/actions/job-payments.ts",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_src": "actions_job_payments_verifyjoblistingpayment",
+      "_tgt": "actions_job_payments_markjobpaidandpending",
+      "source": "actions_job_payments_verifyjoblistingpayment",
+      "target": "actions_job_payments_markjobpaidandpending",
       "confidence_score": 1.0
     },
     {

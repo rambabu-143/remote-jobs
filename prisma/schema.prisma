@@ -40,6 +40,18 @@ enum ApplicationStatus {
   ACCEPTED
 }
 
+// DRAFT: employer-created, not yet paid for. PENDING: paid, awaiting admin
+// review. PUBLISHED: live. REJECTED: admin declined. CLOSED: was published,
+// taken down (by admin or employer). Admin-created jobs skip straight to
+// PUBLISHED (no payment, no review) via saveJob.
+enum JobStatus {
+  DRAFT
+  PENDING
+  PUBLISHED
+  REJECTED
+  CLOSED
+}
+
 enum SubscriptionPlan {
   MONTH_1
   MONTH_6
@@ -65,6 +77,7 @@ model User {
   jobs                  Job[]             @relation("PostedJobs")
   applications          Application[]
   payments              Payment[]
+  jobPayments           JobPayment[]
 }
 
 // ponytail: fixed-term access (pay once, expires, pay again), not recurring
@@ -79,6 +92,22 @@ model Payment {
   razorpayPaymentId String?
   status            PaymentStatus    @default(CREATED)
   createdAt         DateTime         @default(now())
+}
+
+// One-off payment for a single job listing (flat fee), separate from the
+// seeker apply-access Payment model above. 1:1 with Job: a job only ever
+// has one paid listing order.
+model JobPayment {
+  id                String        @id @default(cuid())
+  job               Job           @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId             String        @unique
+  user              User          @relation(fields: [userId], references: [id])
+  userId            String
+  amountInPaise     Int
+  razorpayOrderId   String        @unique
+  razorpayPaymentId String?
+  status            PaymentStatus @default(CREATED)
+  createdAt         DateTime      @default(now())
 }
 
 model Job {
@@ -99,17 +128,18 @@ model Job {
   companyAddress String?
   companyEmail   String?
   companyPhone   String?
-  isActive       Boolean        @default(true)
+  status         JobStatus      @default(DRAFT)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   postedBy       User           @relation("PostedJobs", fields: [postedById], references: [id])
   postedById     String
   applications   Application[]
   questions      JobQuestion[]
+  payment        JobPayment?
 
   // ponytail: covers the default (unfiltered) listing query; the other
   // indexes cover the equality filters the jobs page's FilterBar exposes.
-  @@index([isActive, createdAt])
+  @@index([status, createdAt])
   @@index([category])
   @@index([location])
   @@index([remoteType])
