@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type LinkItem = { href: string; label: string };
 
@@ -41,7 +43,7 @@ export default function NavLinks({
             <button className="text-zinc-600 transition-colors hover:text-zinc-900">Sign out</button>
           </form>
         ) : (
-          <Link href="/register" className="btn-primary">
+          <Link href="/register" className={buttonVariants({ variant: "default" })}>
             Sign up
           </Link>
         )}
@@ -83,7 +85,7 @@ export default function NavLinks({
               </button>
             </form>
           ) : (
-            <Link href="/register" onClick={() => setOpen(false)} className="btn-primary mt-1 text-center">
+            <Link href="/register" onClick={() => setOpen(false)} className={cn(buttonVariants({ variant: "default" }), "mt-1 text-center")}>
               Sign up
             </Link>
           )}

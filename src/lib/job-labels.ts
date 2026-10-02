@@ -39,7 +39,7 @@ export const employmentLabel: Record<string, string> = {
 };
 
 export const statusLabel: Record<string, { text: string; className: string }> = {
-  PENDING: { text: "Pending", className: "bg-zinc-100 text-zinc-700" },
+  PENDING: { text: "Pending", className: "bg-zinc-200 text-zinc-700" },
   REVIEWED: { text: "Reviewed", className: "bg-sky-50 text-sky-600" },
   ACCEPTED: { text: "Accepted", className: "bg-emerald-50 text-emerald-600" },
   REJECTED: { text: "Rejected", className: "bg-red-50 text-red-600" },

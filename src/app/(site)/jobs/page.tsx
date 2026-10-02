@@ -6,6 +6,8 @@ import JobCard from "@/components/JobCard";
 import FilterBar from "@/components/FilterBar";
 import Skeleton from "@/components/Skeleton";
 import type { Prisma } from "@prisma/client";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const PAGE_SIZE = 20;
 
@@ -69,9 +71,9 @@ async function JobResults({ q, remote, type, category, location, page }: Filters
   const where: Prisma.JobWhereInput = { status: "PUBLISHED" };
   if (q) {
     where.OR = [
-      { title: { contains: q } },
-      { company: { contains: q } },
-      { tags: { contains: q } },
+      { title: { contains: q, mode: "insensitive" } },
+      { company: { contains: q, mode: "insensitive" } },
+      { tags: { contains: q, mode: "insensitive" } },
     ];
   }
   if (remote) where.remoteType = remote as "REMOTE" | "HYBRID" | "ONSITE";
@@ -114,21 +116,21 @@ async function JobResults({ q, remote, type, category, location, page }: Filters
       {totalPages > 1 && (
         <div className="mt-8 flex items-center justify-center gap-4 text-sm">
           {page > 1 ? (
-            <Link href={pageHref(page - 1)} className="btn-secondary">
+            <Link href={pageHref(page - 1)} className={buttonVariants({ variant: "outline" })}>
               ← Previous
             </Link>
           ) : (
-            <span className="btn-secondary opacity-50">← Previous</span>
+            <span className={cn(buttonVariants({ variant: "outline" }), "opacity-50")}>← Previous</span>
           )}
           <span className="text-zinc-500">
             Page {page} of {totalPages}
           </span>
           {page < totalPages ? (
-            <Link href={pageHref(page + 1)} className="btn-secondary">
+            <Link href={pageHref(page + 1)} className={buttonVariants({ variant: "outline" })}>
               Next →
             </Link>
           ) : (
-            <span className="btn-secondary opacity-50">Next →</span>
+            <span className={cn(buttonVariants({ variant: "outline" }), "opacity-50")}>Next →</span>
           )}
         </div>
       )}

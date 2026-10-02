@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { statusLabel } from "@/lib/job-labels";
 import Skeleton from "@/components/Skeleton";
+import { Badge } from "@/components/ui/badge";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -54,15 +55,15 @@ async function DashboardContent({ userId, isAdmin }: { userId: string; isAdmin: 
           <Link
             key={app.id}
             href={`/jobs/${app.jobId}`}
-            className="card flex items-center justify-between transition-colors hover:border-zinc-400"
+            className="card flex items-center justify-between transition-all hover:-translate-y-0.5 hover:shadow-[0_2px_6px_rgba(0,0,0,0.08),0_18px_40px_rgba(0,0,0,0.16)]"
           >
             <div>
               <p className="font-medium text-zinc-900">{app.job.title}</p>
               <p className="text-sm text-zinc-600">{app.job.company}</p>
             </div>
-            <span className={`badge ${statusLabel[app.status].className}`}>
+            <Badge variant="secondary" className={`${statusLabel[app.status].className}`}>
               {statusLabel[app.status].text}
-            </span>
+            </Badge>
           </Link>
         ))}
         {applications.length === 0 && (

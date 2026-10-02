@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { createRazorpayOrder, verifyRazorpayPayment } from "@/lib/actions/subscription";
 import type { SubscriptionPlan } from "@prisma/client";
 import Spinner from "./Spinner";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+
 
 type RazorpaySuccessResponse = {
   razorpay_order_id: string;
@@ -90,9 +93,9 @@ export default function PricingCard({
   }
 
   return (
-    <div className={`card relative ${highlight ? "border-ink-500" : ""}`}>
+    <div className={`card relative ${highlight ? "ring-2 ring-zinc-900" : ""}`}>
       {highlight && (
-        <span className="badge absolute -top-3 left-5 bg-ink-500 text-zinc-900">{highlight}</span>
+        <Badge variant="secondary" className="absolute -top-3 left-5 bg-zinc-900 text-paper">{highlight}</Badge>
       )}
       <h3 className="text-lg font-semibold text-zinc-900">{label}</h3>
       <div className="mt-3 flex items-baseline gap-2">
@@ -102,10 +105,10 @@ export default function PricingCard({
         )}
       </div>
       <p className="mt-1 text-sm text-zinc-600">₹{perMonth} / month{saving ? ` · save ${saving}` : ""}</p>
-      <button onClick={subscribe} disabled={pending} className="btn-primary mt-4 flex w-full items-center justify-center gap-2">
+      <Button onClick={subscribe} disabled={pending} className="mt-4 w-full">
         {pending && <Spinner className="size-4" />}
         {pending ? "Opening checkout…" : "Subscribe"}
-      </button>
+      </Button>
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
     </div>
   );

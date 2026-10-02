@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Spinner from "./Spinner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
@@ -32,22 +35,16 @@ export default function ForgotPasswordForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="field-label">Email</label>
-        <input
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="field-input"
-        />
+      <div className="space-y-1">
+        <Label>Email</Label>
+        <Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
       </div>
       {error && <p className="text-sm text-red-600">{error}</p>}
       {message && <p className="text-sm text-emerald-600">{message}</p>}
-      <button type="submit" disabled={pending} className="btn-primary flex w-full items-center justify-center gap-2">
+      <Button type="submit" disabled={pending} className="w-full">
         {pending && <Spinner className="size-4" />}
         {pending ? "Sending…" : "Send reset link"}
-      </button>
+      </Button>
     </form>
   );
 }

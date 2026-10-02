@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { updateApplicationStatus } from "@/lib/actions/jobs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const statuses = ["PENDING", "REVIEWED", "ACCEPTED", "REJECTED"] as const;
 
@@ -15,17 +16,21 @@ export default function StatusSelect({
   const [pending, startTransition] = useTransition();
 
   return (
-    <select
+    <Select
       defaultValue={status}
       disabled={pending}
-      onChange={(e) => startTransition(() => updateApplicationStatus(applicationId, e.target.value))}
-      className="field-input mt-0 w-auto px-2 py-1 text-xs"
+      onValueChange={(v) => startTransition(() => updateApplicationStatus(applicationId, v as string))}
     >
-      {statuses.map((s) => (
-        <option key={s} value={s}>
-          {s}
-        </option>
-      ))}
-    </select>
+      <SelectTrigger size="sm">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {statuses.map((s) => (
+          <SelectItem key={s} value={s}>
+            {s}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }

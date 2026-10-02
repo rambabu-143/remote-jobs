@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
@@ -22,7 +22,9 @@ function toIntOrNull(value: FormDataEntryValue | null) {
 }
 
 export async function saveJob(_prevState: string | undefined, formData: FormData) {
-  const session = await requireAdmin();
+  const session = await auth();
+  if (!session?.user) throw new Error("Unauthorized");
+  const isAdmin = session.user.role === "ADMIN";
 
   const id = String(formData.get("id") ?? "");
   const title = String(formData.get("title") ?? "").trim();
@@ -86,6 +88,8 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
   const questionRows = questions.map((question, order) => ({ question, order }));
 
   if (id) {
+    // ponytail: employers can't edit after posting yet; add an owner + DRAFT check if that's wanted.
+    if (!isAdmin) throw new Error("Unauthorized");
     await prisma.$transaction([
       prisma.job.update({ where: { id }, data }),
       prisma.jobQuestion.deleteMany({ where: { jobId: id } }),
@@ -95,35 +99,67 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
     await prisma.job.create({
       data: {
         ...data,
-        status: "PUBLISHED",
+        status: isAdmin ? "PUBLISHED" : "DRAFT",
         postedById: session.user.id,
         questions: { create: questionRows },
       },
     });
   }
 
-  revalidateTag("jobs", "max");
+  updateTag("jobs");
   revalidatePath("/");
   revalidatePath("/admin/jobs");
-  redirect("/admin/jobs");
+  revalidatePath("/dashboard/jobs");
+  redirect(isAdmin ? "/admin/jobs" : "/dashboard/jobs");
 }
 
 export async function toggleJobActive(jobId: string) {
   await requireAdmin();
   const job = await prisma.job.findUniqueOrThrow({ where: { id: jobId } });
+  if (job.status !== "PUBLISHED" && job.status !== "CLOSED") throw new Error("Only live or closed jobs can be toggled.");
   await prisma.job.update({
     where: { id: jobId },
     data: { status: job.status === "PUBLISHED" ? "CLOSED" : "PUBLISHED" },
   });
-  revalidateTag("jobs", "max");
+  updateTag("jobs");
   revalidatePath("/");
   revalidatePath("/admin/jobs");
+}
+
+async function reviewJob(jobId: string, status: "PUBLISHED" | "REJECTED") {
+  await requireAdmin();
+  // updateMany on status: PENDING makes a double-click or stale tab a no-op.
+  const { count } = await prisma.job.updateMany({ where: { id: jobId, status: "PENDING" }, data: { status } });
+  if (!count) return;
+
+  const job = await prisma.job.findUniqueOrThrow({ where: { id: jobId }, include: { postedBy: true } });
+  await sendEmail({
+    to: job.postedBy.email,
+    subject: `Your job "${job.title}" was ${status === "PUBLISHED" ? "approved" : "rejected"}`,
+    html:
+      status === "PUBLISHED"
+        ? `<p>Your listing <strong>${job.title}</strong> is now live.</p>`
+        : `<p>Your listing <strong>${job.title}</strong> wasn't approved. Contact support about a refund.</p>`,
+  });
+
+  updateTag("jobs");
+  revalidatePath("/");
+  revalidatePath("/admin/jobs");
+  revalidatePath("/dashboard/jobs");
+}
+
+export async function approveJob(jobId: string) {
+  await reviewJob(jobId, "PUBLISHED");
+}
+
+export async function rejectJob(jobId: string) {
+  await reviewJob(jobId, "REJECTED");
 }
 
 export async function deleteJob(jobId: string) {
   await requireAdmin();
   await prisma.job.delete({ where: { id: jobId } });
-  revalidateTag("jobs", "max");
+  updateTag("jobs");
   revalidatePath("/");
   revalidatePath("/admin/jobs");
 }

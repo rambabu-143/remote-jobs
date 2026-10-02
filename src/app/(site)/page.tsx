@@ -5,20 +5,20 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Hero from "@/components/Hero";
 import Reveal from "@/components/Reveal";
-import LandingBackground from "@/components/LandingBackground";
 import JobCard from "@/components/JobCard";
 import Skeleton from "@/components/Skeleton";
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
 
 export default async function LandingPage() {
   const session = await auth();
 
   return (
     <div className="relative">
-      <LandingBackground />
       <Hero />
 
       {/* Recent postings */}
-      <section className="border-t border-zinc-200 py-16">
+      <section className="py-16">
         <div className="flex items-center justify-between gap-4">
           <h2 className="text-2xl font-bold tracking-tight text-zinc-900">Recent postings</h2>
           <Link href="/jobs" className="text-sm font-medium text-ink-600 underline hover:text-ink-700">
@@ -33,10 +33,10 @@ export default async function LandingPage() {
       </section>
 
       {/* For seekers / employers */}
-      <section className="border-t border-zinc-200 py-16">
+      <section className="py-16">
         <Reveal className="grid gap-4 sm:grid-cols-2">
           <div className="card-glass">
-            <span className="badge bg-ink-50 text-ink-600">For job seekers</span>
+            <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">For job seekers</Badge>
             <h2 className="mt-3 text-xl font-bold tracking-tight text-zinc-900">
               Skip the recruiter spam.
             </h2>
@@ -53,7 +53,7 @@ export default async function LandingPage() {
             </Link>
           </div>
           <div className="card-glass">
-            <span className="badge bg-ink-50 text-ink-600">For employers</span>
+            <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">For employers</Badge>
             <h2 className="mt-3 text-xl font-bold tracking-tight text-zinc-900">
               Reach candidates directly.
             </h2>
@@ -73,7 +73,7 @@ export default async function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section className="border-t border-zinc-200 py-16">
+      <section className="py-16">
         <h2 className="text-center text-2xl font-bold tracking-tight text-zinc-900">
           Find your next role in 3 steps
         </h2>
@@ -112,7 +112,7 @@ export default async function LandingPage() {
       </section>
 
       {/* Why 365DaysJobsTeam */}
-      <section className="border-t border-zinc-200 py-16">
+      <section className="py-16">
         <h2 className="text-center text-2xl font-bold tracking-tight text-zinc-900">
           Built to cut out the noise
         </h2>
@@ -141,7 +141,7 @@ export default async function LandingPage() {
 
       {/* Final CTA */}
       {!session?.user && (
-        <section className="border-t border-zinc-200 py-16 text-center">
+        <section className="py-16 text-center">
           <Reveal>
             <h2 className="text-2xl font-bold tracking-tight text-zinc-900">
               Ready to find your next role?
@@ -151,7 +151,7 @@ export default async function LandingPage() {
               one place.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/register" className="btn-primary">
+              <Link href="/register" className={buttonVariants({ variant: "default" })}>
                 Sign up free
               </Link>
             </div>

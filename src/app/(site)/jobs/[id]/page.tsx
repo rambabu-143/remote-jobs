@@ -8,6 +8,9 @@ import ApplyForm from "@/components/ApplyForm";
 import Skeleton from "@/components/Skeleton";
 import { hasActiveSubscription } from "@/lib/actions/subscription";
 import { employmentLabel, formatSalary, initials, remoteLabel } from "@/lib/job-labels";
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default async function JobPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -78,10 +81,10 @@ async function JobDetail({ id }: { id: string }) {
       <div className="mt-6 grid gap-8 lg:grid-cols-3">
         <div className="max-w-2xl lg:col-span-2">
           <div className="flex flex-wrap gap-2 text-xs">
-            <span className="badge bg-ink-50 text-ink-600">{remoteLabel[job.remoteType]}</span>
-            <span className="badge bg-zinc-100 text-zinc-700">{employmentLabel[job.employmentType]}</span>
-            <span className="badge bg-zinc-100 text-zinc-700">{job.category}</span>
-            {salary && <span className="badge bg-zinc-100 font-mono text-zinc-700">{salary}</span>}
+            <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{remoteLabel[job.remoteType]}</Badge>
+            <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{employmentLabel[job.employmentType]}</Badge>
+            <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.category}</Badge>
+            {salary && <Badge variant="secondary" className="bg-zinc-200 font-mono text-zinc-700">{salary}</Badge>}
           </div>
 
           <div className="mt-6 max-w-none whitespace-pre-wrap text-sm leading-6 text-zinc-700">
@@ -108,7 +111,7 @@ async function JobDetail({ id }: { id: string }) {
                 <p className="text-sm text-zinc-600">
                   Subscribe to unlock the apply form and this company&apos;s contact details.
                 </p>
-                <Link href="/pricing" className="btn-primary mt-3 inline-block">
+                <Link href="/pricing" className={cn(buttonVariants({ variant: "default" }), "mt-3 inline-block")}>
                   See plans
                 </Link>
               </div>

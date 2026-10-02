@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Job } from "@prisma/client";
 import { employmentLabel, formatRelativeTime, formatSalary, initials, remoteLabel } from "@/lib/job-labels";
+import { Badge } from "@/components/ui/badge";
 
 export default function JobCard({ job }: { job: Job }) {
   const salary = formatSalary(job.salaryMin, job.salaryMax);
@@ -8,7 +9,7 @@ export default function JobCard({ job }: { job: Job }) {
   return (
     <Link
       href={`/jobs/${job.id}`}
-      className="card flex gap-4 transition-colors hover:border-ink-800"
+      className="card flex gap-4 transition-all hover:-translate-y-0.5 hover:shadow-[0_2px_6px_rgba(0,0,0,0.08),0_18px_40px_rgba(0,0,0,0.16)]"
     >
       {job.logoUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
@@ -34,10 +35,10 @@ export default function JobCard({ job }: { job: Job }) {
           </div>
         </div>
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
-          <span className="badge bg-ink-50 text-ink-600">{remoteLabel[job.remoteType]}</span>
-          <span className="badge bg-zinc-100 text-zinc-700">{employmentLabel[job.employmentType]}</span>
-          <span className="badge bg-zinc-100 text-zinc-700">{job.location}</span>
-          <span className="badge bg-zinc-100 text-zinc-700">{job.category}</span>
+          <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{remoteLabel[job.remoteType]}</Badge>
+          <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{employmentLabel[job.employmentType]}</Badge>
+          <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.location}</Badge>
+          <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.category}</Badge>
         </div>
         {job.tags && (
           <div className="mt-3 flex flex-wrap gap-1.5">

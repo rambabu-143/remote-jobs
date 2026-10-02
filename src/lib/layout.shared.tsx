@@ -1,9 +1,10 @@
+import Image from "next/image";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: "365DaysJobsTeam Docs",
+      title: <Image src="/logo.png" alt="365daysjobs Docs" width={700} height={156} className="h-7 w-auto dark:bg-white dark:rounded" />,
     },
   };
 }

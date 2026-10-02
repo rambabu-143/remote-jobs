@@ -5,6 +5,23 @@ import { saveJob } from "@/lib/actions/jobs";
 import { JOB_CATEGORIES, LOCATIONS } from "@/lib/job-labels";
 import type { Job, JobQuestion } from "@prisma/client";
 import Spinner from "./Spinner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Field, SelectField, type Option } from "./SelectField";
+
+const plain = (xs: readonly string[]): Option[] => xs.map((x) => ({ value: x, label: x }));
+const REMOTE_TYPES: Option[] = [
+  { value: "REMOTE", label: "Remote" },
+  { value: "HYBRID", label: "Hybrid" },
+  { value: "ONSITE", label: "On-site" },
+];
+const EMPLOYMENT_TYPES: Option[] = [
+  { value: "FULL_TIME", label: "Full-time" },
+  { value: "PART_TIME", label: "Part-time" },
+  { value: "CONTRACT", label: "Contract" },
+  { value: "INTERNSHIP", label: "Internship" },
+];
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -30,197 +47,110 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
           `first:` classes on sections need their own DOM scope to work. */}
       <div className="space-y-6">
         <Section title="Basic info">
-          <div>
-            <label className="field-label">Job title</label>
-            <input name="title" required defaultValue={job?.title} className="field-input" />
-          </div>
-          <div>
-            <label className="field-label">Company</label>
-            <input name="company" required defaultValue={job?.company} className="field-input" />
-          </div>
-          <div>
-            <label className="field-label">Company logo</label>
-            <input type="file" name="logo" accept="image/png,image/jpeg,image/webp,image/svg+xml" className="field-input" />
+          <Field label="Job title">
+            <Input name="title" required defaultValue={job?.title} />
+          </Field>
+          <Field label="Company">
+            <Input name="company" required defaultValue={job?.company} />
+          </Field>
+          <Field label="Company logo">
+            <Input type="file" name="logo" accept="image/png,image/jpeg,image/webp,image/svg+xml" />
             {job?.logoUrl && (
-              <p className="mt-1 text-xs text-zinc-500">Leave empty to keep the current logo.</p>
+              <p className="text-xs text-zinc-500">Leave empty to keep the current logo.</p>
             )}
-          </div>
-          <div>
-            <label className="field-label">Job category</label>
-            <select name="category" required defaultValue={job?.category ?? JOB_CATEGORIES[0]} className="field-input">
-              {JOB_CATEGORIES.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="field-label">Description</label>
-            <textarea
-              name="description"
-              required
-              rows={6}
-              defaultValue={job?.description}
-              className="field-input"
-            />
-          </div>
+          </Field>
+          <Field label="Job category">
+            <SelectField name="category" options={plain(JOB_CATEGORIES)} defaultValue={job?.category ?? JOB_CATEGORIES[0]} />
+          </Field>
+          <Field label="Description">
+            <Textarea name="description" required rows={6} defaultValue={job?.description} />
+          </Field>
         </Section>
 
         <Section title="Location & type">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="field-label">Location</label>
-              <select
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="Location">
+              <SelectField
                 name="locationChoice"
+                options={[...plain(LOCATIONS), { value: "Other", label: "Other" }]}
                 defaultValue={locationIsOther ? "Other" : job?.location ?? LOCATIONS[0]}
-                onChange={(e) => setLocationIsOther(e.target.value === "Other")}
-                className="field-input"
-              >
-                {LOCATIONS.map((l) => (
-                  <option key={l} value={l}>
-                    {l}
-                  </option>
-                ))}
-                <option value="Other">Other</option>
-              </select>
+                onValueChange={(v) => setLocationIsOther(v === "Other")}
+              />
               {locationIsOther && (
-                <input
+                <Input
                   name="locationOther"
                   required
                   defaultValue={locationIsOther ? job?.location : ""}
                   placeholder="Specify location"
-                  className="field-input mt-2"
+                  className="mt-2"
                 />
               )}
-            </div>
-            <div>
-              <label className="field-label">Tags (comma separated)</label>
-              <input
-                name="tags"
-                defaultValue={job?.tags}
-                placeholder="react,typescript"
-                className="field-input"
-              />
-            </div>
+            </Field>
+            <Field label="Tags (comma separated)">
+              <Input name="tags" defaultValue={job?.tags} placeholder="react,typescript" />
+            </Field>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="field-label">Location type</label>
-              <select name="remoteType" defaultValue={job?.remoteType ?? "REMOTE"} className="field-input">
-                <option value="REMOTE">Remote</option>
-                <option value="HYBRID">Hybrid</option>
-                <option value="ONSITE">On-site</option>
-              </select>
-            </div>
-            <div>
-              <label className="field-label">Employment type</label>
-              <select name="employmentType" defaultValue={job?.employmentType ?? "FULL_TIME"} className="field-input">
-                <option value="FULL_TIME">Full-time</option>
-                <option value="PART_TIME">Part-time</option>
-                <option value="CONTRACT">Contract</option>
-                <option value="INTERNSHIP">Internship</option>
-              </select>
-            </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="Location type">
+              <SelectField name="remoteType" options={REMOTE_TYPES} defaultValue={job?.remoteType ?? "REMOTE"} />
+            </Field>
+            <Field label="Employment type">
+              <SelectField name="employmentType" options={EMPLOYMENT_TYPES} defaultValue={job?.employmentType ?? "FULL_TIME"} />
+            </Field>
           </div>
         </Section>
 
         <Section title="Compensation">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="field-label">Salary min (USD)</label>
-              <input
-                type="number"
-                name="salaryMin"
-                defaultValue={job?.salaryMin ?? undefined}
-                className="field-input"
-              />
-            </div>
-            <div>
-              <label className="field-label">Salary max (USD)</label>
-              <input
-                type="number"
-                name="salaryMax"
-                defaultValue={job?.salaryMax ?? undefined}
-                className="field-input"
-              />
-            </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="Salary min (USD)">
+              <Input type="number" name="salaryMin" defaultValue={job?.salaryMin ?? undefined} />
+            </Field>
+            <Field label="Salary max (USD)">
+              <Input type="number" name="salaryMax" defaultValue={job?.salaryMax ?? undefined} />
+            </Field>
           </div>
         </Section>
 
         <Section title="How to apply">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="field-label">External apply URL (optional)</label>
-              <input
-                type="url"
-                name="applyUrl"
-                defaultValue={job?.applyUrl ?? undefined}
-                className="field-input"
-              />
-            </div>
-            <div>
-              <label className="field-label">Apply email (optional)</label>
-              <input
-                type="email"
-                name="applyEmail"
-                defaultValue={job?.applyEmail ?? undefined}
-                className="field-input"
-              />
-            </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="External apply URL (optional)">
+              <Input type="url" name="applyUrl" defaultValue={job?.applyUrl ?? undefined} />
+            </Field>
+            <Field label="Apply email (optional)">
+              <Input type="email" name="applyEmail" defaultValue={job?.applyEmail ?? undefined} />
+            </Field>
           </div>
-          <div>
-            <label className="field-label">Screening questions (optional, one per line)</label>
-            <textarea
+          <Field label="Screening questions (optional, one per line)">
+            <Textarea
               name="questions"
               rows={3}
               defaultValue={job?.questions?.map((q) => q.question).join("\n")}
               placeholder={"Why do you want this role?\nHow many years of Node.js experience do you have?"}
-              className="field-input"
             />
-            <p className="mt-1 text-xs text-zinc-500">
-              Shown to applicants as required fields on the apply form.
-            </p>
-          </div>
+            <p className="text-xs text-zinc-500">Shown to applicants as required fields on the apply form.</p>
+          </Field>
         </Section>
 
         <Section title="Company verification">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="field-label">Company address</label>
-              <input
-                name="companyAddress"
-                defaultValue={job?.companyAddress ?? undefined}
-                className="field-input"
-              />
-            </div>
-            <div>
-              <label className="field-label">Company phone number</label>
-              <input
-                type="tel"
-                name="companyPhone"
-                defaultValue={job?.companyPhone ?? undefined}
-                className="field-input"
-              />
-            </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="Company address">
+              <Input name="companyAddress" defaultValue={job?.companyAddress ?? undefined} />
+            </Field>
+            <Field label="Company phone number">
+              <Input type="tel" name="companyPhone" defaultValue={job?.companyPhone ?? undefined} />
+            </Field>
           </div>
-          <div>
-            <label className="field-label">Company email</label>
-            <input
-              type="email"
-              name="companyEmail"
-              defaultValue={job?.companyEmail ?? undefined}
-              className="field-input"
-            />
-          </div>
+          <Field label="Company email">
+            <Input type="email" name="companyEmail" defaultValue={job?.companyEmail ?? undefined} />
+          </Field>
         </Section>
 
         {error && <p className="text-sm text-red-600">{error}</p>}
 
-        <button type="submit" disabled={pending} className="btn-primary flex items-center gap-2">
+        <Button type="submit" disabled={pending}>
           {pending && <Spinner className="size-4" />}
           {pending ? "Saving…" : job ? "Save changes" : "Post job"}
-        </button>
+        </Button>
       </div>
     </form>
   );

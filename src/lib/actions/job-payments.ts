@@ -65,7 +65,7 @@ export async function verifyJobListingPayment(input: {
     await markJobPaidAndPending(payment.id, input.paymentId);
   }
 
-  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/jobs");
   revalidatePath("/admin/jobs");
   return { ok: true };
 }

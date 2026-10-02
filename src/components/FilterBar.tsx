@@ -1,8 +1,61 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { flushSync } from "react-dom";
+import { SearchIcon } from "lucide-react";
 import { JOB_CATEGORIES, LOCATIONS } from "@/lib/job-labels";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const ANY = "ANY";
+type Option = { value: string; label: string };
+const plain = (xs: readonly string[]): Option[] => xs.map((x) => ({ value: x, label: x }));
+
+// Base UI selects can't hold an empty value, so "Any" is a sentinel that
+// submits as an empty string (param dropped) through a hidden input.
+function FilterSelect({
+  name,
+  any,
+  options,
+  defaultValue,
+  onChange,
+}: {
+  name: string;
+  any: string;
+  options: Option[];
+  defaultValue?: string;
+  onChange: () => void;
+}) {
+  const [value, setValue] = useState(defaultValue || ANY);
+  const items = [{ value: ANY, label: any }, ...options];
+
+  return (
+    <>
+      <input type="hidden" name={name} value={value === ANY ? "" : value} />
+      <Select
+        items={items}
+        value={value}
+        onValueChange={(v) => {
+          flushSync(() => setValue(v as string));
+          onChange();
+        }}
+      >
+        <SelectTrigger>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {items.map((o) => (
+            <SelectItem key={o.value} value={o.value}>
+              {o.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </>
+  );
+}
 
 export default function FilterBar({
   q,
@@ -18,82 +71,44 @@ export default function FilterBar({
   location?: string;
 }) {
   const formRef = useRef<HTMLFormElement>(null);
+  const submit = () => formRef.current?.requestSubmit();
 
   return (
-    <form ref={formRef} className="card mt-6 flex flex-wrap gap-3 !p-4" method="get">
+    <form ref={formRef} className="card mt-6 flex flex-wrap items-center gap-3 !p-4" method="get">
       <div className="relative min-w-[220px] flex-1">
-        <svg
-          viewBox="0 0 24 24"
-          className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-zinc-500"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <circle cx="11" cy="11" r="7" />
-          <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
-        </svg>
-        <input
-          type="text"
-          name="q"
-          defaultValue={q}
-          placeholder="Search title, company, or tag"
-          className="field-input mt-0 pl-9"
-        />
+        <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-zinc-500" />
+        <Input name="q" defaultValue={q} placeholder="Search title, company, or tag" className="pl-9" />
       </div>
-      <select
+      <FilterSelect
         name="remote"
-        defaultValue={remote ?? ""}
-        onChange={() => formRef.current?.requestSubmit()}
-        className="field-input mt-0 w-auto"
-      >
-        <option value="">Any location type</option>
-        <option value="REMOTE">Remote</option>
-        <option value="HYBRID">Hybrid</option>
-        <option value="ONSITE">On-site</option>
-      </select>
-      <select
+        any="Any location type"
+        defaultValue={remote}
+        onChange={submit}
+        options={[
+          { value: "REMOTE", label: "Remote" },
+          { value: "HYBRID", label: "Hybrid" },
+          { value: "ONSITE", label: "On-site" },
+        ]}
+      />
+      <FilterSelect
         name="type"
-        defaultValue={type ?? ""}
-        onChange={() => formRef.current?.requestSubmit()}
-        className="field-input mt-0 w-auto"
-      >
-        <option value="">Any employment type</option>
-        <option value="FULL_TIME">Full-time</option>
-        <option value="PART_TIME">Part-time</option>
-        <option value="CONTRACT">Contract</option>
-        <option value="INTERNSHIP">Internship</option>
-      </select>
-      <select
-        name="category"
-        defaultValue={category ?? ""}
-        onChange={() => formRef.current?.requestSubmit()}
-        className="field-input mt-0 w-auto"
-      >
-        <option value="">Any category</option>
-        {JOB_CATEGORIES.map((c) => (
-          <option key={c} value={c}>
-            {c}
-          </option>
-        ))}
-      </select>
-      <select
-        name="location"
-        defaultValue={location ?? ""}
-        onChange={() => formRef.current?.requestSubmit()}
-        className="field-input mt-0 w-auto"
-      >
-        <option value="">Any location</option>
-        {LOCATIONS.map((l) => (
-          <option key={l} value={l}>
-            {l}
-          </option>
-        ))}
-      </select>
-      <button className="btn-primary">Search</button>
+        any="Any employment type"
+        defaultValue={type}
+        onChange={submit}
+        options={[
+          { value: "FULL_TIME", label: "Full-time" },
+          { value: "PART_TIME", label: "Part-time" },
+          { value: "CONTRACT", label: "Contract" },
+          { value: "INTERNSHIP", label: "Internship" },
+        ]}
+      />
+      <FilterSelect name="category" any="Any category" defaultValue={category} onChange={submit} options={plain(JOB_CATEGORIES)} />
+      <FilterSelect name="location" any="Any location" defaultValue={location} onChange={submit} options={plain(LOCATIONS)} />
+      <Button type="submit">Search</Button>
       {(q || remote || type || category || location) && (
-        <Link href="/jobs" className="btn-secondary flex items-center">
+        <Button variant="outline" nativeButton={false} render={<Link href="/jobs" />}>
           Clear
-        </Link>
+        </Button>
       )}
     </form>
   );

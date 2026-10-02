@@ -2,10 +2,14 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import LandingBackground from "./LandingBackground";
 
 export default function Hero() {
   return (
     <section className="relative flex min-h-dvh flex-col items-center justify-center px-4 text-center">
+      <LandingBackground />
       <motion.h1
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -31,10 +35,10 @@ export default function Hero() {
         transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
         className="mt-8 flex flex-wrap items-center justify-center gap-3"
       >
-        <Link href="/jobs" className="btn-primary px-6 py-3 text-base">
+        <Link href="/jobs" className={cn(buttonVariants({ variant: "default" }), "px-6 py-3 text-base")}>
           Browse open roles
         </Link>
-        <Link href="/admin/jobs/new" className="btn-secondary px-6 py-3 text-base">
+        <Link href="/admin/jobs/new" className={cn(buttonVariants({ variant: "outline" }), "px-6 py-3 text-base")}>
           Post a job
         </Link>
       </motion.div>

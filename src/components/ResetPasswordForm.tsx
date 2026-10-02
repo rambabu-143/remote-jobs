@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Spinner from "./Spinner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -79,22 +82,15 @@ export default function ResetPasswordForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="field-label">New password</label>
-        <input
-          type="password"
-          required
-          minLength={8}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="field-input"
-        />
+      <div className="space-y-1">
+        <Label>New password</Label>
+        <Input type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
       {error && <p className="text-sm text-red-600">{error}</p>}
-      <button type="submit" disabled={pending} className="btn-primary flex w-full items-center justify-center gap-2">
+      <Button type="submit" disabled={pending} className="w-full">
         {pending && <Spinner className="size-4" />}
         {pending ? "Updating…" : "Update password"}
-      </button>
+      </Button>
     </form>
   );
 }
