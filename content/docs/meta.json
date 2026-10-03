@@ -1,15 +1,16 @@
 {
-  "title": "365DaysJobsTeam Docs",
+  "title": "365DaysJobsTeam Guide",
   "pages": [
     "index",
-    "architecture",
-    "data-model",
-    "auth-roles",
-    "admin-guide",
-    "applicant-guide",
-    "resume-uploads",
-    "email-notifications",
-    "environment-variables",
-    "deployment-scaling"
+    "logging-in",
+    "posting-jobs",
+    "managing-jobs",
+    "approving-employer-jobs",
+    "applicants",
+    "employers",
+    "job-seekers",
+    "plans-and-payments",
+    "emails",
+    "help"
   ]
 }

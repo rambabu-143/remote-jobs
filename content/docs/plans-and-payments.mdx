@@ -1,0 +1,47 @@
+---
+title: Plans and payments
+description: What people pay, what happens when a plan ends, and how refunds work.
+---
+
+## Prices
+
+| Who | Plan | Price | Lasts |
+|---|---|---|---|
+| Job seeker | 1 Month | ₹49 | 1 month |
+| Job seeker | 6 Months | ₹249 | 6 months |
+| Job seeker | 1 Year | ₹399 | 12 months |
+| Employer | Employer plan | ₹499 | 30 days |
+
+- Admins never pay.
+- Nothing renews automatically. When a plan ends, the person subscribes again if they want to.
+- Buying again **before** the plan ends adds the new time on top of what is left.
+- All payments are processed by Razorpay.
+
+## What a plan ending does
+
+- **Job seekers** can still browse but cannot apply until they renew.
+- **Employers** have their live jobs hidden from the public until they renew. Jobs are not deleted.
+
+## Reminder emails
+
+Every morning the site checks for plans that are ending:
+
+- **"Your plan ends soon"**, when a plan has up to 3 days left.
+- **"Your plan has ended"**, the day after it ends.
+
+Each person gets each reminder once. If they renew, the reminders start over for the new end date.
+
+## Refunds
+
+The site has a **Refund Policy** page (link at the bottom of every page). In short: refunds are for duplicate payments or payments that did not activate the plan. Activated plans are not refunded.
+
+**To refund someone**, you do it in the Razorpay dashboard:
+1. Log in to Razorpay.
+2. Open **Transactions** and find the payment.
+3. Open it and click **Refund**.
+
+The site does not change the person's plan when you refund. If you refund a payment, tell the person their access is ending.
+
+## Testing payments
+
+While Razorpay is in **Test Mode**, no real money moves. Use Razorpay's test card `5267 3181 8797 5449`, any future expiry, any CVV, and any 6-digit OTP such as `123456`. Switch to live keys only when your Razorpay account is fully activated.

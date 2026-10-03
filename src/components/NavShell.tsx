@@ -2,9 +2,11 @@
 
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 // Scroll up -> nav width shrinks slightly (stays visible). Scroll down -> back to full width.
 export default function NavShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
   const [lastY, setLastY] = useState(0);
@@ -16,6 +18,9 @@ export default function NavShell({ children }: { children: React.ReactNode }) {
       setLastY(y);
     }
   });
+
+  // The docs have their own logo and menu, and this floating bar would sit on top of them.
+  if (pathname.startsWith("/docs")) return null;
 
   return (
     <header className="fixed top-4 left-1/2 z-20 -translate-x-1/2">
