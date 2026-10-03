@@ -165,8 +165,19 @@ export async function deleteJob(jobId: string) {
   revalidatePath("/admin/jobs");
 }
 
+const APPLICATION_STATUSES = ["PENDING", "REVIEWED", "REJECTED", "ACCEPTED"] as const;
+
+// Admins can update any application; employers only those on jobs they posted.
 export async function updateApplicationStatus(applicationId: string, status: string) {
-  await requireAdmin();
+  const session = await auth();
+  if (!session?.user) throw new Error("Unauthorized");
+  if (!APPLICATION_STATUSES.includes(status as (typeof APPLICATION_STATUSES)[number])) throw new Error("Invalid status");
+
+  const owned = await prisma.application.findUnique({ where: { id: applicationId }, select: { job: { select: { postedById: true } } } });
+  if (!owned) throw new Error("Not found");
+  const isAdmin = session.user.role === "ADMIN";
+  if (!isAdmin && !(session.user.role === "EMPLOYER" && owned.job.postedById === session.user.id)) throw new Error("Unauthorized");
+
   const application = await prisma.application.update({
     where: { id: applicationId },
     data: { status: status as "PENDING" | "REVIEWED" | "REJECTED" | "ACCEPTED" },
@@ -181,4 +192,5 @@ export async function updateApplicationStatus(applicationId: string, status: str
 
   revalidatePath("/admin/jobs");
   revalidatePath("/dashboard");
+  revalidatePath(`/dashboard/jobs/${application.jobId}/applications`);
 }

@@ -1,9 +1,10 @@
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import StatusSelect from "@/components/StatusSelect";
 
-// Read-only applicant list for the employer who posted the job (admins use
-// /admin/jobs/[id]/applications, which can also change statuses).
+// Applicant list for the employer who posted the job; they can update each
+// applicant's status (ownership is re-checked in updateApplicationStatus).
 export default async function EmployerApplicationsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const session = await auth();
@@ -50,7 +51,7 @@ export default async function EmployerApplicationsPage({ params }: { params: Pro
                   </dl>
                 )}
               </div>
-              <span className="text-xs text-zinc-500">{app.status}</span>
+              <StatusSelect applicationId={app.id} status={app.status} />
             </div>
           </div>
         ))}
