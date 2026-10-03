@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage, LegalSection } from "@/components/Legal";
 
 export const metadata: Metadata = { title: "Terms & Conditions - 365DaysJobsTeam" };
@@ -53,7 +54,7 @@ export default function TermsPage() {
       <LegalSection title="4. Payments">
         <p>
           Payments are processed by Razorpay in Indian rupees (INR). We do not store your card or bank details. Prices
-          are shown at checkout and may change for future purchases.
+          are shown at checkout and may change for future purchases. See our <Link href="/refund" className="underline hover:text-zinc-900">Refund &amp; Cancellation Policy</Link>.
         </p>
       </LegalSection>
 
