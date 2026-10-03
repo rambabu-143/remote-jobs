@@ -16,6 +16,7 @@ export async function createRazorpayOrder(
 ): Promise<ActionResult<{ orderId: string; amountInPaise: number; keyId: string }>> {
   const session = await auth();
   if (!session?.user) return { ok: false, error: "You must be logged in to subscribe." };
+  if (session.user.role !== "USER") return { ok: false, error: "Plans are for job seeker accounts." };
 
   const config = PLANS[plan];
   if (!config) return { ok: false, error: "Unknown plan." };

@@ -1,6 +1,11 @@
+import { redirect } from "next/navigation";
 import JobForm from "@/components/JobForm";
+import { auth } from "@/lib/auth";
 
-export default function NewEmployerJobPage() {
+export default async function NewEmployerJobPage() {
+  const session = await auth();
+  if (session?.user?.role !== "EMPLOYER") redirect(session?.user?.role === "ADMIN" ? "/admin/jobs/new" : "/dashboard");
+
   return (
     <div>
       <h1 className="text-2xl font-bold tracking-tight text-zinc-900">Post a job</h1>

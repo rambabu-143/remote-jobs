@@ -14,6 +14,7 @@ export async function applyToJob(_prevState: string | undefined, formData: FormD
   if (!session?.user) {
     return "You must be logged in to apply.";
   }
+  if (session.user.role === "EMPLOYER") return "Employer accounts can't apply to jobs.";
 
   const jobId = String(formData.get("jobId") ?? "");
   const coverNote = String(formData.get("coverNote") ?? "").trim() || null;

@@ -63,7 +63,7 @@ export default async function LandingPage() {
               job boards for attention.
             </p>
             <Link
-              href="/admin/jobs/new"
+              href="/dashboard/jobs/new"
               className="mt-4 inline-block text-sm font-medium text-ink-600 underline hover:text-ink-700"
             >
               Post a job →

@@ -44,13 +44,14 @@ async function JobDetail({ id }: { id: string }) {
 
   const session = await auth();
   const isAdmin = session?.user?.role === "ADMIN";
+  const isEmployer = session?.user?.role === "EMPLOYER";
   const [existingApplication, subscribed] = await Promise.all([
     session?.user
       ? prisma.application.findUnique({
           where: { jobId_applicantId: { jobId: job.id, applicantId: session.user.id } },
         })
       : null,
-    session?.user && !isAdmin ? hasActiveSubscription(session.user.id) : true,
+    session?.user && !isAdmin && !isEmployer ? hasActiveSubscription(session.user.id) : true,
   ]);
 
   const salary = formatSalary(job.salaryMin, job.salaryMax);
@@ -102,6 +103,8 @@ async function JobDetail({ id }: { id: string }) {
                 </a>{" "}
                 to submit an application.
               </p>
+            ) : isEmployer ? (
+              <p className="mt-2 text-sm text-zinc-600">Employer accounts can&apos;t apply to jobs. Log in with a job seeker account to apply.</p>
             ) : existingApplication ? (
               <p className="mt-2 text-sm text-emerald-600">
                 You already applied. Status: {existingApplication.status}
@@ -119,7 +122,7 @@ async function JobDetail({ id }: { id: string }) {
               <ApplyForm jobId={job.id} questions={job.questions} />
             )}
 
-            {subscribed && (job.applyUrl || job.applyEmail) && (
+            {subscribed && !isEmployer && (job.applyUrl || job.applyEmail) && (
               <p className="mt-4 border-t border-zinc-200 pt-4 text-sm text-zinc-600">
                 Prefer to apply directly?{" "}
                 {job.applyUrl && (

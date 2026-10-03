@@ -17,6 +17,7 @@ export async function createJobListingOrder(
 ): Promise<ActionResult<{ orderId: string; amountInPaise: number; keyId: string }>> {
   const session = await auth();
   if (!session?.user) return { ok: false, error: "You must be logged in." };
+  if (session.user.role !== "EMPLOYER") return { ok: false, error: "Only employer accounts can pay for listings." };
 
   const job = await prisma.job.findUnique({ where: { id: jobId } });
   if (!job || job.postedById !== session.user.id) return { ok: false, error: "Job not found." };

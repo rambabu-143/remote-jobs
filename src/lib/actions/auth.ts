@@ -13,13 +13,15 @@ export async function authenticate(_prevState: string | undefined, formData: For
   if (error) return "Invalid email or password.";
 
   const profile = await prisma.user.findUnique({ where: { email } });
-  redirect(profile?.role === "ADMIN" ? "/admin/jobs" : "/dashboard");
+  redirect(profile?.role === "ADMIN" ? "/admin/jobs" : profile?.role === "EMPLOYER" ? "/dashboard/jobs" : "/dashboard");
 }
 
 export async function registerUser(_prevState: string | undefined, formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
+  // Admins are never self-registered: the only choices are seeker (USER) or EMPLOYER.
+  const role = formData.get("accountType") === "employer" ? "EMPLOYER" : "USER";
 
   if (!name || !email || password.length < 8) {
     return "Please fill all fields; password must be at least 8 characters.";
@@ -38,13 +40,12 @@ export async function registerUser(_prevState: string | undefined, formData: For
   });
   if (error || !data.user) return error?.message ?? "Could not create account.";
 
-  await prisma.user.create({ data: { id: data.user.id, name, email, role: "USER" } });
+  await prisma.user.create({ data: { id: data.user.id, name, email, role } });
 
   // If the project requires email confirmation, signUp doesn't grant a session yet.
   if (!data.session) {
     return "Account created! Check your email to confirm it, then log in.";
   }
 
-  // Public registration always creates a USER, so this can go straight to the user dashboard.
-  redirect("/dashboard");
+  redirect(role === "EMPLOYER" ? "/dashboard/jobs" : "/dashboard");
 }

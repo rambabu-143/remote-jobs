@@ -7,6 +7,7 @@ import PricingCard from "@/components/PricingCard";
 export default async function PricingPage() {
   const session = await auth();
   if (!session?.user) redirect("/login");
+  if (session.user.role === "EMPLOYER") redirect("/dashboard/jobs");
 
   const user = await prisma.user.findUniqueOrThrow({ where: { id: session.user.id } });
   const isActive = Boolean(user.subscriptionExpiresAt && user.subscriptionExpiresAt > new Date());

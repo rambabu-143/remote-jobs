@@ -25,6 +25,7 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
   const isAdmin = session.user.role === "ADMIN";
+  if (!isAdmin && session.user.role !== "EMPLOYER") throw new Error("Unauthorized");
 
   const id = String(formData.get("id") ?? "");
   const title = String(formData.get("title") ?? "").trim();

@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user) redirect("/login");
+  if (session.user.role === "EMPLOYER") redirect("/dashboard/jobs");
 
   return (
     <div>

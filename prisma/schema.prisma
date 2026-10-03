@@ -15,8 +15,10 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+// USER = job seeker (applies to jobs), EMPLOYER = posts jobs, ADMIN = runs the site.
 enum Role {
   USER
+  EMPLOYER
   ADMIN
 }
 

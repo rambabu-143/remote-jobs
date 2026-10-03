@@ -8,11 +8,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function RegisterForm() {
+export default function RegisterForm({ defaultType = "seeker" }: { defaultType?: "seeker" | "employer" }) {
   const [error, formAction, pending] = useActionState(registerUser, undefined);
 
   return (
     <form action={formAction} className="space-y-4">
+      <fieldset className="grid grid-cols-2 gap-2">
+        <legend className="sr-only">I am a</legend>
+        {[
+          { value: "seeker", title: "Job seeker", hint: "Find & apply to jobs" },
+          { value: "employer", title: "Employer", hint: "Post jobs & hire" },
+        ].map((o) => (
+          <label
+            key={o.value}
+            className="cursor-pointer rounded-xl border border-zinc-200 p-3 text-sm transition-colors has-[:checked]:border-zinc-900 has-[:checked]:bg-zinc-50"
+          >
+            <input type="radio" name="accountType" value={o.value} defaultChecked={o.value === defaultType} className="sr-only" />
+            <span className="block font-medium text-zinc-900">{o.title}</span>
+            <span className="block text-xs text-zinc-500">{o.hint}</span>
+          </label>
+        ))}
+      </fieldset>
       <div className="space-y-1">
         <Label>Name</Label>
         <Input type="text" name="name" required />

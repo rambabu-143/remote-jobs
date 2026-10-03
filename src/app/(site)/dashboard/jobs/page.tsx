@@ -19,6 +19,7 @@ const STATUS: Record<string, { text: string; className: string }> = {
 export default async function MyJobsPage() {
   const session = await auth();
   if (!session?.user) redirect("/login");
+  if (session.user.role !== "EMPLOYER") redirect(session.user.role === "ADMIN" ? "/admin/jobs" : "/dashboard");
 
   const jobs = await prisma.job.findMany({
     where: { postedById: session.user.id },

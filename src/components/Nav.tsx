@@ -8,15 +8,18 @@ import NavShell from "@/components/NavShell";
 export default async function Nav() {
   const session = await auth();
   const isAdmin = session?.user?.role === "ADMIN";
+  const isEmployer = session?.user?.role === "EMPLOYER";
   const isAuthed = !!session?.user;
 
   const links = [
     { href: "/jobs", label: "Browse jobs" },
     ...(isAdmin ? [{ href: "/admin/jobs", label: "Admin" }] : []),
-    ...(isAuthed && !isAdmin
-      ? [{ href: "/dashboard/jobs", label: "Post a job" }, { href: "/pricing", label: "Pricing" }]
+    ...(isEmployer ? [{ href: "/dashboard/jobs", label: "My jobs" }] : []),
+    ...(isAuthed && !isAdmin && !isEmployer
+      ? [{ href: "/pricing", label: "Pricing" }, { href: "/dashboard", label: "My applications" }]
       : []),
-    ...(isAuthed ? [{ href: "/dashboard", label: "My applications" }] : [{ href: "/login", label: "Log in" }]),
+    ...(isAuthed && isAdmin ? [{ href: "/dashboard", label: "My applications" }] : []),
+    ...(!isAuthed ? [{ href: "/login", label: "Log in" }] : []),
   ];
 
   async function signOutAction() {

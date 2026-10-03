@@ -38,7 +38,7 @@ export default function Hero() {
         <Link href="/jobs" className={cn(buttonVariants({ variant: "default" }), "px-6 py-3 text-base")}>
           Browse open roles
         </Link>
-        <Link href="/admin/jobs/new" className={cn(buttonVariants({ variant: "outline" }), "px-6 py-3 text-base")}>
+        <Link href="/dashboard/jobs/new" className={cn(buttonVariants({ variant: "outline" }), "px-6 py-3 text-base")}>
           Post a job
         </Link>
       </motion.div>
