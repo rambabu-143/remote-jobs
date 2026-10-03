@@ -10,6 +10,11 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { liveClause } from "@/lib/live-jobs";
 
+export const metadata = {
+  title: "Remote jobs",
+  description: "Browse remote jobs from verified employers. Filter by category, location and employment type.",
+};
+
 const PAGE_SIZE = 20;
 
 const getJobsPage = unstable_cache(

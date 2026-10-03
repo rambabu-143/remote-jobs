@@ -1,6 +1,8 @@
 import Link from "next/link";
 import RegisterForm from "@/components/RegisterForm";
 
+export const metadata = { title: "Create an account", robots: { index: false, follow: false } };
+
 export default async function RegisterPage({ searchParams }: { searchParams: Promise<{ type?: string }> }) {
   const { type } = await searchParams;
   return (

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage, LegalSection } from "@/components/Legal";
 
-export const metadata: Metadata = { title: "Refund & Cancellation Policy - 365DaysJobsTeam" };
+export const metadata: Metadata = { title: "Refund & Cancellation Policy" };
 
 export default function RefundPage() {
   return (

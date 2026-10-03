@@ -15,8 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "365DaysJobsTeam - remote jobs from verified employers",
-  description: "Browse and apply to remote jobs from verified employers, or post one as an admin.",
+  metadataBase: new URL(process.env.APP_URL ?? "http://localhost:3000"),
+  title: { default: "365DaysJobsTeam - remote jobs from verified employers", template: "%s | 365DaysJobsTeam" },
+  description: "Browse and apply to remote jobs from verified employers, or post your own job as an employer.",
+  openGraph: { siteName: "365DaysJobsTeam", type: "website" },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

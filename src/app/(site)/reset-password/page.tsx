@@ -1,5 +1,7 @@
 import ResetPasswordForm from "@/components/ResetPasswordForm";
 
+export const metadata = { title: "Set a new password", robots: { index: false, follow: false } };
+
 export default function ResetPasswordPage() {
   return (
     <div className="card mx-auto mt-8 max-w-sm">

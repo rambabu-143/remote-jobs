@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LegalPage, LegalSection } from "@/components/Legal";
 import { BUSINESS } from "@/lib/business";
 
-export const metadata: Metadata = { title: "Contact Us - 365DaysJobsTeam" };
+export const metadata: Metadata = { title: "Contact Us" };
 
 export default function ContactPage() {
   const rows = [

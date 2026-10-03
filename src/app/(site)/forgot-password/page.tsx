@@ -1,6 +1,8 @@
 import Link from "next/link";
 import ForgotPasswordForm from "@/components/ForgotPasswordForm";
 
+export const metadata = { title: "Reset your password", robots: { index: false, follow: false } };
+
 export default function ForgotPasswordPage() {
   return (
     <div className="card mx-auto mt-8 max-w-sm">

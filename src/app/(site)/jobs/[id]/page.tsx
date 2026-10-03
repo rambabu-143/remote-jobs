@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { unstable_cache } from "next/cache";
@@ -13,8 +14,26 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { isLive } from "@/lib/live-jobs";
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const job = await getCachedJob(id);
+  if (!job || !isLive(job)) return { title: "Job not found", robots: { index: false } };
+  const description = job.description.replace(/\s+/g, " ").trim().slice(0, 160);
+  return {
+    title: `${job.title} at ${job.company}`,
+    description,
+    alternates: { canonical: `/jobs/${job.id}` },
+    openGraph: { title: `${job.title} at ${job.company}`, description, type: "article" },
+  };
+}
+
 export default async function JobPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+
+  // Checked before streaming starts so a missing or expired job returns a real 404 status
+  // (not a 200 "not found" page, which search engines treat as a soft 404). Cached 60s.
+  const job = await getCachedJob(id);
+  if (!job || !isLive(job)) notFound();
 
   return (
     <div>
@@ -57,8 +76,30 @@ async function JobDetail({ id }: { id: string }) {
 
   const salary = formatSalary(job.salaryMin, job.salaryMax);
 
+  // Structured data so Google can show the job in its job search. Salary is left out on purpose
+  // (no stored currency), so we never publish a wrong number.
+  const employmentTypes: Record<string, string> = { FULL_TIME: "FULL_TIME", PART_TIME: "PART_TIME", CONTRACT: "CONTRACTOR", INTERNSHIP: "INTERN" };
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: job.title,
+    description: job.description,
+    datePosted: job.createdAt,
+    ...(job.postedBy.role !== "ADMIN" && job.postedBy.subscriptionExpiresAt ? { validThrough: job.postedBy.subscriptionExpiresAt } : {}),
+    employmentType: employmentTypes[job.employmentType],
+    hiringOrganization: { "@type": "Organization", name: job.company, ...(job.logoUrl ? { logo: job.logoUrl } : {}) },
+    ...(job.remoteType === "REMOTE"
+      ? { jobLocationType: "TELECOMMUTE", applicantLocationRequirements: { "@type": "Country", name: job.location } }
+      : { jobLocation: { "@type": "Place", address: { "@type": "PostalAddress", addressLocality: job.location } } }),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        // "<" escaped so a job description can't close the script tag
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
       <div className="mt-4 flex items-start gap-4">
         {job.logoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element

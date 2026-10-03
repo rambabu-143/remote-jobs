@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage, LegalSection } from "@/components/Legal";
 
-export const metadata: Metadata = { title: "Terms & Conditions - 365DaysJobsTeam" };
+export const metadata: Metadata = { title: "Terms & Conditions" };
 
 export default function TermsPage() {
   return (
