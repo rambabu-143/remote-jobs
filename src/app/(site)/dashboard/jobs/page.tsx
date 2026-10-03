@@ -6,7 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { EMPLOYER_PLAN_PRICE_PAISE } from "@/lib/razorpay";
 import PricingCard from "@/components/PricingCard";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { toggleMyJobActive } from "@/lib/actions/jobs";
 
 const STATUS: Record<string, { text: string; className: string }> = {
   DRAFT: { text: "Draft, subscribe to submit", className: "bg-zinc-200 text-zinc-700" },
@@ -72,6 +73,21 @@ export default async function MyJobsPage() {
                 <Badge variant="secondary" className="bg-zinc-200 text-zinc-600">Hidden, plan expired</Badge>
               ) : (
                 <Badge variant="secondary" className={`${STATUS[job.status].className}`}>{STATUS[job.status].text}</Badge>
+              )}
+              <Link href={`/dashboard/jobs/${job.id}/edit`} className={buttonVariants({ variant: "ghost", size: "sm" })}>
+                Edit
+              </Link>
+              {(job.status === "PUBLISHED" || job.status === "CLOSED") && (
+                <form
+                  action={async () => {
+                    "use server";
+                    await toggleMyJobActive(job.id);
+                  }}
+                >
+                  <Button type="submit" variant="ghost" size="sm">
+                    {job.status === "PUBLISHED" ? "Close" : "Reopen"}
+                  </Button>
+                </form>
               )}
               {(job.status === "PUBLISHED" || job.status === "CLOSED") && (
                 <Link href={`/dashboard/jobs/${job.id}/applications`} className={buttonVariants({ variant: "outline", size: "sm" })}>

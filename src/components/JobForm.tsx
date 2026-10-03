@@ -41,7 +41,6 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
   return (
     <form action={formAction} className="card max-w-2xl">
       {job && <input type="hidden" name="id" value={job.id} />}
-      {job?.logoUrl && <input type="hidden" name="existingLogoUrl" value={job.logoUrl} />}
 
       {/* Next injects hidden fields for the server action before this div, so
           `first:` classes on sections need their own DOM scope to work. */}

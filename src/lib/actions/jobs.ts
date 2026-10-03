@@ -60,8 +60,18 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
     return "Title, company, category, description, and location are required.";
   }
 
+  const existing = id
+    ? await prisma.job.findUnique({
+        where: { id },
+        include: { questions: { orderBy: { order: "asc" } }, _count: { select: { applications: true } } },
+      })
+    : null;
+  if (id && !existing) return "Job not found.";
+  if (existing && !isAdmin && existing.postedById !== session.user.id) throw new Error("Unauthorized");
+
   const logoFile = formData.get("logo");
-  let logoUrl = String(formData.get("existingLogoUrl") ?? "") || null;
+  // The current logo is read from the DB (not the form), so employers can't inject an arbitrary URL.
+  let logoUrl = existing?.logoUrl ?? null;
   if (logoFile instanceof File && logoFile.size > 0) {
     if (!isAllowedLogoType(logoFile.type)) {
       return "Company logo must be a PNG, JPEG, WebP, or SVG image.";
@@ -90,14 +100,33 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
 
   const questionRows = questions.map((question, order) => ({ question, order }));
 
-  if (id) {
-    // ponytail: employers can't edit after posting yet; add an owner + DRAFT check if that's wanted.
-    if (!isAdmin) throw new Error("Unauthorized");
+  if (existing) {
+    // Replacing questions deletes applicants' answers to them (cascade), so only touch them
+    // when they actually changed, and don't let employers change them once people have applied.
+    const sameQuestions = existing.questions.map((q) => q.question).join("\n") === questions.join("\n");
+    if (!sameQuestions && !isAdmin && existing._count.applications > 0) {
+      return "Screening questions can't be changed once applications have been received.";
+    }
+
+    // Employer edits to anything that was approved (or rejected/closed) go back to review so an
+    // approved listing can't be swapped for something else; no active plan -> back to draft.
+    let status = existing.status;
+    if (!isAdmin && status !== "PENDING") {
+      status = (await hasActiveSubscription(session.user.id)) ? "PENDING" : "DRAFT";
+    }
+
     await prisma.$transaction([
-      prisma.job.update({ where: { id }, data }),
-      prisma.jobQuestion.deleteMany({ where: { jobId: id } }),
-      prisma.jobQuestion.createMany({ data: questionRows.map((q) => ({ ...q, jobId: id })) }),
+      prisma.job.update({ where: { id }, data: { ...data, status } }),
+      ...(sameQuestions
+        ? []
+        : [
+            prisma.jobQuestion.deleteMany({ where: { jobId: id } }),
+            prisma.jobQuestion.createMany({ data: questionRows.map((q) => ({ ...q, jobId: id })) }),
+          ]),
     ]);
+    if (!isAdmin && status === "PENDING" && existing.status !== "PENDING") {
+      await notifyAdminsOfPendingJobs([{ title, company }], session.user.name);
+    }
   } else {
     // Admin jobs go live; employer jobs go to review if their plan is active, else wait as a draft.
     const status = isAdmin ? "PUBLISHED" : (await hasActiveSubscription(session.user.id)) ? "PENDING" : "DRAFT";
@@ -112,6 +141,21 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
   revalidatePath("/admin/jobs");
   revalidatePath("/dashboard/jobs");
   redirect(isAdmin ? "/admin/jobs" : "/dashboard/jobs");
+}
+
+// Employers can take their own live job down, and put it back up. CLOSED jobs only ever come
+// from approved (PUBLISHED) ones, and any edit sends a job back to review, so reopening is safe.
+export async function toggleMyJobActive(jobId: string) {
+  const session = await auth();
+  if (session?.user?.role !== "EMPLOYER") throw new Error("Unauthorized");
+  const job = await prisma.job.findUnique({ where: { id: jobId } });
+  if (!job || job.postedById !== session.user.id) throw new Error("Unauthorized");
+  if (job.status !== "PUBLISHED" && job.status !== "CLOSED") throw new Error("Only live or closed jobs can be toggled.");
+  await prisma.job.update({ where: { id: jobId }, data: { status: job.status === "PUBLISHED" ? "CLOSED" : "PUBLISHED" } });
+  updateTag("jobs");
+  revalidatePath("/");
+  revalidatePath("/admin/jobs");
+  revalidatePath("/dashboard/jobs");
 }
 
 export async function toggleJobActive(jobId: string) {
