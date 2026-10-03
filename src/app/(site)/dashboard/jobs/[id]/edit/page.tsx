@@ -17,10 +17,10 @@ export default async function EditMyJobPage({ params }: { params: Promise<{ id: 
   const wasApproved = job.status === "PUBLISHED" || job.status === "CLOSED";
 
   return (
-    <div>
+    <div className="mx-auto max-w-2xl">
       <h1 className="text-2xl font-bold tracking-tight text-zinc-900">Edit job</h1>
       {wasApproved && (
-        <p className="mt-2 max-w-2xl rounded-lg border border-amber-200 bg-amber-50/60 px-4 py-3 text-sm text-amber-700">
+        <p className="mt-2 rounded-lg border border-amber-200 bg-amber-50/60 px-4 py-3 text-sm text-amber-700">
           Saving changes sends this job back for review. It will be hidden until it is approved again.
         </p>
       )}

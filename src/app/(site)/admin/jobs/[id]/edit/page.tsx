@@ -11,7 +11,7 @@ export default async function EditJobPage({ params }: { params: Promise<{ id: st
   if (!job) notFound();
 
   return (
-    <div>
+    <div className="mx-auto max-w-2xl">
       <h1 className="text-2xl font-bold tracking-tight text-zinc-900">Edit job</h1>
       <div className="mt-6">
         <JobForm job={job} />
