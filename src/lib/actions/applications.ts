@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { isAllowedResumeType, saveResumeFile } from "@/lib/storage";
-import { sendEmail } from "@/lib/email";
+import { sendEmail, esc, emailButton } from "@/lib/email";
 import { hasActiveSubscription } from "@/lib/actions/subscription";
 
 const MAX_RESUME_BYTES = 4 * 1024 * 1024;
@@ -71,10 +71,12 @@ export async function applyToJob(_prevState: string | undefined, formData: FormD
     },
   });
 
+  const base = process.env.APP_URL ?? "http://localhost:3000";
+  const applicantsPath = `${job.postedBy.role === "ADMIN" ? "/admin/jobs" : "/dashboard/jobs"}/${job.id}/applications`;
   await sendEmail({
     to: job.postedBy.email,
     subject: `New application: ${job.title}`,
-    html: `<p>${session.user.name} applied to <strong>${job.title}</strong>.</p><p><a href="${process.env.APP_URL ?? "http://localhost:3000"}${job.postedBy.role === "ADMIN" ? "/admin/jobs" : "/dashboard/jobs"}/${job.id}/applications">Review applicants</a></p>`,
+    html: `<h2 style="margin:0 0 12px;font-size:20px;">New application received</h2><p style="margin:0;"><strong>${esc(session.user.name)}</strong> applied to <strong>${esc(job.title)}</strong>.</p>${emailButton(`${base}${applicantsPath}`, "Review applicants")}`,
   });
 
   revalidatePath(`/jobs/${jobId}`);

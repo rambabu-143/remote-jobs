@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath, updateTag } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { sendEmail } from "@/lib/email";
+import { sendEmail, esc, emailButton } from "@/lib/email";
 import { isAllowedLogoType, saveLogoFile } from "@/lib/storage";
 
 async function requireAdmin() {
@@ -138,8 +138,8 @@ async function reviewJob(jobId: string, status: "PUBLISHED" | "REJECTED") {
     subject: `Your job "${job.title}" was ${status === "PUBLISHED" ? "approved" : "rejected"}`,
     html:
       status === "PUBLISHED"
-        ? `<p>Your listing <strong>${job.title}</strong> is now live.</p>`
-        : `<p>Your listing <strong>${job.title}</strong> wasn't approved. Contact support about a refund.</p>`,
+        ? `<h2 style="margin:0 0 12px;font-size:20px;">Your job is live 🎉</h2><p style="margin:0;">Your listing <strong>${esc(job.title)}</strong> has been approved and is now visible to job seekers.</p>${emailButton(`${process.env.APP_URL ?? "http://localhost:3000"}/dashboard/jobs`, "View my listings")}`
+        : `<h2 style="margin:0 0 12px;font-size:20px;">Listing not approved</h2><p style="margin:0;">Your listing <strong>${esc(job.title)}</strong> wasn't approved. The listing fee is refundable, see our <a href="${process.env.APP_URL ?? "http://localhost:3000"}/terms" style="color:#000;">Terms</a> for how to request a refund.</p>`,
   });
 
   updateTag("jobs");
@@ -175,7 +175,7 @@ export async function updateApplicationStatus(applicationId: string, status: str
   await sendEmail({
     to: application.applicant.email,
     subject: `Your application for ${application.job.title} was updated`,
-    html: `<p>Your application status for <strong>${application.job.title}</strong> at ${application.job.company} is now: <strong>${application.status}</strong>.</p>`,
+    html: `<h2 style="margin:0 0 12px;font-size:20px;">Application update</h2><p style="margin:0;">Your application for <strong>${esc(application.job.title)}</strong> at ${esc(application.job.company)} is now: <strong>${application.status}</strong>.</p>${emailButton(`${process.env.APP_URL ?? "http://localhost:3000"}/dashboard`, "View my applications")}`,
   });
 
   revalidatePath("/admin/jobs");

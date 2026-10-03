@@ -29,8 +29,7 @@ export default async function Nav() {
     <NavShell>
       <div className="relative flex items-center justify-between px-5 py-3">
         <Link href="/" className="flex items-center">
-          {/* mix-blend-multiply drops the PNG's white background onto the paper colour */}
-          <Image src="/logo.png" alt="" width={700} height={156} priority className="h-9 w-auto mix-blend-multiply" />
+          <Image src="/logo.png" alt="" width={700} height={156} priority className="h-9 w-auto" />
           <span className="sr-only">365DaysJobsTeam</span>
         </Link>
         <NavLinks links={links} isAuthed={isAuthed} signOutAction={signOutAction} />

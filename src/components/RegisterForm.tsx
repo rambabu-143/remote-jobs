@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { registerUser } from "@/lib/actions/auth";
 import Spinner from "./Spinner";
@@ -24,6 +25,17 @@ export default function RegisterForm() {
         <Label>Password</Label>
         <Input type="password" name="password" required minLength={8} />
       </div>
+      <p className="text-xs text-zinc-500">
+        By signing up you agree to our{" "}
+        <Link href="/terms" className="underline hover:text-zinc-900">
+          Terms &amp; Conditions
+        </Link>{" "}
+        and{" "}
+        <Link href="/privacy" className="underline hover:text-zinc-900">
+          Privacy Policy
+        </Link>
+        .
+      </p>
       {error && <p className="text-sm text-red-600">{error}</p>}
       <Button type="submit" disabled={pending} className="w-full">
         {pending && <Spinner className="size-4" />}
