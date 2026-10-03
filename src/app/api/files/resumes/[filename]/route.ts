@@ -15,11 +15,14 @@ export async function GET(_req: Request, { params }: { params: Promise<{ filenam
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const application = await prisma.application.findFirst({ where: { resumeFileName: filename } });
+  const application = await prisma.application.findFirst({
+    where: { resumeFileName: filename },
+    include: { job: { select: { postedById: true } } },
+  });
   if (!application) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const isOwner = application.applicantId === session.user.id;
-  if (!isOwner && session.user.role !== "ADMIN") {
+  if (!isOwner && application.job.postedById !== session.user.id && session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

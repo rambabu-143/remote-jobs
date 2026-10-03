@@ -44,6 +44,11 @@ export default async function MyJobsPage() {
             </div>
             <div className="flex items-center gap-3">
               <Badge variant="secondary" className={`${STATUS[job.status].className}`}>{STATUS[job.status].text}</Badge>
+              {(job.status === "PUBLISHED" || job.status === "CLOSED") && (
+                <Link href={`/dashboard/jobs/${job.id}/applications`} className={buttonVariants({ variant: "outline", size: "sm" })}>
+                  Applicants
+                </Link>
+              )}
               {job.status === "DRAFT" && (
                 <PayForJobButton
                   jobId={job.id}

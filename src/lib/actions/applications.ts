@@ -74,7 +74,7 @@ export async function applyToJob(_prevState: string | undefined, formData: FormD
   await sendEmail({
     to: job.postedBy.email,
     subject: `New application: ${job.title}`,
-    html: `<p>${session.user.name} applied to <strong>${job.title}</strong>.</p><p><a href="${process.env.APP_URL ?? "http://localhost:3000"}/admin/jobs/${job.id}/applications">Review applicants</a></p>`,
+    html: `<p>${session.user.name} applied to <strong>${job.title}</strong>.</p><p><a href="${process.env.APP_URL ?? "http://localhost:3000"}${job.postedBy.role === "ADMIN" ? "/admin/jobs" : "/dashboard/jobs"}/${job.id}/applications">Review applicants</a></p>`,
   });
 
   revalidatePath(`/jobs/${jobId}`);
