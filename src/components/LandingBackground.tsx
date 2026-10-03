@@ -28,8 +28,10 @@ export default function LandingBackground() {
           backgroundImage:
             "linear-gradient(to right, rgb(0 0 0 / 0.07) 1px, transparent 1px), linear-gradient(to bottom, rgb(0 0 0 / 0.07) 1px, transparent 1px)",
           backgroundSize: `${CELL}px ${CELL}px`,
-          maskImage: "radial-gradient(ellipse at center, transparent 15%, black 75%)",
-          WebkitMaskImage: "radial-gradient(ellipse at center, transparent 15%, black 75%)",
+          // Clear zone sized to the headline: ~70% of the width and ~55% of the height stays empty,
+          // so on narrow screens the squares don't drift behind the text.
+          maskImage: "radial-gradient(ellipse 60% 55% at center, transparent 55%, black 100%)",
+          WebkitMaskImage: "radial-gradient(ellipse 60% 55% at center, transparent 55%, black 100%)",
         }}
       >
         {CELLS.map((c, i) => (

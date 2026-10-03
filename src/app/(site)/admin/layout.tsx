@@ -7,8 +7,8 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
   if (session?.user?.role !== "ADMIN") redirect("/login");
 
   return (
-    <div className="flex flex-col gap-8 sm:flex-row">
-      <aside className="flex shrink-0 gap-4 sm:w-40 sm:flex-col sm:gap-2">
+    <div className="flex flex-col gap-6">
+      <aside className="flex shrink-0 gap-4">
         <Link href="/admin/jobs" className="text-sm text-zinc-700 hover:text-zinc-900">
           Jobs
         </Link>
