@@ -63,12 +63,12 @@ export default async function MyJobsPage() {
 
       <div className="mt-6 grid gap-3">
         {jobs.map((job) => (
-          <div key={job.id} className="card flex items-center justify-between gap-4">
-            <div>
-              <p className="font-medium text-zinc-900">{job.title}</p>
-              <p className="text-sm text-zinc-600">{job.company}</p>
+          <div key={job.id} className="card flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <div className="min-w-0">
+              <p className="break-words font-medium text-zinc-900">{job.title}</p>
+              <p className="break-words text-sm text-zinc-600">{job.company}</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex shrink-0 flex-wrap items-center gap-2 sm:justify-end sm:gap-3">
               {job.status === "PUBLISHED" && !planActive ? (
                 <Badge variant="secondary" className="bg-zinc-200 text-zinc-600">Hidden, plan expired</Badge>
               ) : (

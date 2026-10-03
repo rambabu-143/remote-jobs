@@ -23,9 +23,9 @@ export default function JobCard({ job }: { job: Job }) {
           {initials(job.company)}
         </div>
       )}
-      <div className="flex-1">
+      <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-4">
-          <div>
+          <div className="min-w-0">
             <h2 className="text-base font-semibold text-zinc-900">{job.title}</h2>
             <p className="text-sm text-zinc-600">{job.company}</p>
           </div>

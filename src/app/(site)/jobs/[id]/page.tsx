@@ -156,7 +156,7 @@ async function JobDetail({ id }: { id: string }) {
                 <p className="text-sm text-zinc-600">
                   Subscribe to unlock the apply form and this company&apos;s contact details.
                 </p>
-                <Link href="/pricing" className={cn(buttonVariants({ variant: "default" }), "mt-3 inline-block")}>
+                <Link href="/pricing" className={cn(buttonVariants({ variant: "default" }), "mt-3")}>
                   See plans
                 </Link>
               </div>
