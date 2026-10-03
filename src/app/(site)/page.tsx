@@ -9,6 +9,7 @@ import JobCard from "@/components/JobCard";
 import Skeleton from "@/components/Skeleton";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
+import { liveClause } from "@/lib/live-jobs";
 
 export default async function LandingPage() {
   const session = await auth();
@@ -159,9 +160,6 @@ export default async function LandingPage() {
         </section>
       )}
 
-      <footer className="border-t border-zinc-200 py-8 text-center text-sm text-zinc-500">
-        365DaysJobsTeam. Remote jobs from verified employers.
-      </footer>
     </div>
   );
 }
@@ -169,7 +167,7 @@ export default async function LandingPage() {
 const getRecentJobs = unstable_cache(
   () =>
     prisma.job.findMany({
-      where: { status: "PUBLISHED" },
+      where: { status: "PUBLISHED", AND: [liveClause()] },
       orderBy: { createdAt: "desc" },
       take: 6,
     }),

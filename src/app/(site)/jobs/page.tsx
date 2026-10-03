@@ -8,11 +8,13 @@ import Skeleton from "@/components/Skeleton";
 import type { Prisma } from "@prisma/client";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { liveClause } from "@/lib/live-jobs";
 
 const PAGE_SIZE = 20;
 
 const getJobsPage = unstable_cache(
-  async (where: Prisma.JobWhereInput, page: number) => {
+  async (filters: Prisma.JobWhereInput, page: number) => {
+    const where: Prisma.JobWhereInput = { ...filters, AND: [liveClause()] };
     const [jobs, total] = await prisma.$transaction([
       prisma.job.findMany({
         where,

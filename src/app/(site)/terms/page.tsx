@@ -32,11 +32,16 @@ export default function TermsPage() {
 
       <LegalSection title="3. Employers">
         <ul className="list-disc space-y-1 pl-5">
-          <li>Posting a job requires a one-time listing fee per job, paid before the listing is sent for review.</li>
+          <li>
+            Posting jobs requires an active employer plan (currently 30 days of unlimited job posts for a one-time
+            payment; it does not renew automatically). Jobs you save without an active plan stay as drafts until you
+            subscribe.
+          </li>
           <li>
             Every listing is reviewed by us before it goes live. We may reject or remove any listing that breaks these
-            terms. If your listing is rejected, the listing fee is refundable on request.
+            terms. Live jobs are hidden when your plan ends and become visible again if you renew.
           </li>
+          <li>Employer plan fees are non-refundable once the plan has been activated, except where required by law.</li>
           <li>
             Listings must be real, accurate, lawful and non-discriminatory. You must not charge applicants any fee, or
             ask for payment or sensitive financial details, as part of hiring.

@@ -3,13 +3,13 @@ import Script from "next/script";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { JOB_LISTING_PRICE_PAISE } from "@/lib/razorpay";
-import PayForJobButton from "@/components/PayForJobButton";
+import { EMPLOYER_PLAN_PRICE_PAISE } from "@/lib/razorpay";
+import PricingCard from "@/components/PricingCard";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 
 const STATUS: Record<string, { text: string; className: string }> = {
-  DRAFT: { text: "Awaiting payment", className: "bg-zinc-200 text-zinc-700" },
+  DRAFT: { text: "Draft, subscribe to submit", className: "bg-zinc-200 text-zinc-700" },
   PENDING: { text: "Pending review", className: "bg-amber-50 text-amber-600" },
   PUBLISHED: { text: "Live", className: "bg-emerald-50 text-emerald-600" },
   REJECTED: { text: "Rejected", className: "bg-red-50 text-red-600" },
@@ -21,10 +21,12 @@ export default async function MyJobsPage() {
   if (!session?.user) redirect("/login");
   if (session.user.role !== "EMPLOYER") redirect(session.user.role === "ADMIN" ? "/admin/jobs" : "/dashboard");
 
-  const jobs = await prisma.job.findMany({
-    where: { postedById: session.user.id },
-    orderBy: { createdAt: "desc" },
-  });
+  const [jobs, user] = await Promise.all([
+    prisma.job.findMany({ where: { postedById: session.user.id }, orderBy: { createdAt: "desc" } }),
+    prisma.user.findUniqueOrThrow({ where: { id: session.user.id } }),
+  ]);
+  const planActive = Boolean(user.subscriptionExpiresAt && user.subscriptionExpiresAt > new Date());
+  const planPrice = EMPLOYER_PLAN_PRICE_PAISE / 100;
 
   return (
     <div>
@@ -36,6 +38,28 @@ export default async function MyJobsPage() {
         </Link>
       </div>
 
+      {planActive ? (
+        <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50/50 px-4 py-3 text-sm text-emerald-600">
+          Your employer plan is active until {user.subscriptionExpiresAt!.toLocaleDateString()}. Post as many jobs as you like.
+        </p>
+      ) : (
+        <div className="mt-6 grid items-center gap-4 sm:grid-cols-2">
+          <p className="text-sm text-zinc-600">
+            Subscribe to post unlimited jobs for 30 days. Jobs you have saved as drafts are sent for review as soon as you
+            subscribe. Live jobs are hidden when your plan ends and come back when you renew.
+          </p>
+          <PricingCard
+            plan="MONTH_1"
+            label="Employer plan"
+            normalPrice={planPrice}
+            offerPrice={planPrice}
+            perMonth={String(planPrice)}
+            userName={session.user.name}
+            userEmail={session.user.email}
+          />
+        </div>
+      )}
+
       <div className="mt-6 grid gap-3">
         {jobs.map((job) => (
           <div key={job.id} className="card flex items-center justify-between gap-4">
@@ -44,19 +68,15 @@ export default async function MyJobsPage() {
               <p className="text-sm text-zinc-600">{job.company}</p>
             </div>
             <div className="flex items-center gap-3">
-              <Badge variant="secondary" className={`${STATUS[job.status].className}`}>{STATUS[job.status].text}</Badge>
+              {job.status === "PUBLISHED" && !planActive ? (
+                <Badge variant="secondary" className="bg-zinc-200 text-zinc-600">Hidden, plan expired</Badge>
+              ) : (
+                <Badge variant="secondary" className={`${STATUS[job.status].className}`}>{STATUS[job.status].text}</Badge>
+              )}
               {(job.status === "PUBLISHED" || job.status === "CLOSED") && (
                 <Link href={`/dashboard/jobs/${job.id}/applications`} className={buttonVariants({ variant: "outline", size: "sm" })}>
                   Applicants
                 </Link>
-              )}
-              {job.status === "DRAFT" && (
-                <PayForJobButton
-                  jobId={job.id}
-                  amountInRupees={JOB_LISTING_PRICE_PAISE / 100}
-                  userName={session.user.name}
-                  userEmail={session.user.email}
-                />
               )}
             </div>
           </div>

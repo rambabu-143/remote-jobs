@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { isAllowedResumeType, saveResumeFile } from "@/lib/storage";
 import { sendEmail, esc, emailButton } from "@/lib/email";
 import { hasActiveSubscription } from "@/lib/actions/subscription";
+import { isLive } from "@/lib/live-jobs";
 
 const MAX_RESUME_BYTES = 4 * 1024 * 1024;
 
@@ -34,7 +35,7 @@ export async function applyToJob(_prevState: string | undefined, formData: FormD
     where: { id: jobId },
     include: { questions: true, postedBy: true },
   });
-  if (!job || job.status !== "PUBLISHED") return "Job not found.";
+  if (!job || !isLive(job)) return "Job not found.";
 
   // Same rule the job page uses to show the apply form: admins are exempt.
   if (session.user.role !== "ADMIN" && !(await hasActiveSubscription(session.user.id))) {

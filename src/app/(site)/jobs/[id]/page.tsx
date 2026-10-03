@@ -11,6 +11,7 @@ import { employmentLabel, formatSalary, initials, remoteLabel } from "@/lib/job-
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { isLive } from "@/lib/live-jobs";
 
 export default async function JobPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -32,7 +33,7 @@ const getCachedJob = unstable_cache(
   (id: string) =>
     prisma.job.findUnique({
       where: { id },
-      include: { questions: { orderBy: { order: "asc" } } },
+      include: { questions: { orderBy: { order: "asc" } }, postedBy: { select: { role: true, subscriptionExpiresAt: true } } },
     }),
   ["job-detail"],
   { tags: ["jobs"], revalidate: 60 }
@@ -40,7 +41,7 @@ const getCachedJob = unstable_cache(
 
 async function JobDetail({ id }: { id: string }) {
   const job = await getCachedJob(id);
-  if (!job || job.status !== "PUBLISHED") notFound();
+  if (!job || !isLive(job)) notFound();
 
   const session = await auth();
   const isAdmin = session?.user?.role === "ADMIN";

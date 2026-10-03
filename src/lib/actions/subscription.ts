@@ -2,8 +2,15 @@
 
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
-import { getRazorpayClient, isRazorpayConfigured, verifyPaymentSignature, extendExpiry, PLANS } from "@/lib/razorpay";
+import { revalidatePath, updateTag } from "next/cache";
+import {
+  getRazorpayClient,
+  isRazorpayConfigured,
+  verifyPaymentSignature,
+  extendExpiry,
+  PLANS,
+  EMPLOYER_PLAN_PRICE_PAISE,
+} from "@/lib/razorpay";
 import type { SubscriptionPlan } from "@prisma/client";
 
 // Next.js redacts thrown Server Action errors in production builds (only a
@@ -16,10 +23,14 @@ export async function createRazorpayOrder(
 ): Promise<ActionResult<{ orderId: string; amountInPaise: number; keyId: string }>> {
   const session = await auth();
   if (!session?.user) return { ok: false, error: "You must be logged in to subscribe." };
-  if (session.user.role !== "USER") return { ok: false, error: "Plans are for job seeker accounts." };
+  const isEmployer = session.user.role === "EMPLOYER";
+  if (session.user.role !== "USER" && !isEmployer) return { ok: false, error: "Plans are for job seeker and employer accounts." };
 
-  const config = PLANS[plan];
+  // Employers have one plan (monthly, unlimited posts); seekers pick from PLANS.
+  const chosenPlan: SubscriptionPlan = isEmployer ? "MONTH_1" : plan;
+  const config = PLANS[chosenPlan];
   if (!config) return { ok: false, error: "Unknown plan." };
+  const amountInPaise = isEmployer ? EMPLOYER_PLAN_PRICE_PAISE : config.amountInPaise;
 
   if (!isRazorpayConfigured()) {
     return { ok: false, error: "Payments aren't configured yet. Check back soon." };
@@ -27,21 +38,21 @@ export async function createRazorpayOrder(
 
   const razorpay = getRazorpayClient();
   const order = await razorpay.orders.create({
-    amount: config.amountInPaise,
+    amount: amountInPaise,
     currency: "INR",
-    notes: { userId: session.user.id, plan },
+    notes: { userId: session.user.id, plan: chosenPlan },
   });
 
   await prisma.payment.create({
     data: {
       userId: session.user.id,
-      plan,
-      amountInPaise: config.amountInPaise,
+      plan: chosenPlan,
+      amountInPaise,
       razorpayOrderId: order.id,
     },
   });
 
-  return { ok: true, orderId: order.id, amountInPaise: config.amountInPaise, keyId: process.env.RAZORPAY_KEY_ID! };
+  return { ok: true, orderId: order.id, amountInPaise, keyId: process.env.RAZORPAY_KEY_ID! };
 }
 
 export async function verifyRazorpayPayment(input: {
@@ -64,6 +75,9 @@ export async function verifyRazorpayPayment(input: {
 
   revalidatePath("/pricing");
   revalidatePath("/dashboard");
+  revalidatePath("/dashboard/jobs");
+  revalidatePath("/admin/jobs");
+  updateTag("jobs"); // employer jobs reappear immediately on renewal
   return { ok: true };
 }
 
@@ -85,6 +99,10 @@ export async function activateSubscription(paymentId: string, razorpayPaymentId:
       where: { id: payment.userId },
       data: { subscriptionPlan: payment.plan, subscriptionExpiresAt: expiresAt },
     }),
+    // Employers who saved drafts while unsubscribed: paying sends them for admin review.
+    ...(user.role === "EMPLOYER"
+      ? [prisma.job.updateMany({ where: { postedById: payment.userId, status: "DRAFT" }, data: { status: "PENDING" } })]
+      : []),
   ]);
 }
 

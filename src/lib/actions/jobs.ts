@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { sendEmail, esc, emailButton } from "@/lib/email";
 import { isAllowedLogoType, saveLogoFile } from "@/lib/storage";
+import { hasActiveSubscription } from "@/lib/actions/subscription";
 
 async function requireAdmin() {
   const session = await auth();
@@ -100,7 +101,8 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
     await prisma.job.create({
       data: {
         ...data,
-        status: isAdmin ? "PUBLISHED" : "DRAFT",
+        // Admin jobs go live; employer jobs go to review if their plan is active, else wait as a draft.
+        status: isAdmin ? "PUBLISHED" : (await hasActiveSubscription(session.user.id)) ? "PENDING" : "DRAFT",
         postedById: session.user.id,
         questions: { create: questionRows },
       },
@@ -140,7 +142,7 @@ async function reviewJob(jobId: string, status: "PUBLISHED" | "REJECTED") {
     html:
       status === "PUBLISHED"
         ? `<h2 style="margin:0 0 12px;font-size:20px;">Your job is live 🎉</h2><p style="margin:0;">Your listing <strong>${esc(job.title)}</strong> has been approved and is now visible to job seekers.</p>${emailButton(`${process.env.APP_URL ?? "http://localhost:3000"}/dashboard/jobs`, "View my listings")}`
-        : `<h2 style="margin:0 0 12px;font-size:20px;">Listing not approved</h2><p style="margin:0;">Your listing <strong>${esc(job.title)}</strong> wasn't approved. The listing fee is refundable, see our <a href="${process.env.APP_URL ?? "http://localhost:3000"}/terms" style="color:#000;">Terms</a> for how to request a refund.</p>`,
+        : `<h2 style="margin:0 0 12px;font-size:20px;">Listing not approved</h2><p style="margin:0;">Your listing <strong>${esc(job.title)}</strong> wasn't approved. You can post a corrected listing any time while your plan is active. See our <a href="${process.env.APP_URL ?? "http://localhost:3000"}/terms" style="color:#000;">Terms</a> for our listing rules.</p>`,
   });
 
   updateTag("jobs");
