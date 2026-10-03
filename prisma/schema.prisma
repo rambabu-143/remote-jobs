@@ -187,3 +187,11 @@ model ApplicationAnswer {
 
   @@unique([applicationId, questionId])
 }
+
+// Site-wide settings the admin can change from /admin/settings.
+// employerPlanRequired = "true" -> employers need the paid plan to submit jobs; "false" -> free posting
+// (every job is still approved by an admin).
+model Setting {
+  key   String @id
+  value String
+}

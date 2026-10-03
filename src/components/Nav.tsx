@@ -19,6 +19,7 @@ export default async function Nav() {
       ? [{ href: "/pricing", label: "Pricing" }, { href: "/dashboard", label: "My applications" }]
       : []),
     ...(isAuthed && isAdmin ? [{ href: "/dashboard", label: "My applications" }] : []),
+    { href: "/contact", label: "Contact" },
     ...(!isAuthed ? [{ href: "/login", label: "Log in" }] : []),
   ];
 

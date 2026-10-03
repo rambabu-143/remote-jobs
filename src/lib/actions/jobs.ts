@@ -8,6 +8,7 @@ import { sendEmail, esc, emailButton } from "@/lib/email";
 import { isAllowedLogoType, saveLogoFile } from "@/lib/storage";
 import { hasActiveSubscription } from "@/lib/actions/subscription";
 import { notifyAdminsOfPendingJobs } from "@/lib/notify";
+import { isEmployerPlanRequired, writeEmployerPlanRequired } from "@/lib/settings";
 
 async function requireAdmin() {
   const session = await auth();
@@ -15,6 +16,12 @@ async function requireAdmin() {
     throw new Error("Unauthorized");
   }
   return session;
+}
+
+// An employer can send a job for review when posting is free, or when they have an active plan.
+// Either way every job still waits for an admin to approve it.
+async function canSubmit(userId: string) {
+  return !(await isEmployerPlanRequired()) || (await hasActiveSubscription(userId));
 }
 
 function toIntOrNull(value: FormDataEntryValue | null) {
@@ -112,7 +119,7 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
     // approved listing can't be swapped for something else; no active plan -> back to draft.
     let status = existing.status;
     if (!isAdmin && status !== "PENDING") {
-      status = (await hasActiveSubscription(session.user.id)) ? "PENDING" : "DRAFT";
+      status = (await canSubmit(session.user.id)) ? "PENDING" : "DRAFT";
     }
 
     await prisma.$transaction([
@@ -129,7 +136,7 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
     }
   } else {
     // Admin jobs go live; employer jobs go to review if their plan is active, else wait as a draft.
-    const status = isAdmin ? "PUBLISHED" : (await hasActiveSubscription(session.user.id)) ? "PENDING" : "DRAFT";
+    const status = isAdmin ? "PUBLISHED" : (await canSubmit(session.user.id)) ? "PENDING" : "DRAFT";
     await prisma.job.create({
       data: { ...data, status, postedById: session.user.id, questions: { create: questionRows } },
     });
@@ -237,4 +244,19 @@ export async function updateApplicationStatus(applicationId: string, status: str
   revalidatePath("/admin/jobs");
   revalidatePath("/dashboard");
   revalidatePath(`/dashboard/jobs/${application.jobId}/applications`);
+}
+
+// Admin Settings: do employers have to pay for the plan to submit jobs?
+export async function setEmployerPlanRequired(required: boolean) {
+  await requireAdmin();
+  await writeEmployerPlanRequired(required);
+  if (!required) {
+    // Free posting: drafts that were waiting for a plan now go to review, so none get stuck.
+    await prisma.job.updateMany({ where: { status: "DRAFT", postedBy: { role: "EMPLOYER" } }, data: { status: "PENDING" } });
+  }
+  updateTag("jobs");
+  revalidatePath("/");
+  revalidatePath("/admin/jobs");
+  revalidatePath("/admin/settings");
+  revalidatePath("/dashboard/jobs");
 }

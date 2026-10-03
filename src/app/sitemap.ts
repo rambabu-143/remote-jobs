@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { liveClause } from "@/lib/live-jobs";
+import { readEmployerPlanRequired } from "@/lib/settings";
 
 // Read from the DB per request (not at build) so new jobs appear without a redeploy.
 export const dynamic = "force-dynamic";
@@ -8,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.APP_URL ?? "http://localhost:3000";
   const jobs = await prisma.job.findMany({
-    where: { status: "PUBLISHED", AND: [liveClause()] },
+    where: { status: "PUBLISHED", AND: [liveClause(await readEmployerPlanRequired())] },
     select: { id: true, updatedAt: true },
     orderBy: { updatedAt: "desc" },
     take: 5000,

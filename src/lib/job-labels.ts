@@ -11,6 +11,15 @@ export const JOB_CATEGORIES = [
   "Other",
 ];
 
+// Values are days; the jobs page only accepts these (anything else is ignored).
+export const POSTED_OPTIONS = [
+  { value: "1", label: "Past 24 hours" },
+  { value: "3", label: "Past 3 days" },
+  { value: "7", label: "Past week" },
+  { value: "14", label: "Past 2 weeks" },
+  { value: "30", label: "Past month" },
+];
+
 export const LOCATIONS = [
   "Worldwide",
   "India",

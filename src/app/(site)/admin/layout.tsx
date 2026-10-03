@@ -12,6 +12,9 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
         <Link href="/admin/jobs" className="text-sm text-zinc-700 hover:text-zinc-900">
           Jobs
         </Link>
+        <Link href="/admin/settings" className="text-sm text-zinc-700 hover:text-zinc-900">
+          Settings
+        </Link>
         <Link href="/docs" className="text-sm text-zinc-700 hover:text-zinc-900">
           Docs
         </Link>

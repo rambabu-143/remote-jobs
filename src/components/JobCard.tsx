@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 
 export default function JobCard({ job }: { job: Job }) {
   const salary = formatSalary(job.salaryMin, job.salaryMax);
+  const tags = job.tags ? job.tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
 
   return (
     <Link
@@ -24,15 +25,18 @@ export default function JobCard({ job }: { job: Job }) {
         </div>
       )}
       <div className="min-w-0 flex-1">
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h2 className="text-base font-semibold text-zinc-900">{job.title}</h2>
-            <p className="text-sm text-zinc-600">{job.company}</p>
+            {/* Long titles wrap onto two lines then cut off, so cards in a row stay the same height. */}
+            <h2 className="line-clamp-2 break-words text-base font-semibold text-zinc-900" title={job.title}>
+              {job.title}
+            </h2>
+            <p className="truncate text-sm text-zinc-600" title={job.company}>
+              {job.company}
+            </p>
+            {salary && <p className="mt-1 whitespace-nowrap font-mono text-sm font-medium text-ink-600">{salary}</p>}
           </div>
-          <div className="text-right">
-            {salary && <p className="whitespace-nowrap font-mono text-sm font-medium text-ink-600">{salary}</p>}
-            <p className="mt-1 whitespace-nowrap text-xs text-zinc-500">{formatRelativeTime(job.createdAt)}</p>
-          </div>
+          <p className="shrink-0 whitespace-nowrap text-xs text-zinc-500">{formatRelativeTime(job.createdAt)}</p>
         </div>
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
           <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{remoteLabel[job.remoteType]}</Badge>
@@ -40,14 +44,11 @@ export default function JobCard({ job }: { job: Job }) {
           <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.location}</Badge>
           <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.category}</Badge>
         </div>
-        {job.tags && (
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {job.tags.split(",").map((tag) => (
-              <span key={tag} className="rounded-md bg-zinc-50 px-1.5 py-0.5 text-xs text-zinc-500">
-                {tag.trim()}
-              </span>
-            ))}
-          </div>
+        {tags.length > 0 && (
+          <p className="mt-3 truncate text-xs text-zinc-500">
+            {tags.slice(0, 4).join("  ·  ")}
+            {tags.length > 4 && `  +${tags.length - 4}`}
+          </p>
         )}
       </div>
     </Link>

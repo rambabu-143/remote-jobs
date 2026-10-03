@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath, updateTag } from "next/cache";
 import { notifyAdminsOfPendingJobs } from "@/lib/notify";
+import { isEmployerPlanRequired } from "@/lib/settings";
 import {
   getRazorpayClient,
   isRazorpayConfigured,
@@ -25,6 +26,7 @@ export async function createRazorpayOrder(
   const session = await auth();
   if (!session?.user) return { ok: false, error: "You must be logged in to subscribe." };
   const isEmployer = session.user.role === "EMPLOYER";
+  if (isEmployer && !(await isEmployerPlanRequired())) return { ok: false, error: "Posting is free right now, no plan is needed." };
   if (session.user.role !== "USER" && !isEmployer) return { ok: false, error: "Plans are for job seeker and employer accounts." };
 
   // Employers have one plan (monthly, unlimited posts); seekers pick from PLANS.

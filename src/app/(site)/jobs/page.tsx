@@ -9,6 +9,8 @@ import type { Prisma } from "@prisma/client";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { liveClause } from "@/lib/live-jobs";
+import { readEmployerPlanRequired } from "@/lib/settings";
+import { POSTED_OPTIONS } from "@/lib/job-labels";
 
 export const metadata = {
   title: "Remote jobs",
@@ -18,8 +20,10 @@ export const metadata = {
 const PAGE_SIZE = 20;
 
 const getJobsPage = unstable_cache(
-  async (filters: Prisma.JobWhereInput, page: number) => {
-    const where: Prisma.JobWhereInput = { ...filters, AND: [liveClause()] };
+  async (filters: Prisma.JobWhereInput, page: number, postedDays: number) => {
+    const where: Prisma.JobWhereInput = { ...filters, AND: [liveClause(await readEmployerPlanRequired())] };
+    // Computed in here (not passed in) so the cache key is the number of days, not a changing timestamp.
+    if (postedDays) where.createdAt = { gte: new Date(Date.now() - postedDays * 864e5) };
     const [jobs, total] = await prisma.$transaction([
       prisma.job.findMany({
         where,
@@ -41,6 +45,7 @@ type Filters = {
   type?: string;
   category?: string;
   location?: string;
+  posted?: string;
   page: number;
 };
 
@@ -53,10 +58,12 @@ export default async function JobsPage({
     type?: string;
     category?: string;
     location?: string;
+    posted?: string;
     page?: string;
   }>;
 }) {
-  const { q, remote, type, category, location, page: pageParam } = await searchParams;
+  const { q, remote, type, category, location, posted: postedParam, page: pageParam } = await searchParams;
+  const posted = POSTED_OPTIONS.some((o) => o.value === postedParam) ? postedParam : undefined;
   const page = Math.max(1, Number(pageParam) || 1);
 
   return (
@@ -65,16 +72,16 @@ export default async function JobsPage({
         Find your next <span className="text-ink-600">remote</span> role
       </h1>
 
-      <FilterBar q={q} remote={remote} type={type} category={category} location={location} />
+      <FilterBar q={q} remote={remote} type={type} category={category} location={location} posted={posted} />
 
-      <Suspense key={`${q ?? ""}|${remote ?? ""}|${type ?? ""}|${category ?? ""}|${location ?? ""}|${page}`} fallback={<JobListSkeleton />}>
-        <JobResults q={q} remote={remote} type={type} category={category} location={location} page={page} />
+      <Suspense key={`${q ?? ""}|${remote ?? ""}|${type ?? ""}|${category ?? ""}|${location ?? ""}|${posted ?? ""}|${page}`} fallback={<JobListSkeleton />}>
+        <JobResults q={q} remote={remote} type={type} category={category} location={location} posted={posted} page={page} />
       </Suspense>
     </div>
   );
 }
 
-async function JobResults({ q, remote, type, category, location, page }: Filters) {
+async function JobResults({ q, remote, type, category, location, posted, page }: Filters) {
   const where: Prisma.JobWhereInput = { status: "PUBLISHED" };
   if (q) {
     where.OR = [
@@ -88,7 +95,7 @@ async function JobResults({ q, remote, type, category, location, page }: Filters
   if (category) where.category = category;
   if (location) where.location = location;
 
-  const { jobs, total } = await getJobsPage(where, page);
+  const { jobs, total } = await getJobsPage(where, page, Number(posted) || 0);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   const pageHref = (p: number) => {
@@ -98,6 +105,7 @@ async function JobResults({ q, remote, type, category, location, page }: Filters
     if (type) params.set("type", type);
     if (category) params.set("category", category);
     if (location) params.set("location", location);
+    if (posted) params.set("posted", posted);
     if (p > 1) params.set("page", String(p));
     const qs = params.toString();
     return qs ? `/jobs?${qs}` : "/jobs";

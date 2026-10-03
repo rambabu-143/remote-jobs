@@ -34,13 +34,13 @@ export default function TermsPage() {
       <LegalSection title="3. Employers">
         <ul className="list-disc space-y-1 pl-5">
           <li>
-            Posting jobs requires an active employer plan (currently 30 days of unlimited job posts for a one-time
-            payment; it does not renew automatically). Jobs you save without an active plan stay as drafts until you
-            subscribe.
+            We may charge employers for an employer plan (currently 30 days of unlimited job posts for a one-time payment;
+            it does not renew automatically). While a plan is required, posting needs an active plan, and jobs you save
+            without one stay as drafts until you subscribe. We may also allow free posting for periods of time.
           </li>
           <li>
             Every listing is reviewed by us before it goes live. We may reject or remove any listing that breaks these
-            terms. Live jobs are hidden when your plan ends and become visible again if you renew.
+            terms. While a plan is required, live jobs are hidden when your plan ends and become visible again if you renew.
           </li>
           <li>Employer plan fees are non-refundable once the plan has been activated, except where required by law.</li>
           <li>

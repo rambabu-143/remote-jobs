@@ -10,6 +10,7 @@ import Skeleton from "@/components/Skeleton";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { liveClause } from "@/lib/live-jobs";
+import { readEmployerPlanRequired } from "@/lib/settings";
 
 export default async function LandingPage() {
   const session = await auth();
@@ -165,9 +166,9 @@ export default async function LandingPage() {
 }
 
 const getRecentJobs = unstable_cache(
-  () =>
+  async () =>
     prisma.job.findMany({
-      where: { status: "PUBLISHED", AND: [liveClause()] },
+      where: { status: "PUBLISHED", AND: [liveClause(await readEmployerPlanRequired())] },
       orderBy: { createdAt: "desc" },
       take: 6,
     }),

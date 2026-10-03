@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { SearchIcon } from "lucide-react";
-import { JOB_CATEGORIES, LOCATIONS } from "@/lib/job-labels";
+import { JOB_CATEGORIES, LOCATIONS, POSTED_OPTIONS } from "@/lib/job-labels";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -63,21 +63,32 @@ export default function FilterBar({
   type,
   category,
   location,
+  posted,
 }: {
   q?: string;
   remote?: string;
   type?: string;
   category?: string;
   location?: string;
+  posted?: string;
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const submit = () => formRef.current?.requestSubmit();
 
   return (
     <form ref={formRef} className="card mt-6 flex flex-wrap items-center gap-3 !p-4" method="get">
-      <div className="relative min-w-[220px] flex-1">
-        <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-zinc-500" />
-        <Input name="q" defaultValue={q} placeholder="Search title, company, or tag" className="pl-9" />
+      {/* Search gets its own full-width row (with the buttons) so the box is never cut off. */}
+      <div className="flex w-full items-center gap-3">
+        <div className="relative min-w-0 flex-1">
+          <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-zinc-500" />
+          <Input name="q" defaultValue={q} placeholder="Search title, company, or tag" className="pl-9" />
+        </div>
+        <Button type="submit">Search</Button>
+        {(q || remote || type || category || location || posted) && (
+          <Button variant="outline" nativeButton={false} render={<Link href="/jobs" />}>
+            Clear
+          </Button>
+        )}
       </div>
       <FilterSelect
         name="remote"
@@ -104,12 +115,7 @@ export default function FilterBar({
       />
       <FilterSelect name="category" any="Any category" defaultValue={category} onChange={submit} options={plain(JOB_CATEGORIES)} />
       <FilterSelect name="location" any="Any location" defaultValue={location} onChange={submit} options={plain(LOCATIONS)} />
-      <Button type="submit">Search</Button>
-      {(q || remote || type || category || location) && (
-        <Button variant="outline" nativeButton={false} render={<Link href="/jobs" />}>
-          Clear
-        </Button>
-      )}
+      <FilterSelect name="posted" any="Any time" defaultValue={posted} onChange={submit} options={POSTED_OPTIONS} />
     </form>
   );
 }

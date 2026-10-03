@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { sendEmail, emailButton } from "@/lib/email";
+import { readEmployerPlanRequired } from "@/lib/settings";
 
 const DAY_MS = 864e5;
 const REMIND_DAYS_BEFORE = 3;
@@ -50,7 +51,8 @@ function message(role: "USER" | "EMPLOYER", kind: "soon" | "expired", endsOn: Da
 export async function sendPlanReminders(now = new Date()) {
   const w = reminderWindows(now);
   const select = { id: true, email: true, role: true, subscriptionExpiresAt: true, reminderSent: true } as const;
-  const roles = { in: ["USER", "EMPLOYER"] as ("USER" | "EMPLOYER")[] };
+  // Employers only get plan reminders while the plan is actually required.
+  const roles = { in: (await readEmployerPlanRequired() ? ["USER", "EMPLOYER"] : ["USER"]) as ("USER" | "EMPLOYER")[] };
   const [soon, expired] = await Promise.all([
     prisma.user.findMany({ where: { role: roles, subscriptionExpiresAt: w.expiringSoon }, select }),
     prisma.user.findMany({ where: { role: roles, subscriptionExpiresAt: w.expired }, select }),

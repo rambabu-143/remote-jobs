@@ -13,11 +13,12 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { isLive } from "@/lib/live-jobs";
+import { isEmployerPlanRequired } from "@/lib/settings";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const job = await getCachedJob(id);
-  if (!job || !isLive(job)) return { title: "Job not found", robots: { index: false } };
+  if (!job || !isLive(job, await isEmployerPlanRequired())) return { title: "Job not found", robots: { index: false } };
   const description = job.description.replace(/\s+/g, " ").trim().slice(0, 160);
   return {
     title: `${job.title} at ${job.company}`,
@@ -33,7 +34,7 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
   // Checked before streaming starts so a missing or expired job returns a real 404 status
   // (not a 200 "not found" page, which search engines treat as a soft 404). Cached 60s.
   const job = await getCachedJob(id);
-  if (!job || !isLive(job)) notFound();
+  if (!job || !isLive(job, await isEmployerPlanRequired())) notFound();
 
   return (
     <div>
@@ -60,7 +61,7 @@ const getCachedJob = unstable_cache(
 
 async function JobDetail({ id }: { id: string }) {
   const job = await getCachedJob(id);
-  if (!job || !isLive(job)) notFound();
+  if (!job || !isLive(job, await isEmployerPlanRequired())) notFound();
 
   const session = await auth();
   const isAdmin = session?.user?.role === "ADMIN";
