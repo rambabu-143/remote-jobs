@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { sendEmail, esc, emailButton } from "@/lib/email";
 import { isAllowedLogoType, saveLogoFile } from "@/lib/storage";
 import { hasActiveSubscription } from "@/lib/actions/subscription";
+import { notifyAdminsOfPendingJobs } from "@/lib/notify";
 
 async function requireAdmin() {
   const session = await auth();
@@ -98,15 +99,12 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
       prisma.jobQuestion.createMany({ data: questionRows.map((q) => ({ ...q, jobId: id })) }),
     ]);
   } else {
+    // Admin jobs go live; employer jobs go to review if their plan is active, else wait as a draft.
+    const status = isAdmin ? "PUBLISHED" : (await hasActiveSubscription(session.user.id)) ? "PENDING" : "DRAFT";
     await prisma.job.create({
-      data: {
-        ...data,
-        // Admin jobs go live; employer jobs go to review if their plan is active, else wait as a draft.
-        status: isAdmin ? "PUBLISHED" : (await hasActiveSubscription(session.user.id)) ? "PENDING" : "DRAFT",
-        postedById: session.user.id,
-        questions: { create: questionRows },
-      },
+      data: { ...data, status, postedById: session.user.id, questions: { create: questionRows } },
     });
+    if (status === "PENDING") await notifyAdminsOfPendingJobs([{ title, company }], session.user.name);
   }
 
   updateTag("jobs");

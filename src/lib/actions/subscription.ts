@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath, updateTag } from "next/cache";
+import { notifyAdminsOfPendingJobs } from "@/lib/notify";
 import {
   getRazorpayClient,
   isRazorpayConfigured,
@@ -90,6 +91,12 @@ export async function activateSubscription(paymentId: string, razorpayPaymentId:
   const user = await prisma.user.findUniqueOrThrow({ where: { id: payment.userId } });
   const expiresAt = extendExpiry(user.subscriptionExpiresAt, PLANS[payment.plan].months);
 
+  // Employers who saved drafts while unsubscribed: paying sends them for admin review.
+  const drafts =
+    user.role === "EMPLOYER"
+      ? await prisma.job.findMany({ where: { postedById: payment.userId, status: "DRAFT" }, select: { title: true, company: true } })
+      : [];
+
   await prisma.$transaction([
     prisma.payment.update({
       where: { id: paymentId },
@@ -99,11 +106,11 @@ export async function activateSubscription(paymentId: string, razorpayPaymentId:
       where: { id: payment.userId },
       data: { subscriptionPlan: payment.plan, subscriptionExpiresAt: expiresAt },
     }),
-    // Employers who saved drafts while unsubscribed: paying sends them for admin review.
-    ...(user.role === "EMPLOYER"
+    ...(drafts.length
       ? [prisma.job.updateMany({ where: { postedById: payment.userId, status: "DRAFT" }, data: { status: "PENDING" } })]
       : []),
   ]);
+  await notifyAdminsOfPendingJobs(drafts, user.name);
 }
 
 export async function hasActiveSubscription(userId: string) {
