@@ -1,24 +1,26 @@
-// ponytail: smallest check for the date-window logic. `npx tsx src/lib/plan-reminders.test.ts`
+// ponytail: smallest check for the reminder window + dedup-key logic. `npx tsx src/lib/plan-reminders.test.ts`
 import assert from "node:assert";
-import { startOfDayIST, reminderWindows } from "./plan-reminders";
+import { reminderWindows, reminderKey } from "./plan-reminders";
 
-// 10:00 IST on 15 Jan is 04:30 UTC; the IST day began at 18:30 UTC on the 14th.
-assert.deepStrictEqual(startOfDayIST(new Date("2026-01-15T04:30:00Z")), new Date("2026-01-14T18:30:00Z"));
-// A run at 23:50 IST (18:20 UTC) is still the same IST day...
-assert.deepStrictEqual(startOfDayIST(new Date("2026-01-15T18:20:00Z")), new Date("2026-01-14T18:30:00Z"));
-// ...and 00:10 IST the next day (18:40 UTC) is the next one.
-assert.deepStrictEqual(startOfDayIST(new Date("2026-01-15T18:40:00Z")), new Date("2026-01-15T18:30:00Z"));
+const now = new Date("2026-01-15T04:30:00Z");
+const w = reminderWindows(now);
+const D = 864e5;
 
-// Whatever time of day the cron fires, the same calendar-day window is used.
-const a = reminderWindows(new Date("2026-01-15T04:30:00Z"));
-const b = reminderWindows(new Date("2026-01-15T11:00:00Z"));
-assert.deepStrictEqual(a, b);
-// Windows are exactly one day wide and tile with the next day's: no gaps, no overlap.
-assert.strictEqual(a.expiringSoon.lt.getTime() - a.expiringSoon.gte.getTime(), 864e5);
-const next = reminderWindows(new Date("2026-01-16T04:30:00Z"));
-assert.strictEqual(next.expiringSoon.gte.getTime(), a.expiringSoon.lt.getTime());
-// "Expired" is yesterday; "soon" is 3 days ahead.
-assert.strictEqual(a.expired.lt.getTime(), startOfDayIST(new Date("2026-01-15T04:30:00Z")).getTime());
-assert.strictEqual(a.expiringSoon.gte.getTime() - a.expired.lt.getTime(), 3 * 864e5);
+// "Soon" = (now, now+3d); "expired" = [now-3d, now): nothing sits in both, nothing in the 3-day band is missed.
+assert.strictEqual(w.expiringSoon.gt.getTime(), now.getTime());
+assert.strictEqual(w.expiringSoon.lt.getTime(), now.getTime() + 3 * D);
+assert.strictEqual(w.expired.lt.getTime(), now.getTime());
+assert.strictEqual(w.expired.gte.getTime(), now.getTime() - 3 * D);
+
+// Tomorrow's window still covers a plan that ends 2.9 days from today's run (a skipped day is caught up).
+const tomorrow = reminderWindows(new Date(now.getTime() + D));
+const endsAt = now.getTime() + 3.2 * D; // not "soon" today, is "soon" tomorrow
+assert.ok(!(endsAt < w.expiringSoon.lt.getTime()) && endsAt < tomorrow.expiringSoon.lt.getTime());
+
+// Same reminder + same expiry => same key (dedup); renewing changes the expiry => new key; kinds differ.
+const e1 = new Date("2026-01-18T00:00:00Z"), e2 = new Date("2026-02-18T00:00:00Z");
+assert.strictEqual(reminderKey("soon", e1), reminderKey("soon", new Date(e1)));
+assert.notStrictEqual(reminderKey("soon", e1), reminderKey("soon", e2));
+assert.notStrictEqual(reminderKey("soon", e1), reminderKey("expired", e1));
 
 console.log("plan-reminders: ok");

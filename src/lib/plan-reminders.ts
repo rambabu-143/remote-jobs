@@ -1,27 +1,22 @@
 import { prisma } from "@/lib/prisma";
 import { sendEmail, emailButton } from "@/lib/email";
 
-const IST_OFFSET_MS = 5.5 * 3600e3;
 const DAY_MS = 864e5;
 const REMIND_DAYS_BEFORE = 3;
+const CATCH_UP_DAYS = 3;
 
-// Start (as an absolute time) of the current calendar day in India. Matching on
-// calendar days, not "N hours from now", means a cron that fires at a slightly
-// different time each day can't skip or double-count anyone.
-export function startOfDayIST(now: Date) {
-  const ist = new Date(now.getTime() + IST_OFFSET_MS);
-  ist.setUTCHours(0, 0, 0, 0);
-  return new Date(ist.getTime() - IST_OFFSET_MS);
-}
-
-// Plans ending on the day that is REMIND_DAYS_BEFORE days away, and plans that ended yesterday.
+// "Soon" = ends within the next 3 days; "expired" = ended in the last 3 days. The windows
+// overlap from one daily run to the next on purpose: reminderSent makes sure nobody is emailed
+// twice, and the overlap means a skipped or late run still catches everyone on the next one.
 export function reminderWindows(now: Date) {
-  const today = startOfDayIST(now).getTime();
   return {
-    expiringSoon: { gte: new Date(today + REMIND_DAYS_BEFORE * DAY_MS), lt: new Date(today + (REMIND_DAYS_BEFORE + 1) * DAY_MS) },
-    expired: { gte: new Date(today - DAY_MS), lt: new Date(today) },
+    expiringSoon: { gt: now, lt: new Date(now.getTime() + REMIND_DAYS_BEFORE * DAY_MS) },
+    expired: { gte: new Date(now.getTime() - CATCH_UP_DAYS * DAY_MS), lt: now },
   };
 }
+
+// Same key for the same reminder about the same expiry; renewing changes the expiry, so it resets.
+export const reminderKey = (kind: "soon" | "expired", expiresAt: Date) => `${kind}:${expiresAt.toISOString()}`;
 
 const fmt = (d: Date) => d.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Kolkata" });
 
@@ -31,7 +26,7 @@ function message(role: "USER" | "EMPLOYER", kind: "soon" | "expired", endsOn: Da
   const href = employer ? `${base}/dashboard/jobs` : `${base}/pricing`;
   if (kind === "soon") {
     return {
-      subject: employer ? "Your employer plan ends in 3 days" : "Your apply access ends in 3 days",
+      subject: employer ? "Your employer plan ends soon" : "Your apply access ends soon",
       html: `<h2 style="margin:0 0 12px;font-size:20px;">Your plan ends on ${fmt(endsOn)}</h2><p style="margin:0;">${
         employer
           ? "When it ends, your live jobs are hidden from job seekers until you renew. Renew now to keep them visible."
@@ -49,28 +44,44 @@ function message(role: "USER" | "EMPLOYER", kind: "soon" | "expired", endsOn: Da
   };
 }
 
-// Run once a day by Vercel Cron (see vercel.json). ponytail: no per-user "already sent" flag,
-// so running it twice on the same day would email people twice; add a column if that matters.
+// Run once a day by Vercel Cron (see vercel.json). Each user is "claimed" with an atomic update
+// before the email goes out, so a retry or a second run can't send the same reminder twice.
+// ponytail: claim-then-send means a failed send is not retried; flip the order if you'd rather risk a duplicate than a miss.
 export async function sendPlanReminders(now = new Date()) {
   const w = reminderWindows(now);
-  const select = { email: true, role: true, subscriptionExpiresAt: true } as const;
+  const select = { id: true, email: true, role: true, subscriptionExpiresAt: true, reminderSent: true } as const;
+  const roles = { in: ["USER", "EMPLOYER"] as ("USER" | "EMPLOYER")[] };
   const [soon, expired] = await Promise.all([
-    prisma.user.findMany({ where: { role: { in: ["USER", "EMPLOYER"] }, subscriptionExpiresAt: w.expiringSoon }, select }),
-    prisma.user.findMany({ where: { role: { in: ["USER", "EMPLOYER"] }, subscriptionExpiresAt: w.expired }, select }),
+    prisma.user.findMany({ where: { role: roles, subscriptionExpiresAt: w.expiringSoon }, select }),
+    prisma.user.findMany({ where: { role: roles, subscriptionExpiresAt: w.expired }, select }),
   ]);
 
-  const jobs = [
+  const todo = [
     ...soon.map((u) => ({ u, kind: "soon" as const })),
     ...expired.map((u) => ({ u, kind: "expired" as const })),
-  ];
+  ].filter(({ u, kind }) => u.reminderSent !== reminderKey(kind, u.subscriptionExpiresAt!));
+
+  const sent = { expiringSoon: 0, expired: 0 };
   // Small batches keep us under Resend's rate limit.
-  for (let i = 0; i < jobs.length; i += 5) {
+  for (let i = 0; i < todo.length; i += 5) {
     await Promise.all(
-      jobs.slice(i, i + 5).map(({ u, kind }) => {
+      todo.slice(i, i + 5).map(async ({ u, kind }) => {
+        const key = reminderKey(kind, u.subscriptionExpiresAt!);
+        const claimed = await prisma.user.updateMany({
+          where: { id: u.id, OR: [{ reminderSent: null }, { reminderSent: { not: key } }] },
+          data: { reminderSent: key },
+        });
+        if (claimed.count !== 1) return; // another run got there first
         const m = message(u.role as "USER" | "EMPLOYER", kind, u.subscriptionExpiresAt!);
-        return sendEmail({ to: u.email, subject: m.subject, html: m.html }).catch((e) => console.error("Reminder failed:", e));
+        try {
+          await sendEmail({ to: u.email, subject: m.subject, html: m.html });
+          if (kind === "soon") sent.expiringSoon++;
+          else sent.expired++;
+        } catch (e) {
+          console.error("Reminder failed:", e);
+        }
       }),
     );
   }
-  return { expiringSoon: soon.length, expired: expired.length };
+  return sent;
 }

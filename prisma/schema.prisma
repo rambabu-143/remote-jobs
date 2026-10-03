@@ -75,6 +75,8 @@ model User {
   role                  Role              @default(USER)
   subscriptionPlan      SubscriptionPlan?
   subscriptionExpiresAt DateTime?
+  // "soon:<expiry>" or "expired:<expiry>": the last plan-expiry reminder sent for that expiry date.
+  reminderSent          String?
   createdAt             DateTime          @default(now())
   jobs                  Job[]             @relation("PostedJobs")
   applications          Application[]
