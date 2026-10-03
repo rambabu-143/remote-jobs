@@ -6,7 +6,7 @@ import { useState } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-type LinkItem = { href: string; label: string };
+type LinkItem = { href: string; label: string; match?: string };
 
 export default function NavLinks({
   links,
@@ -20,7 +20,13 @@ export default function NavLinks({
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  // Only the single best-matching link is highlighted, so /dashboard/jobs/new doesn't also light up /dashboard/jobs.
+  // Links with a query string (like the visitor "Post a job" -> sign up) are never highlighted.
+  const prefixOf = (l: LinkItem) => l.match ?? l.href;
+  const best = links
+    .filter((l) => !l.href.includes("?") && (pathname === prefixOf(l) || pathname.startsWith(prefixOf(l) + "/")))
+    .sort((a, b) => prefixOf(b).length - prefixOf(a).length)[0]?.href;
+  const isActive = (href: string) => href === best;
   // Shared pill: active = frosted-glass button, hover = lighter glass.
   const pill = "rounded-full px-3.5 py-1.5 text-sm font-medium transition-all";
   const linkClass = (href: string) =>

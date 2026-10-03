@@ -59,14 +59,12 @@ function FilterSelect({
 
 export default function FilterBar({
   q,
-  remote,
   type,
   category,
   location,
   posted,
 }: {
   q?: string;
-  remote?: string;
   type?: string;
   category?: string;
   location?: string;
@@ -84,23 +82,12 @@ export default function FilterBar({
           <Input name="q" defaultValue={q} placeholder="Search title, company, or tag" className="pl-9" />
         </div>
         <Button type="submit">Search</Button>
-        {(q || remote || type || category || location || posted) && (
+        {(q || type || category || location || posted) && (
           <Button variant="outline" nativeButton={false} render={<Link href="/jobs" />}>
             Clear
           </Button>
         )}
       </div>
-      <FilterSelect
-        name="remote"
-        any="Any location type"
-        defaultValue={remote}
-        onChange={submit}
-        options={[
-          { value: "REMOTE", label: "Remote" },
-          { value: "HYBRID", label: "Hybrid" },
-          { value: "ONSITE", label: "On-site" },
-        ]}
-      />
       <FilterSelect
         name="type"
         any="Any employment type"

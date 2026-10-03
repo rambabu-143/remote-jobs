@@ -41,7 +41,6 @@ const getJobsPage = unstable_cache(
 
 type Filters = {
   q?: string;
-  remote?: string;
   type?: string;
   category?: string;
   location?: string;
@@ -54,7 +53,6 @@ export default async function JobsPage({
 }: {
   searchParams: Promise<{
     q?: string;
-    remote?: string;
     type?: string;
     category?: string;
     location?: string;
@@ -62,7 +60,7 @@ export default async function JobsPage({
     page?: string;
   }>;
 }) {
-  const { q, remote, type, category, location, posted: postedParam, page: pageParam } = await searchParams;
+  const { q, type, category, location, posted: postedParam, page: pageParam } = await searchParams;
   const posted = POSTED_OPTIONS.some((o) => o.value === postedParam) ? postedParam : undefined;
   const page = Math.max(1, Number(pageParam) || 1);
 
@@ -72,16 +70,16 @@ export default async function JobsPage({
         Find your next <span className="text-ink-600">remote</span> role
       </h1>
 
-      <FilterBar q={q} remote={remote} type={type} category={category} location={location} posted={posted} />
+      <FilterBar q={q} type={type} category={category} location={location} posted={posted} />
 
-      <Suspense key={`${q ?? ""}|${remote ?? ""}|${type ?? ""}|${category ?? ""}|${location ?? ""}|${posted ?? ""}|${page}`} fallback={<JobListSkeleton />}>
-        <JobResults q={q} remote={remote} type={type} category={category} location={location} posted={posted} page={page} />
+      <Suspense key={`${q ?? ""}|${type ?? ""}|${category ?? ""}|${location ?? ""}|${posted ?? ""}|${page}`} fallback={<JobListSkeleton />}>
+        <JobResults q={q} type={type} category={category} location={location} posted={posted} page={page} />
       </Suspense>
     </div>
   );
 }
 
-async function JobResults({ q, remote, type, category, location, posted, page }: Filters) {
+async function JobResults({ q, type, category, location, posted, page }: Filters) {
   const where: Prisma.JobWhereInput = { status: "PUBLISHED" };
   if (q) {
     where.OR = [
@@ -90,7 +88,6 @@ async function JobResults({ q, remote, type, category, location, posted, page }:
       { tags: { contains: q, mode: "insensitive" } },
     ];
   }
-  if (remote) where.remoteType = remote as "REMOTE" | "HYBRID" | "ONSITE";
   if (type) where.employmentType = type as "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP";
   if (category) where.category = category;
   if (location) where.location = location;
@@ -101,7 +98,6 @@ async function JobResults({ q, remote, type, category, location, posted, page }:
   const pageHref = (p: number) => {
     const params = new URLSearchParams();
     if (q) params.set("q", q);
-    if (remote) params.set("remote", remote);
     if (type) params.set("type", type);
     if (category) params.set("category", category);
     if (location) params.set("location", location);

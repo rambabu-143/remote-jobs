@@ -8,7 +8,7 @@ import { auth } from "@/lib/auth";
 import ApplyForm from "@/components/ApplyForm";
 import Skeleton from "@/components/Skeleton";
 import { hasActiveSubscription } from "@/lib/actions/subscription";
-import { employmentLabel, formatSalary, initials, remoteLabel } from "@/lib/job-labels";
+import { employmentLabel, formatSalary, initials } from "@/lib/job-labels";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -89,9 +89,9 @@ async function JobDetail({ id }: { id: string }) {
     ...(job.postedBy.role !== "ADMIN" && job.postedBy.subscriptionExpiresAt ? { validThrough: job.postedBy.subscriptionExpiresAt } : {}),
     employmentType: employmentTypes[job.employmentType],
     hiringOrganization: { "@type": "Organization", name: job.company, ...(job.logoUrl ? { logo: job.logoUrl } : {}) },
-    ...(job.remoteType === "REMOTE"
-      ? { jobLocationType: "TELECOMMUTE", applicantLocationRequirements: { "@type": "Country", name: job.location } }
-      : { jobLocation: { "@type": "Place", address: { "@type": "PostalAddress", addressLocality: job.location } } }),
+    // Every job on this board is remote. "Worldwide" isn't a country, so it gets no country restriction.
+    jobLocationType: "TELECOMMUTE",
+    ...(job.location !== "Worldwide" ? { applicantLocationRequirements: { "@type": "Country", name: job.location } } : {}),
   };
 
   return (
@@ -101,94 +101,83 @@ async function JobDetail({ id }: { id: string }) {
         // "<" escaped so a job description can't close the script tag
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
-      <div className="mt-4 flex items-start gap-4">
-        {job.logoUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={job.logoUrl}
-            alt={`${job.company} logo`}
-            className="size-12 shrink-0 rounded-lg object-cover"
-          />
-        ) : (
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-base font-semibold text-zinc-700">
-            {initials(job.company)}
+      {/* Heading on the left, the Apply button opposite it on the right. */}
+      <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex min-w-0 items-start gap-4">
+          {job.logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={job.logoUrl}
+              alt={`${job.company} logo`}
+              className="size-12 shrink-0 rounded-lg bg-white object-contain p-1 ring-1 ring-zinc-200"
+            />
+          ) : (
+            <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-base font-semibold text-zinc-700">
+              {initials(job.company)}
+            </div>
+          )}
+          <div className="min-w-0">
+            <h1 className="break-words text-2xl font-bold tracking-tight text-zinc-900">{job.title}</h1>
+            <p className="mt-1 break-words text-zinc-600">
+              {job.company} · {job.location}
+            </p>
           </div>
-        )}
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-900">{job.title}</h1>
-          <p className="mt-1 text-zinc-600">
-            {job.company} · {job.location}
-          </p>
         </div>
+
+        {/* Employers can't apply, so they just don't get a button. */}
+        {!isEmployer &&
+          (existingApplication ? (
+            <span className="inline-flex h-9 shrink-0 items-center justify-center rounded-full bg-emerald-50 px-5 text-sm font-medium text-emerald-600">
+              Applied · {existingApplication.status}
+            </span>
+          ) : (
+            <Link
+              href={!session?.user ? "/login" : !subscribed ? "/pricing" : "#apply"}
+              className={cn(buttonVariants({ variant: "default" }), "h-9 w-full shrink-0 rounded-full px-6 sm:w-auto")}
+            >
+              Apply
+            </Link>
+          ))}
       </div>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-3">
-        <div className="max-w-2xl lg:col-span-2">
-          <div className="flex flex-wrap gap-2 text-xs">
-            <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{remoteLabel[job.remoteType]}</Badge>
-            <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{employmentLabel[job.employmentType]}</Badge>
-            <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.category}</Badge>
-            {salary && <Badge variant="secondary" className="bg-zinc-200 font-mono text-zinc-700">{salary}</Badge>}
-          </div>
-
-          <div className="mt-6 max-w-none whitespace-pre-wrap text-sm leading-6 text-zinc-700">
-            {job.description}
-          </div>
-        </div>
-
-        <div className="lg:sticky lg:top-24 lg:h-fit">
-          <div className="card">
-            <h2 className="text-sm font-semibold text-zinc-900">Apply on 365DaysJobsTeam</h2>
-            {!session?.user ? (
-              <p className="mt-2 text-sm text-zinc-600">
-                <a href="/login" className="text-ink-600 underline hover:text-ink-700">
-                  Log in
-                </a>{" "}
-                to submit an application.
-              </p>
-            ) : isEmployer ? (
-              <p className="mt-2 text-sm text-zinc-600">Employer accounts can&apos;t apply to jobs. Log in with a job seeker account to apply.</p>
-            ) : existingApplication ? (
-              <p className="mt-2 text-sm text-emerald-600">
-                You already applied. Status: {existingApplication.status}
-              </p>
-            ) : !subscribed ? (
-              <div className="mt-2">
-                <p className="text-sm text-zinc-600">
-                  Subscribe to unlock the apply form and this company&apos;s contact details.
-                </p>
-                <Link href="/pricing" className={cn(buttonVariants({ variant: "default" }), "mt-3")}>
-                  See plans
-                </Link>
-              </div>
-            ) : (
-              <ApplyForm jobId={job.id} questions={job.questions} />
-            )}
-
-            {subscribed && !isEmployer && (job.applyUrl || job.applyEmail) && (
-              <p className="mt-4 border-t border-zinc-200 pt-4 text-sm text-zinc-600">
-                Prefer to apply directly?{" "}
-                {job.applyUrl && (
-                  <a
-                    href={job.applyUrl}
-                    className="text-ink-600 underline hover:text-ink-700"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Company site
-                  </a>
-                )}
-                {job.applyUrl && job.applyEmail && " or "}
-                {job.applyEmail && (
-                  <a href={`mailto:${job.applyEmail}`} className="text-ink-600 underline hover:text-ink-700">
-                    {job.applyEmail}
-                  </a>
-                )}
-              </p>
-            )}
-          </div>
-        </div>
+      <div className="mt-6 flex flex-wrap gap-2 text-xs">
+        <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{employmentLabel[job.employmentType]}</Badge>
+        <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.category}</Badge>
+        {salary && <Badge variant="secondary" className="bg-zinc-200 font-mono text-zinc-700">{salary}</Badge>}
       </div>
+
+      <div className="mt-6 max-w-3xl whitespace-pre-wrap break-words text-sm leading-6 text-zinc-700">
+        {job.description}
+      </div>
+
+      {/* The Apply button above jumps here (only for people who can actually apply). */}
+      {session?.user && !isEmployer && !existingApplication && subscribed && (
+        <section id="apply" className="mt-10 max-w-2xl scroll-mt-28 border-t border-zinc-200 pt-6">
+          <h2 className="text-lg font-semibold text-zinc-900">Apply for this job</h2>
+          <ApplyForm jobId={job.id} questions={job.questions} />
+          {(job.applyUrl || job.applyEmail) && (
+            <p className="mt-6 text-sm text-zinc-600">
+              Prefer to apply directly?{" "}
+              {job.applyUrl && (
+                <a
+                  href={job.applyUrl}
+                  className="text-ink-600 underline hover:text-ink-700"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Company site
+                </a>
+              )}
+              {job.applyUrl && job.applyEmail && " or "}
+              {job.applyEmail && (
+                <a href={`mailto:${job.applyEmail}`} className="text-ink-600 underline hover:text-ink-700">
+                  {job.applyEmail}
+                </a>
+              )}
+            </p>
+          )}
+        </section>
+      )}
     </>
   );
 }

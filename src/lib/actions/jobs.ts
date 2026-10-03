@@ -44,7 +44,6 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
   const locationChoice = String(formData.get("locationChoice") ?? "").trim();
   const location =
     locationChoice === "Other" ? String(formData.get("locationOther") ?? "").trim() : locationChoice;
-  const remoteType = String(formData.get("remoteType") ?? "REMOTE");
   const employmentType = String(formData.get("employmentType") ?? "FULL_TIME");
   const tags = String(formData.get("tags") ?? "")
     .split(",")
@@ -92,7 +91,7 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
     category,
     description,
     location,
-    remoteType: remoteType as "REMOTE" | "HYBRID" | "ONSITE",
+    remoteType: "REMOTE" as const, // this board only lists remote jobs
     employmentType: employmentType as "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP",
     tags,
     applyUrl,

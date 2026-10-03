@@ -14,10 +14,13 @@ import { readEmployerPlanRequired } from "@/lib/settings";
 
 export default async function LandingPage() {
   const session = await auth();
+  // Where "Post a job" should lead for this visitor (same rules as the navbar).
+  const role = session?.user?.role;
+  const postJobHref = !session?.user ? "/register?type=employer" : role === "ADMIN" ? "/admin/jobs/new" : role === "EMPLOYER" ? "/dashboard/jobs/new" : null;
 
   return (
     <div className="relative">
-      <Hero />
+      <Hero postJobHref={postJobHref} />
 
       {/* Recent postings */}
       <section className="py-16">
@@ -44,7 +47,7 @@ export default async function LandingPage() {
             </h2>
             <p className="mt-2 text-sm text-zinc-600">
               Every listing comes from a company we&apos;ve verified, not a staffing agency. Filter
-              by location, remote/hybrid/on-site, or employment type, then apply straight to the
+              by category, location, date posted, or employment type, then apply straight to the
               employer and track every application from one dashboard.
             </p>
             <Link
@@ -64,12 +67,14 @@ export default async function LandingPage() {
               your dashboard, resume, cover note, and answers included. No bidding against other
               job boards for attention.
             </p>
+            {postJobHref && (
             <Link
-              href="/dashboard/jobs/new"
+              href={postJobHref}
               className="mt-4 inline-block text-sm font-medium text-ink-600 underline hover:text-ink-700"
             >
               Post a job →
             </Link>
+            )}
           </div>
         </Reveal>
       </section>
@@ -86,7 +91,7 @@ export default async function LandingPage() {
             </span>
             <h3 className="mt-3 font-semibold text-zinc-900">Search &amp; filter</h3>
             <p className="mt-2 text-sm text-zinc-600">
-              Filter every listing by category, location, remote/hybrid/on-site, or employment
+              Filter every listing by category, location, date posted, or employment
               type to find roles that actually fit.
             </p>
           </div>

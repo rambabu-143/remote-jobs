@@ -11,16 +11,28 @@ export default async function Nav() {
   const isEmployer = session?.user?.role === "EMPLOYER";
   const isAuthed = !!session?.user;
 
+  // `match` lets one link stay highlighted across a whole section (e.g. every /admin page).
   const links = [
     { href: "/jobs", label: "Browse jobs" },
-    ...(isAdmin ? [{ href: "/admin/jobs", label: "Admin" }] : []),
-    ...(isEmployer ? [{ href: "/dashboard/jobs", label: "My jobs" }] : []),
+    ...(isAdmin
+      ? [
+          { href: "/admin/jobs", label: "Admin", match: "/admin" },
+          { href: "/admin/jobs/new", label: "Post a job" },
+        ]
+      : []),
+    ...(isEmployer
+      ? [
+          { href: "/dashboard/jobs/new", label: "Post a job" },
+          { href: "/dashboard/jobs", label: "My jobs" },
+        ]
+      : []),
+    // Visitors who want to hire are sent to sign up as an employer.
+    ...(!isAuthed ? [{ href: "/register?type=employer", label: "Post a job" }] : []),
     ...(isAuthed && !isAdmin && !isEmployer
       ? [{ href: "/pricing", label: "Pricing" }, { href: "/dashboard", label: "My applications" }]
       : []),
     ...(isAuthed && isAdmin ? [{ href: "/dashboard", label: "My applications" }] : []),
     { href: "/contact", label: "Contact" },
-    ...(!isAuthed ? [{ href: "/login", label: "Log in" }] : []),
   ];
 
   async function signOutAction() {

@@ -6,7 +6,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import LandingBackground from "./LandingBackground";
 
-export default function Hero() {
+// postJobHref is null for job seekers (they can't post), so the button is simply left out.
+export default function Hero({ postJobHref }: { postJobHref: string | null }) {
   return (
     <section className="relative flex min-h-dvh flex-col items-center justify-center px-4 text-center">
       <LandingBackground />
@@ -38,9 +39,11 @@ export default function Hero() {
         <Link href="/jobs" className={cn(buttonVariants({ variant: "default" }), "px-6 py-3 text-base")}>
           Browse open roles
         </Link>
-        <Link href="/dashboard/jobs/new" className={cn(buttonVariants({ variant: "outline" }), "px-6 py-3 text-base")}>
-          Post a job
-        </Link>
+        {postJobHref && (
+          <Link href={postJobHref} className={cn(buttonVariants({ variant: "outline" }), "px-6 py-3 text-base")}>
+            Post a job
+          </Link>
+        )}
       </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 16 }}

@@ -11,11 +11,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Field, SelectField, type Option } from "./SelectField";
 
 const plain = (xs: readonly string[]): Option[] => xs.map((x) => ({ value: x, label: x }));
-const REMOTE_TYPES: Option[] = [
-  { value: "REMOTE", label: "Remote" },
-  { value: "HYBRID", label: "Hybrid" },
-  { value: "ONSITE", label: "On-site" },
-];
 const EMPLOYMENT_TYPES: Option[] = [
   { value: "FULL_TIME", label: "Full-time" },
   { value: "PART_TIME", label: "Part-time" },
@@ -41,6 +36,7 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
   return (
     <form action={formAction} className="card max-w-2xl">
       {job && <input type="hidden" name="id" value={job.id} />}
+      <input type="hidden" name="remoteType" value="REMOTE" />
 
       {/* Next injects hidden fields for the server action before this div, so
           `first:` classes on sections need their own DOM scope to work. */}
@@ -68,7 +64,7 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
 
         <Section title="Location & type">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Location">
+            <Field label="Candidates can be based in">
               <SelectField
                 name="locationChoice"
                 options={[...plain(LOCATIONS), { value: "Other", label: "Other" }]}
@@ -90,9 +86,6 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
             </Field>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Location type">
-              <SelectField name="remoteType" options={REMOTE_TYPES} defaultValue={job?.remoteType ?? "REMOTE"} />
-            </Field>
             <Field label="Employment type">
               <SelectField name="employmentType" options={EMPLOYMENT_TYPES} defaultValue={job?.employmentType ?? "FULL_TIME"} />
             </Field>
