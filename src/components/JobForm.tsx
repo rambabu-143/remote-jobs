@@ -42,11 +42,11 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
           `first:` classes on sections need their own DOM scope to work. */}
       <div className="space-y-6">
         <Section title="Basic info">
-          <Field label="Job title">
-            <Input name="title" required defaultValue={job?.title} />
+          <Field label="Job title" required>
+            <Input name="title" required maxLength={150} defaultValue={job?.title} />
           </Field>
-          <Field label="Company">
-            <Input name="company" required defaultValue={job?.company} />
+          <Field label="Company" required>
+            <Input name="company" required maxLength={120} defaultValue={job?.company} />
           </Field>
           <Field label="Company logo">
             <Input type="file" name="logo" accept="image/png,image/jpeg,image/webp,image/svg+xml" />
@@ -54,17 +54,17 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
               <p className="text-xs text-zinc-500">Leave empty to keep the current logo.</p>
             )}
           </Field>
-          <Field label="Job category">
+          <Field label="Job category" required>
             <SelectField name="category" options={plain(JOB_CATEGORIES)} defaultValue={job?.category ?? JOB_CATEGORIES[0]} />
           </Field>
-          <Field label="Description">
-            <Textarea name="description" required rows={6} defaultValue={job?.description} />
+          <Field label="Description" required>
+            <Textarea name="description" required maxLength={10000} rows={6} defaultValue={job?.description} />
           </Field>
         </Section>
 
         <Section title="Location & type">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Candidates can be based in">
+            <Field label="Candidates can be based in" required>
               <SelectField
                 name="locationChoice"
                 options={[...plain(LOCATIONS), { value: "Other", label: "Other" }]}
@@ -125,16 +125,25 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
 
         <Section title="Company verification">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Company address">
-              <Input name="companyAddress" defaultValue={job?.companyAddress ?? undefined} />
+            <Field label="Company address" required>
+              <Input name="companyAddress" required minLength={8} maxLength={300} defaultValue={job?.companyAddress ?? undefined} />
             </Field>
-            <Field label="Company phone number">
-              <Input type="tel" name="companyPhone" defaultValue={job?.companyPhone ?? undefined} />
+            <Field label="Company phone number" required>
+              <Input
+                type="tel"
+                name="companyPhone"
+                required
+                pattern="[0-9+\(\)\-\s]{7,20}"
+                title="Enter a valid phone number, for example +91 98765 43210"
+                placeholder="+91 98765 43210"
+                defaultValue={job?.companyPhone ?? undefined}
+              />
             </Field>
           </div>
-          <Field label="Company email">
-            <Input type="email" name="companyEmail" defaultValue={job?.companyEmail ?? undefined} />
+          <Field label="Company email" required>
+            <Input type="email" name="companyEmail" required maxLength={120} defaultValue={job?.companyEmail ?? undefined} />
           </Field>
+          <p className="text-xs text-zinc-500">All three are required. Our team uses them to verify your company before the job goes live.</p>
         </Section>
 
         {error && <p className="text-sm text-red-600">{error}</p>}

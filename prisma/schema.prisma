@@ -82,6 +82,7 @@ model User {
   applications          Application[]
   payments              Payment[]
   jobPayments           JobPayment[]
+  savedJobs             SavedJob[]
 }
 
 // ponytail: fixed-term access (pay once, expires, pay again), not recurring
@@ -140,6 +141,7 @@ model Job {
   applications   Application[]
   questions      JobQuestion[]
   payment        JobPayment?
+  savedBy        SavedJob[]
 
   // ponytail: covers the default (unfiltered) listing query; the other
   // indexes cover the equality filters the jobs page's FilterBar exposes.
@@ -194,4 +196,17 @@ model ApplicationAnswer {
 model Setting {
   key   String @id
   value String
+}
+
+// A job a seeker bookmarked to apply to later.
+model SavedJob {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId     String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, jobId])
+  @@index([userId, createdAt])
 }

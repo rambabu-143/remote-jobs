@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { liveClause } from "@/lib/live-jobs";
 import { readEmployerPlanRequired } from "@/lib/settings";
+import { getSaveContext } from "@/lib/saved";
 
 export default async function LandingPage() {
   const session = await auth();
@@ -192,7 +193,8 @@ async function RecentJobs() {
     );
   }
 
-  return jobs.map((job) => <JobCard key={job.id} job={job} />);
+  const save = await getSaveContext(jobs.map((j) => j.id));
+  return jobs.map((job) => <JobCard key={job.id} job={job} save={save} />);
 }
 
 function RecentJobsSkeleton() {

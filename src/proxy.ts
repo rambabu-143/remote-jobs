@@ -34,7 +34,8 @@ export default async function proxy(req: NextRequest) {
     req.nextUrl.pathname.startsWith("/admin") ||
     req.nextUrl.pathname.startsWith("/docs") ||
     req.nextUrl.pathname.startsWith("/dashboard") ||
-    req.nextUrl.pathname.startsWith("/pricing");
+    req.nextUrl.pathname.startsWith("/pricing") ||
+    req.nextUrl.pathname.startsWith("/saved");
   if (isProtected && !user) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
@@ -43,5 +44,5 @@ export default async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/docs/:path*", "/dashboard/:path*", "/pricing"],
+  matcher: ["/admin/:path*", "/docs/:path*", "/dashboard/:path*", "/pricing", "/saved"],
 };

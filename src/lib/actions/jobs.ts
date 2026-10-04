@@ -65,6 +65,28 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
   if (!title || !company || !category || !description || !location) {
     return "Title, company, category, description, and location are required.";
   }
+  // Company details are mandatory: the site promises visitors that every company lists them.
+  if (!companyAddress || !companyPhone || !companyEmail) {
+    return "Company address, phone number and email are required.";
+  }
+  if (companyAddress.length < 8) return "Please enter the full company address.";
+  const phoneDigits = companyPhone.replace(/\D/g, "").length;
+  if (!/^[0-9+()\-\s]+$/.test(companyPhone) || phoneDigits < 7 || phoneDigits > 15) {
+    return "Please enter a valid company phone number.";
+  }
+  const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  if (!emailOk(companyEmail)) return "Please enter a valid company email address.";
+  if (applyEmail && !emailOk(applyEmail)) return "Please enter a valid apply email address.";
+  if (applyUrl && !/^https?:\/\/\S+$/i.test(applyUrl)) return "The external apply URL must start with http:// or https://.";
+  if (salaryMin !== null && salaryMin < 0) return "Salary can't be negative.";
+  if (salaryMax !== null && salaryMax < 0) return "Salary can't be negative.";
+  if (salaryMin !== null && salaryMax !== null && salaryMax < salaryMin) return "Maximum salary can't be lower than the minimum.";
+  if (title.length > 150 || company.length > 120 || description.length > 10000 || companyAddress.length > 300 || companyEmail.length > 120) {
+    return "One of the fields is too long. Please shorten it.";
+  }
+  if (questions.length > 10 || questions.some((q) => q.length > 300)) {
+    return "Use at most 10 screening questions, each under 300 characters.";
+  }
 
   const existing = id
     ? await prisma.job.findUnique({

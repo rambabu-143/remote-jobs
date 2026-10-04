@@ -10,6 +10,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { liveClause } from "@/lib/live-jobs";
 import { readEmployerPlanRequired } from "@/lib/settings";
+import { getSaveContext } from "@/lib/saved";
 import { POSTED_OPTIONS } from "@/lib/job-labels";
 
 export const metadata = {
@@ -94,6 +95,7 @@ async function JobResults({ q, type, category, location, posted, page }: Filters
 
   const { jobs, total } = await getJobsPage(where, page, Number(posted) || 0);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const save = await getSaveContext(jobs.map((j) => j.id));
 
   const pageHref = (p: number) => {
     const params = new URLSearchParams();
@@ -115,7 +117,7 @@ async function JobResults({ q, type, category, location, posted, page }: Filters
 
       <div className="mt-6 grid gap-4">
         {jobs.map((job) => (
-          <JobCard key={job.id} job={job} />
+          <JobCard key={job.id} job={job} save={save} />
         ))}
         {jobs.length === 0 && (
           <p className="rounded-xl border border-dashed border-zinc-200 p-8 text-center text-zinc-500">

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { auth, signOut } from "@/lib/auth";
 import NavLinks from "@/components/NavLinks";
 import NavShell from "@/components/NavShell";
+import { Heart } from "lucide-react";
 
 export default async function Nav() {
   const session = await auth();
@@ -29,7 +30,11 @@ export default async function Nav() {
     // Visitors who want to hire are sent to sign up as an employer.
     ...(!isAuthed ? [{ href: "/register?type=employer", label: "Post a job" }] : []),
     ...(isAuthed && !isAdmin && !isEmployer
-      ? [{ href: "/pricing", label: "Pricing" }, { href: "/dashboard", label: "My applications" }]
+      ? [
+          { href: "/pricing", label: "Pricing" },
+          { href: "/dashboard", label: "My applications" },
+          { href: "/saved", label: "Saved", icon: <Heart className="size-4" /> },
+        ]
       : []),
     ...(isAuthed && isAdmin ? [{ href: "/dashboard", label: "My applications" }] : []),
     { href: "/contact", label: "Contact" },

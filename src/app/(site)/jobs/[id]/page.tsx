@@ -14,6 +14,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { isLive } from "@/lib/live-jobs";
 import { isEmployerPlanRequired } from "@/lib/settings";
+import { getSaveContext } from "@/lib/saved";
+import SaveButton from "@/components/SaveButton";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -76,6 +78,7 @@ async function JobDetail({ id }: { id: string }) {
   ]);
 
   const salary = formatSalary(job.salaryMin, job.salaryMax);
+  const save = await getSaveContext([job.id]);
 
   // Structured data so Google can show the job in its job search. Salary is left out on purpose
   // (no stored currency), so we never publish a wrong number.
@@ -124,20 +127,31 @@ async function JobDetail({ id }: { id: string }) {
           </div>
         </div>
 
-        {/* Employers can't apply, so they just don't get a button. */}
-        {!isEmployer &&
-          (existingApplication ? (
-            <span className="inline-flex h-9 shrink-0 items-center justify-center rounded-full bg-emerald-50 px-5 text-sm font-medium text-emerald-600">
-              Applied · {existingApplication.status}
-            </span>
-          ) : (
-            <Link
-              href={!session?.user ? "/login" : !subscribed ? "/pricing" : "#apply"}
-              className={cn(buttonVariants({ variant: "default" }), "h-9 w-full shrink-0 rounded-full px-6 sm:w-auto")}
-            >
-              Apply
-            </Link>
-          ))}
+        {/* Save (heart) + Apply, opposite the heading. Employers can't apply, so they get neither. */}
+        {!isEmployer && (
+          <div className="flex shrink-0 items-center gap-2">
+            {save.mode !== "hidden" && (
+              <SaveButton
+                jobId={job.id}
+                initialSaved={save.savedIds.has(job.id)}
+                loggedIn={save.mode === "user"}
+                className="size-9 bg-white ring-1 ring-zinc-200"
+              />
+            )}
+            {existingApplication ? (
+              <span className="inline-flex h-9 flex-1 items-center justify-center rounded-full bg-emerald-50 px-5 text-sm font-medium text-emerald-600 sm:flex-none">
+                Applied · {existingApplication.status}
+              </span>
+            ) : (
+              <Link
+                href={!session?.user ? "/login" : !subscribed ? "/pricing" : "#apply"}
+                className={cn(buttonVariants({ variant: "default" }), "h-9 flex-1 rounded-full px-6 sm:flex-none")}
+              >
+                Apply
+              </Link>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2 text-xs">

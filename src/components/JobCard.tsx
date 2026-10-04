@@ -2,16 +2,17 @@ import Link from "next/link";
 import type { Job } from "@prisma/client";
 import { employmentLabel, formatRelativeTime, formatSalary, initials } from "@/lib/job-labels";
 import { Badge } from "@/components/ui/badge";
+import SaveButton from "@/components/SaveButton";
+import type { SaveContext } from "@/lib/saved";
 
-export default function JobCard({ job }: { job: Job }) {
+export default function JobCard({ job, save }: { job: Job; save?: SaveContext }) {
   const salary = formatSalary(job.salaryMin, job.salaryMax);
   const tags = job.tags ? job.tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
 
   return (
-    <Link
-      href={`/jobs/${job.id}`}
-      className="card flex min-w-0 gap-4 transition-all hover:-translate-y-0.5 hover:shadow-[0_2px_6px_rgba(0,0,0,0.08),0_18px_40px_rgba(0,0,0,0.16)]"
-    >
+    // The whole card is clickable through the title's stretched link; the heart sits above it,
+    // so a button is never nested inside a link.
+    <div className="card group relative flex min-w-0 gap-4 transition-all hover:-translate-y-0.5 hover:shadow-[0_2px_6px_rgba(0,0,0,0.08),0_18px_40px_rgba(0,0,0,0.16)]">
       {job.logoUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -29,14 +30,21 @@ export default function JobCard({ job }: { job: Job }) {
           <div className="min-w-0">
             {/* Long titles wrap onto two lines then cut off, so cards in a row stay the same height. */}
             <h2 className="line-clamp-2 break-words text-base font-semibold text-zinc-900" title={job.title}>
-              {job.title}
+              <Link href={`/jobs/${job.id}`} className="after:absolute after:inset-0 after:rounded-[inherit]">
+                {job.title}
+              </Link>
             </h2>
             <p className="truncate text-sm text-zinc-600" title={job.company}>
               {job.company}
             </p>
             {salary && <p className="mt-1 whitespace-nowrap font-mono text-sm font-medium text-ink-600">{salary}</p>}
           </div>
-          <p className="shrink-0 whitespace-nowrap text-xs text-zinc-500">{formatRelativeTime(job.createdAt)}</p>
+          <div className="flex shrink-0 flex-col items-end gap-1">
+            <p className="whitespace-nowrap text-xs text-zinc-500">{formatRelativeTime(job.createdAt)}</p>
+            {save && save.mode !== "hidden" && (
+              <SaveButton jobId={job.id} initialSaved={save.savedIds.has(job.id)} loggedIn={save.mode === "user"} />
+            )}
+          </div>
         </div>
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
           <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{employmentLabel[job.employmentType]}</Badge>
@@ -50,6 +58,6 @@ export default function JobCard({ job }: { job: Job }) {
           </p>
         )}
       </div>
-    </Link>
+    </div>
   );
 }

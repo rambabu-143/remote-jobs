@@ -6,7 +6,7 @@ import { useState } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-type LinkItem = { href: string; label: string; match?: string };
+type LinkItem = { href: string; label: string; match?: string; icon?: React.ReactNode };
 
 export default function NavLinks({
   links,
@@ -42,8 +42,8 @@ export default function NavLinks({
     <>
       <nav className="hidden items-center gap-1 lg:flex">
         {links.map((l) => (
-          <Link key={l.href} href={l.href} aria-current={isActive(l.href) ? "page" : undefined} className={linkClass(l.href)}>
-            {l.label}
+          <Link key={l.href} href={l.href} aria-current={isActive(l.href) ? "page" : undefined} className={cn(linkClass(l.href), l.icon && "inline-flex items-center gap-1.5")}>
+            {l.icon}{l.label}
           </Link>
         ))}
         {isAuthed ? (
@@ -83,8 +83,9 @@ export default function NavLinks({
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className={cn(linkClass(l.href), "px-4 py-2.5")}
+              className={cn(linkClass(l.href), "px-4 py-2.5", l.icon && "flex items-center gap-2")}
             >
+              {l.icon}
               {l.label}
             </Link>
           ))}

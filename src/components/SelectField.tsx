@@ -3,10 +3,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 export type Option = { value: string; label: string };
 
-export function Field({ label, children }: { label: string; children: React.ReactNode }) {
+export function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div className="space-y-1">
-      <Label>{label}</Label>
+      <Label>
+        {label}
+        {required && (
+          <span className="text-red-600" aria-hidden>
+            {" "}
+            *
+          </span>
+        )}
+      </Label>
       {children}
     </div>
   );
