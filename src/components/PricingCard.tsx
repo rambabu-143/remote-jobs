@@ -40,6 +40,7 @@ export default function PricingCard({
   highlight,
   userName,
   userEmail,
+  returnTo,
 }: {
   plan: SubscriptionPlan;
   label: string;
@@ -50,6 +51,8 @@ export default function PricingCard({
   highlight?: string;
   userName?: string;
   userEmail?: string;
+  /** Where to send the user after a successful payment (a job they were about to apply to). */
+  returnTo?: string;
 }) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
@@ -83,6 +86,7 @@ export default function PricingCard({
         if (!result.ok) {
           setError("Payment succeeded but activation failed. Contact support with your payment ID.");
         } else {
+          if (returnTo) router.push(returnTo);
           router.refresh();
         }
         setPending(false);

@@ -144,7 +144,7 @@ async function JobDetail({ id }: { id: string }) {
               </span>
             ) : (
               <Link
-                href={!session?.user ? "/login" : !subscribed ? "/pricing" : "#apply"}
+                href={!session?.user ? "/login" : !subscribed ? `/pricing?next=${encodeURIComponent(`/jobs/${job.id}`)}` : "#apply"}
                 className={cn(buttonVariants({ variant: "default" }), "h-9 flex-1 rounded-full px-6 sm:flex-none")}
               >
                 Apply

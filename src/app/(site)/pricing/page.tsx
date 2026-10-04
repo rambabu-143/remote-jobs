@@ -2,9 +2,14 @@ import Script from "next/script";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 import PricingCard from "@/components/PricingCard";
 
-export default async function PricingPage() {
+// Only ever send people back to a job page on this site (never an arbitrary address).
+const safeNext = (v?: string) => (v && /^\/jobs\/[A-Za-z0-9]+$/.test(v) ? v : undefined);
+
+export default async function PricingPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
+  const returnTo = safeNext((await searchParams).next);
   const session = await auth();
   if (!session?.user) redirect("/login");
   if (session.user.role === "EMPLOYER") redirect("/dashboard/jobs");
@@ -24,6 +29,19 @@ export default async function PricingPage() {
       {isActive && (
         <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50/50 px-4 py-3 text-sm text-emerald-600">
           Your access is active until {user.subscriptionExpiresAt!.toLocaleDateString()}.
+          {returnTo && (
+            <>
+              {" "}
+              <Link href={returnTo} className="font-medium underline">
+                Back to the job →
+              </Link>
+            </>
+          )}
+        </p>
+      )}
+      {returnTo && !isActive && (
+        <p className="mt-4 text-sm text-zinc-600">
+          Pick a plan to apply to the job you were looking at. After you pay, you will go straight back to it.
         </p>
       )}
 
@@ -36,6 +54,7 @@ export default async function PricingPage() {
           perMonth="49"
           userName={user.name}
           userEmail={user.email}
+          returnTo={returnTo}
         />
         <PricingCard
           plan="MONTH_6"
@@ -47,6 +66,7 @@ export default async function PricingPage() {
           highlight="Most popular"
           userName={user.name}
           userEmail={user.email}
+          returnTo={returnTo}
         />
         <PricingCard
           plan="YEAR_1"
@@ -58,6 +78,7 @@ export default async function PricingPage() {
           highlight="Best value"
           userName={user.name}
           userEmail={user.email}
+          returnTo={returnTo}
         />
       </div>
     </div>
