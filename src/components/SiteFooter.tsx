@@ -11,6 +11,9 @@ export default function SiteFooter() {
         <Link href="/privacy" className="hover:text-zinc-900">
           Privacy Policy
         </Link>
+        <Link href="/pricing" className="hover:text-zinc-900">
+          Pricing
+        </Link>
         <Link href="/refund" className="hover:text-zinc-900">
           Refund Policy
         </Link>

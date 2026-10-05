@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createRazorpayOrder, verifyRazorpayPayment } from "@/lib/actions/subscription";
 import type { SubscriptionPlan } from "@prisma/client";
 import Spinner from "./Spinner";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 
@@ -41,6 +43,7 @@ export default function PricingCard({
   userName,
   userEmail,
   returnTo,
+  loggedIn = true,
 }: {
   plan: SubscriptionPlan;
   label: string;
@@ -53,6 +56,8 @@ export default function PricingCard({
   userEmail?: string;
   /** Where to send the user after a successful payment (a job they were about to apply to). */
   returnTo?: string;
+  /** Visitors can see the plans but have to log in to buy one. */
+  loggedIn?: boolean;
 }) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
@@ -109,10 +114,16 @@ export default function PricingCard({
         )}
       </div>
       <p className="mt-1 text-sm text-zinc-600">₹{perMonth} / month{saving ? ` · save ${saving}` : ""}</p>
-      <Button onClick={subscribe} disabled={pending} className="mt-4 w-full">
-        {pending && <Spinner className="size-4" />}
-        {pending ? "Opening checkout…" : "Subscribe"}
-      </Button>
+      {loggedIn ? (
+        <Button onClick={subscribe} disabled={pending} className="mt-4 w-full">
+          {pending && <Spinner className="size-4" />}
+          {pending ? "Opening checkout…" : "Subscribe"}
+        </Button>
+      ) : (
+        <Link href="/login" className={cn(buttonVariants({ variant: "default" }), "mt-4 w-full")}>
+          Log in to subscribe
+        </Link>
+      )}
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
     </div>
   );
