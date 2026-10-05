@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { isAllowedResumeType, saveResumeFile } from "@/lib/storage";
@@ -76,11 +77,13 @@ export async function applyToJob(_prevState: string | undefined, formData: FormD
 
   const base = process.env.APP_URL ?? "http://localhost:3000";
   const applicantsPath = `${job.postedBy.role === "ADMIN" ? "/admin/jobs" : "/dashboard/jobs"}/${job.id}/applications`;
-  await sendEmail({
+  // Send after the response so the seeker isn't kept waiting on the email service.
+  const notification = {
     to: job.postedBy.email,
     subject: `New application: ${job.title}`,
     html: `<h2 style="margin:0 0 12px;font-size:20px;">New application received</h2><p style="margin:0;"><strong>${esc(session.user.name)}</strong> applied to <strong>${esc(job.title)}</strong>.</p>${emailButton(`${base}${applicantsPath}`, "Review applicants")}`,
-  });
+  };
+  after(() => sendEmail(notification));
 
   revalidatePath(`/jobs/${jobId}`);
   revalidatePath("/dashboard");
