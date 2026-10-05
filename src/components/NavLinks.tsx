@@ -36,7 +36,7 @@ export default function NavLinks({
         ? "bg-white/80 text-zinc-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_1px_3px_rgba(0,0,0,0.12)] ring-1 ring-black/5 backdrop-blur"
         : "text-zinc-600 hover:bg-white/60 hover:text-zinc-900",
     );
-  const signOutClass = "cursor-pointer rounded-full bg-zinc-900 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-black";
+  const signOutClass = "cursor-pointer rounded-full bg-[#0050f0] px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#0040c0]";
 
   return (
     <>

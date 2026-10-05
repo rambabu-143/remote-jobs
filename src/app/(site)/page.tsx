@@ -155,7 +155,7 @@ export default async function LandingPage() {
               Ready to find your next role?
             </h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-zinc-600">
-              Create a free account to apply to verified employers and track every application in
+              Create a free account to apply to verified companies and track every application in
               one place.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">

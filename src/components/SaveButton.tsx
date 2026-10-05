@@ -48,7 +48,7 @@ export default function SaveButton({
         });
       }}
     >
-      <Heart className={cn("size-[18px]", saved && "fill-zinc-900")} />
+      <Heart className={cn("size-[18px]", saved && "fill-[#0050f0] text-[#0050f0]")} />
     </button>
   );
 }

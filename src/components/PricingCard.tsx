@@ -102,9 +102,9 @@ export default function PricingCard({
   }
 
   return (
-    <div className={`card relative ${highlight ? "ring-2 ring-zinc-900" : ""}`}>
+    <div className={`card relative ${highlight ? "ring-2 ring-[#0050f0]" : ""}`}>
       {highlight && (
-        <Badge variant="secondary" className="absolute -top-3 left-5 bg-zinc-900 text-paper">{highlight}</Badge>
+        <Badge variant="secondary" className="absolute -top-3 left-5 bg-[#0050f0] text-white">{highlight}</Badge>
       )}
       <h3 className="text-lg font-semibold text-zinc-900">{label}</h3>
       <div className="mt-3 flex items-baseline gap-2">

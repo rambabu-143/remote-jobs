@@ -19,7 +19,7 @@ export default function Hero({ postJobHref }: { postJobHref: string | null }) {
       >
         Remote jobs from
         <br />
-        <span className="text-ink-600">verified employers.</span>
+        <span className="text-ink-600">verified companies.</span>
       </motion.h1>
       <motion.p
         initial={{ opacity: 0, y: 16 }}
@@ -51,7 +51,7 @@ export default function Hero({ postJobHref }: { postJobHref: string | null }) {
         transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
         className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-zinc-500"
       >
-        <span>✓ Verified employers</span>
+        <span>✓ Verified companies</span>
         <span>✓ Apply directly</span>
         <span>✓ No recruiter spam</span>
       </motion.div>

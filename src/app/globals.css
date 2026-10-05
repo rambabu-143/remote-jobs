@@ -60,8 +60,8 @@
   --color-ink-300: hsl(0 0% 70%);
   --color-ink-400: hsl(0 0% 45%);
   --color-ink-500: hsl(0 0% 12%);
-  --color-ink-600: hsl(0 0% 8%);
-  --color-ink-700: hsl(0 0% 5%);
+  --color-ink-600: #0050f0;
+  --color-ink-700: #0040c0;
   --color-ink-800: hsl(0 0% 3%);
   --color-ink-900: hsl(0 0% 0%);
   --color-ink-950: hsl(0 0% 0%);
@@ -166,7 +166,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: #0050f0;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -177,7 +177,7 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --ring: #6b9bf7;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -186,7 +186,7 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary: #0050f0;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
@@ -219,8 +219,8 @@
   opacity: 0;
   animation: bg-flip 8s ease-in-out infinite;
 }
-.bg-cell-dark { background: rgb(0 0 0 / 0.9); }
-.bg-cell-light { background: #fff; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.18); }
+.bg-cell-dark { background: rgb(0 80 240 / 0.85); }
+.bg-cell-light { background: #fff; box-shadow: inset 0 0 0 1px rgb(0 80 240 / 0.25); }
 
 @media (prefers-reduced-motion: reduce) {
   .bg-cell { animation: none; opacity: 0.12; }

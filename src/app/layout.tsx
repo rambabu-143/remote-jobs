@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.APP_URL ?? "http://localhost:3000"),
-  title: { default: "365DaysJobsTeam - remote jobs from verified employers", template: "%s | 365DaysJobsTeam" },
-  description: "Browse and apply to remote jobs from verified employers, or post your own job as an employer.",
+  title: { default: "Remote Jobs India & Work From Home Jobs | 365DaysJobsTeam", template: "%s | 365DaysJobsTeam" },
+  description: "Latest remote jobs in India & worldwide from verified companies. Work from home, part time, full time and entry level jobs for freshers and students.",
   openGraph: { siteName: "365DaysJobsTeam", type: "website" },
   twitter: { card: "summary_large_image" },
 };
