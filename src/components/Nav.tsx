@@ -49,7 +49,7 @@ export default async function Nav() {
   return (
     <NavShell>
       <div className="relative flex items-center justify-between px-5 py-3">
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="mr-6 flex items-center">
           <Image src="/logo.png" alt="" width={700} height={156} priority className="h-9 w-auto" />
           <span className="sr-only">365DaysJobsTeam</span>
         </Link>

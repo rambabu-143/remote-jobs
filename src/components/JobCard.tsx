@@ -7,12 +7,11 @@ import type { SaveContext } from "@/lib/saved";
 
 export default function JobCard({ job, save }: { job: Job; save?: SaveContext }) {
   const salary = formatSalary(job.salaryMin, job.salaryMax);
-  const tags = job.tags ? job.tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
 
   return (
     // The whole card is clickable through the title's stretched link; the heart sits above it,
     // so a button is never nested inside a link.
-    <div className="card group relative flex min-w-0 gap-4 transition-all hover:-translate-y-0.5 hover:shadow-[0_2px_6px_rgba(0,0,0,0.08),0_18px_40px_rgba(0,0,0,0.16)]">
+    <div className="card group relative flex min-w-0 gap-4 p-4 transition-all hover:-translate-y-0.5 hover:shadow-[0_2px_6px_rgba(0,0,0,0.08),0_18px_40px_rgba(0,0,0,0.16)]">
       {job.logoUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -46,17 +45,11 @@ export default function JobCard({ job, save }: { job: Job; save?: SaveContext })
             )}
           </div>
         </div>
-        <div className="mt-3 flex flex-wrap gap-2 text-xs">
+        <div className="mt-2 flex flex-wrap gap-2 text-xs">
           <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{employmentLabel[job.employmentType]}</Badge>
           <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.location}</Badge>
           <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.category}</Badge>
         </div>
-        {tags.length > 0 && (
-          <p className="mt-3 truncate text-xs text-zinc-500">
-            {tags.slice(0, 4).join("  ·  ")}
-            {tags.length > 4 && `  +${tags.length - 4}`}
-          </p>
-        )}
       </div>
     </div>
   );
