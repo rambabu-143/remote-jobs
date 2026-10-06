@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { unstable_cache } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -15,9 +16,10 @@ import { getSaveContext } from "@/lib/saved";
 
 export default async function LandingPage() {
   const session = await auth();
-  // Where "Post a job" should lead for this visitor (same rules as the navbar).
   const role = session?.user?.role;
-  const postJobHref = !session?.user ? "/register?type=employer" : role === "ADMIN" ? "/admin/jobs/new" : role === "EMPLOYER" ? "/dashboard/jobs/new" : null;
+  // The landing page is for visitors. Logged-in users go straight to their own home (the logo links here).
+  if (session?.user) redirect(role === "ADMIN" ? "/admin/jobs" : role === "EMPLOYER" ? "/dashboard/jobs" : "/jobs");
+  const postJobHref = "/register?type=employer"; // visitors only; logged-in users are redirected above
 
   return (
     <div className="relative">

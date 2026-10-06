@@ -89,3 +89,20 @@ export async function applyToJob(_prevState: string | undefined, formData: FormD
   revalidatePath("/dashboard");
   return "Application submitted!";
 }
+
+// "Did you apply?" popup after a seeker comes back from a company site: records it in My applications.
+// No plan needed (the application happened off-site) and no resume (we never saw it).
+export async function markAppliedExternally(jobId: string): Promise<string> {
+  const session = await auth();
+  if (session?.user?.role !== "USER") return "Log in as a job seeker to track applications.";
+  const job = await prisma.job.findUnique({ where: { id: jobId }, include: { postedBy: true } });
+  if (!job?.applyUrl || !isLive(job, await isEmployerPlanRequired())) return "Job not found.";
+  await prisma.application.upsert({
+    where: { jobId_applicantId: { jobId, applicantId: session.user.id } },
+    update: {},
+    create: { jobId, applicantId: session.user.id },
+  });
+  revalidatePath(`/jobs/${jobId}`);
+  revalidatePath("/dashboard");
+  return "ok";
+}

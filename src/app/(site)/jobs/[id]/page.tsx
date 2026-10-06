@@ -16,6 +16,7 @@ import { isLive } from "@/lib/live-jobs";
 import { isEmployerPlanRequired } from "@/lib/settings";
 import { getSaveContext } from "@/lib/saved";
 import SaveButton from "@/components/SaveButton";
+import ExternalApplyButton from "@/components/ExternalApplyButton";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -142,6 +143,16 @@ async function JobDetail({ id }: { id: string }) {
               <span className="inline-flex h-9 flex-1 items-center justify-center rounded-full bg-emerald-50 px-5 text-sm font-medium text-emerald-600 sm:flex-none">
                 Applied · {existingApplication.status}
               </span>
+            ) : job.applyUrl ? (
+              // The company takes applications on its own site, so no resume form here.
+              <ExternalApplyButton
+                jobId={job.id}
+                applyUrl={job.applyUrl}
+                title={job.title}
+                company={job.company}
+                canTrack={session?.user?.role === "USER"}
+                className="h-9 flex-1 rounded-full px-6 sm:flex-none"
+              />
             ) : (
               <Link
                 href={!session?.user ? "/login" : !subscribed ? `/pricing?next=${encodeURIComponent(`/jobs/${job.id}`)}` : "#apply"}
@@ -176,7 +187,7 @@ async function JobDetail({ id }: { id: string }) {
       )}
 
       {/* The Apply button above jumps here (only for people who can actually apply). */}
-      {session?.user && !isEmployer && !isAdmin && !existingApplication && subscribed && (
+      {session?.user && !isEmployer && !isAdmin && !existingApplication && subscribed && !job.applyUrl && (
         <section id="apply" className="mt-10 max-w-2xl scroll-mt-28 border-t border-zinc-200 pt-6">
           <h2 className="text-lg font-semibold text-zinc-900">Apply for this job</h2>
           <ApplyForm jobId={job.id} questions={job.questions} />

@@ -38,6 +38,7 @@ async function Applications({ id }: { id: string }) {
               <div>
                 <p className="font-medium text-zinc-900">{app.applicant.name}</p>
                 <p className="text-sm text-zinc-600">{app.applicant.email}</p>
+                {app.resumeFileName ? (
                 <a
                   href={`/api/files/resumes/${app.resumeFileName}`}
                   target="_blank"
@@ -46,6 +47,9 @@ async function Applications({ id }: { id: string }) {
                 >
                   View resume
                 </a>
+                ) : (
+                  <p className="mt-1 text-sm text-zinc-500">Applied on the company site (no resume)</p>
+                )}
                 {app.coverNote && <p className="mt-2 text-sm text-zinc-700">{app.coverNote}</p>}
                 {app.answers.length > 0 && (
                   <dl className="mt-2 space-y-1">

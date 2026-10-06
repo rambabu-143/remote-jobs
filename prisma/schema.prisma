@@ -170,7 +170,7 @@ model Application {
   jobId          String
   applicant      User                @relation(fields: [applicantId], references: [id])
   applicantId    String
-  resumeFileName String
+  resumeFileName String? // null = applied on the company site
   coverNote      String?
   status         ApplicationStatus   @default(PENDING)
   createdAt      DateTime            @default(now())
