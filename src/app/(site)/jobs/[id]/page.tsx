@@ -164,6 +164,17 @@ async function JobDetail({ id }: { id: string }) {
         {job.description}
       </div>
 
+      {(job.companyAddress || job.companyPhone || job.companyEmail) && (
+        <section className="mt-8 max-w-3xl rounded-xl border border-zinc-200 bg-white p-4 text-sm">
+          <h2 className="font-semibold text-zinc-900">About {job.company}</h2>
+          <dl className="mt-2 grid gap-1 text-zinc-700 sm:grid-cols-[6rem_1fr]">
+            {job.companyAddress && (<><dt className="text-zinc-500">Address</dt><dd className="break-words">{job.companyAddress}</dd></>)}
+            {job.companyPhone && (<><dt className="text-zinc-500">Phone</dt><dd><a href={`tel:${job.companyPhone.replace(/[^\d+]/g, "")}`} className="underline">{job.companyPhone}</a></dd></>)}
+            {job.companyEmail && (<><dt className="text-zinc-500">Email</dt><dd className="break-all"><a href={`mailto:${job.companyEmail}`} className="underline">{job.companyEmail}</a></dd></>)}
+          </dl>
+        </section>
+      )}
+
       {/* The Apply button above jumps here (only for people who can actually apply). */}
       {session?.user && !isEmployer && !existingApplication && subscribed && (
         <section id="apply" className="mt-10 max-w-2xl scroll-mt-28 border-t border-zinc-200 pt-6">
