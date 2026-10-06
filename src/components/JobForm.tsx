@@ -128,11 +128,10 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
             <Field label="Company address" required>
               <Input name="companyAddress" required minLength={8} maxLength={300} defaultValue={job?.companyAddress ?? undefined} />
             </Field>
-            <Field label="Company phone number" required>
+            <Field label="Company phone number (optional)">
               <Input
                 type="tel"
                 name="companyPhone"
-                required
                 pattern="[0-9+\(\)\-\s]{7,20}"
                 title="Enter a valid phone number, for example +91 98765 43210"
                 placeholder="+91 98765 43210"
@@ -144,11 +143,11 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
             <Input type="email" name="companyEmail" required maxLength={120} defaultValue={job?.companyEmail ?? undefined} />
           </Field>
           <p className="text-xs text-zinc-500">
-            All three are required. Our team uses them to verify your company before the job goes live.
+            Address and email are required. Our team uses them to verify your company before the job goes live.
           </p>
           <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
             These details are shown publicly on your job page, so anyone, including spammers and scrapers, can see them.
-            Use a business phone number and a company email you are happy to share, not a personal one.
+            Use a company email (and a business phone number, if you add one) that you are happy to share, not a personal one.
           </p>
         </Section>
 

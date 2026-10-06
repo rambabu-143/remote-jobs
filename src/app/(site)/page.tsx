@@ -128,7 +128,7 @@ export default async function LandingPage() {
           <div>
             <h3 className="font-semibold text-zinc-900">Verified companies only</h3>
             <p className="mt-2 text-sm text-zinc-600">
-              A real address, phone number, and email are required before any role goes live.
+              A real company address and email are required before any role goes live.
             </p>
           </div>
           <div>

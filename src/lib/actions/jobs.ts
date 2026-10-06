@@ -65,13 +65,13 @@ export async function saveJob(_prevState: string | undefined, formData: FormData
   if (!title || !company || !category || !description || !location) {
     return "Title, company, category, description, and location are required.";
   }
-  // Company details are mandatory: the site promises visitors that every company lists them.
-  if (!companyAddress || !companyPhone || !companyEmail) {
-    return "Company address, phone number and email are required.";
+  // Company address and email are mandatory (phone is optional): the site promises visitors that every company lists them.
+  if (!companyAddress || !companyEmail) {
+    return "Company address and email are required.";
   }
   if (companyAddress.length < 8) return "Please enter the full company address.";
-  const phoneDigits = companyPhone.replace(/\D/g, "").length;
-  if (!/^[0-9+()\-\s]+$/.test(companyPhone) || phoneDigits < 7 || phoneDigits > 15) {
+  const phoneDigits = companyPhone ? companyPhone.replace(/\D/g, "").length : 0;
+  if (companyPhone && (!/^[0-9+()\-\s]+$/.test(companyPhone) || phoneDigits < 7 || phoneDigits > 15)) {
     return "Please enter a valid company phone number.";
   }
   const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);

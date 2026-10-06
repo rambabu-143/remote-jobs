@@ -27,7 +27,7 @@ export default function Hero({ postJobHref }: { postJobHref: string | null }) {
         transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         className="mx-auto mt-5 max-w-xl text-lg text-zinc-600"
       >
-        Every company here lists a real address, phone, and email before a role goes live. Apply
+        Every company here lists a real address and email before a role goes live. Apply
         straight to the company, no recruiters, no spam, no middlemen.
       </motion.p>
       <motion.div
