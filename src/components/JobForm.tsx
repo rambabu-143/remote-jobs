@@ -143,7 +143,13 @@ export default function JobForm({ job }: { job?: Job & { questions?: JobQuestion
           <Field label="Company email" required>
             <Input type="email" name="companyEmail" required maxLength={120} defaultValue={job?.companyEmail ?? undefined} />
           </Field>
-          <p className="text-xs text-zinc-500">All three are required. Our team uses them to verify your company before the job goes live.</p>
+          <p className="text-xs text-zinc-500">
+            All three are required. Our team uses them to verify your company before the job goes live.
+          </p>
+          <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+            These details are shown publicly on your job page, so anyone, including spammers and scrapers, can see them.
+            Use a business phone number and a company email you are happy to share, not a personal one.
+          </p>
         </Section>
 
         {error && <p className="text-sm text-red-600">{error}</p>}
