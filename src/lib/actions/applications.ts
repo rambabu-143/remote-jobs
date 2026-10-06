@@ -18,6 +18,7 @@ export async function applyToJob(_prevState: string | undefined, formData: FormD
     return "You must be logged in to apply.";
   }
   if (session.user.role === "EMPLOYER") return "Employer accounts can't apply to jobs.";
+  if (session.user.role === "ADMIN") return "Admin accounts can't apply to jobs.";
 
   const jobId = String(formData.get("jobId") ?? "");
   const coverNote = String(formData.get("coverNote") ?? "").trim() || null;
@@ -39,8 +40,7 @@ export async function applyToJob(_prevState: string | undefined, formData: FormD
   });
   if (!job || !isLive(job, await isEmployerPlanRequired())) return "Job not found.";
 
-  // Same rule the job page uses to show the apply form: admins are exempt.
-  if (session.user.role !== "ADMIN" && !(await hasActiveSubscription(session.user.id))) {
+  if (!(await hasActiveSubscription(session.user.id))) {
     return "An active subscription is required to apply.";
   }
 

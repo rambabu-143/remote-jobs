@@ -38,7 +38,6 @@ export default async function Nav() {
           { href: "/saved", label: "Saved", icon: <Heart className="size-4" /> },
         ]
       : []),
-    ...(isAuthed && isAdmin ? [{ href: "/dashboard", label: "My applications" }] : []),
     { href: "/contact", label: "Contact" },
   ];
 

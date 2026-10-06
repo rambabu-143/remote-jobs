@@ -11,19 +11,20 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user) redirect("/login");
   if (session.user.role === "EMPLOYER") redirect("/dashboard/jobs");
+  if (session.user.role === "ADMIN") redirect("/admin/jobs"); // admins review jobs, they don't apply
 
   return (
     <div>
       <h1 className="text-2xl font-bold tracking-tight text-zinc-900">My applications</h1>
 
       <Suspense fallback={<DashboardSkeleton />}>
-        <DashboardContent userId={session.user.id} isAdmin={session.user.role === "ADMIN"} />
+        <DashboardContent userId={session.user.id} />
       </Suspense>
     </div>
   );
 }
 
-async function DashboardContent({ userId, isAdmin }: { userId: string; isAdmin: boolean }) {
+async function DashboardContent({ userId }: { userId: string }) {
   const [applications, user] = await Promise.all([
     prisma.application.findMany({
       where: { applicantId: userId },
@@ -36,8 +37,7 @@ async function DashboardContent({ userId, isAdmin }: { userId: string; isAdmin: 
 
   return (
     <>
-      {!isAdmin && (
-        <p className="mt-2 text-sm text-zinc-600">
+      <p className="mt-2 text-sm text-zinc-600">
           {isActive ? (
             <>Apply access active until {user.subscriptionExpiresAt!.toLocaleDateString()}.</>
           ) : (
@@ -49,7 +49,6 @@ async function DashboardContent({ userId, isAdmin }: { userId: string; isAdmin: 
             </>
           )}
         </p>
-      )}
 
       <div className="mt-6 grid gap-3">
         {applications.map((app) => (

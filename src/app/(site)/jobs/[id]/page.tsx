@@ -128,7 +128,7 @@ async function JobDetail({ id }: { id: string }) {
         </div>
 
         {/* Save (heart) + Apply, opposite the heading. Employers can't apply, so they get neither. */}
-        {!isEmployer && (
+        {!isEmployer && !isAdmin && (
           <div className="flex shrink-0 items-center gap-2">
             {save.mode !== "hidden" && (
               <SaveButton
@@ -176,7 +176,7 @@ async function JobDetail({ id }: { id: string }) {
       )}
 
       {/* The Apply button above jumps here (only for people who can actually apply). */}
-      {session?.user && !isEmployer && !existingApplication && subscribed && (
+      {session?.user && !isEmployer && !isAdmin && !existingApplication && subscribed && (
         <section id="apply" className="mt-10 max-w-2xl scroll-mt-28 border-t border-zinc-200 pt-6">
           <h2 className="text-lg font-semibold text-zinc-900">Apply for this job</h2>
           <ApplyForm jobId={job.id} questions={job.questions} />
