@@ -15,7 +15,7 @@ import { POSTED_OPTIONS } from "@/lib/job-labels";
 
 export const metadata = {
   title: "Remote jobs",
-  description: "Browse remote jobs from verified employers. Filter by category, location and employment type.",
+  description: "Latest remote jobs in India and worldwide from verified companies. Work from home, part time, full time and entry level jobs for freshers. Filter by category, location and type.",
 };
 
 const PAGE_SIZE = 20;

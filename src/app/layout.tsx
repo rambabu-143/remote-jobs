@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.APP_URL ?? "http://localhost:3000"),
   title: { default: "Remote Jobs India & Work From Home Jobs | 365DaysJobsTeam", template: "%s | 365DaysJobsTeam" },
   description: "Latest remote jobs in India & worldwide from verified companies. Work from home, part time, full time and entry level jobs for freshers and students.",
+  keywords: "remote jobs, remote jobs India, work from home jobs, work from home jobs India, online jobs India, remote jobs for freshers, work from home jobs for freshers, remote jobs hiring now, remote job vacancies, latest remote jobs, remote employment opportunities, part time remote jobs, full time remote jobs, remote jobs without experience, remote jobs for students, entry level remote jobs, international remote jobs",
   openGraph: { siteName: "365DaysJobsTeam", type: "website" },
   twitter: { card: "summary_large_image" },
 };
