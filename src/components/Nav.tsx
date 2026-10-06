@@ -4,7 +4,9 @@ import { redirect } from "next/navigation";
 import { auth, signOut } from "@/lib/auth";
 import NavLinks from "@/components/NavLinks";
 import NavShell from "@/components/NavShell";
-import { Heart } from "lucide-react";
+import { BadgeIndianRupee, BookOpen, Briefcase, FileText, Heart, Mail, PlusCircle, Search, Settings, ListChecks } from "lucide-react";
+
+const ic = "size-4 shrink-0";
 
 export default async function Nav() {
   const session = await auth();
@@ -14,31 +16,31 @@ export default async function Nav() {
 
   // `match` lets one link stay highlighted across a whole section (e.g. every /admin page).
   const links = [
-    { href: "/jobs", label: "Browse jobs" },
+    { href: "/jobs", label: "Browse jobs", icon: <Search className={ic} /> },
     ...(isAdmin
       ? [
-          { href: "/admin/jobs", label: "Manage jobs" },
-          { href: "/admin/jobs/new", label: "Post a job" },
-          { href: "/admin/settings", label: "Settings" },
-          { href: "/docs", label: "Docs" },
+          { href: "/admin/jobs", label: "Manage jobs", icon: <ListChecks className={ic} /> },
+          { href: "/admin/jobs/new", label: "Post a job", icon: <PlusCircle className={ic} /> },
+          { href: "/admin/settings", label: "Settings", icon: <Settings className={ic} /> },
+          { href: "/docs", label: "Docs", icon: <BookOpen className={ic} /> },
         ]
       : []),
     ...(isEmployer
       ? [
-          { href: "/dashboard/jobs/new", label: "Post a job" },
-          { href: "/dashboard/jobs", label: "My jobs" },
+          { href: "/dashboard/jobs/new", label: "Post a job", icon: <PlusCircle className={ic} /> },
+          { href: "/dashboard/jobs", label: "My jobs", icon: <Briefcase className={ic} /> },
         ]
       : []),
     // Visitors who want to hire are sent to sign up as an employer.
-    ...(!isAuthed ? [{ href: "/register?type=employer", label: "Post a job" }] : []),
+    ...(!isAuthed ? [{ href: "/register?type=employer", label: "Post a job", icon: <PlusCircle className={ic} /> }] : []),
     ...(isAuthed && !isAdmin && !isEmployer
       ? [
-          { href: "/pricing", label: "Pricing" },
-          { href: "/dashboard", label: "My applications" },
-          { href: "/saved", label: "Saved", icon: <Heart className="size-4" /> },
+          { href: "/pricing", label: "Pricing", icon: <BadgeIndianRupee className={ic} /> },
+          { href: "/dashboard", label: "My applications", icon: <FileText className={ic} /> },
+          { href: "/saved", label: "Saved", icon: <Heart className={ic} /> },
         ]
       : []),
-    { href: "/contact", label: "Contact" },
+    { href: "/contact", label: "Contact", icon: <Mail className={ic} /> },
   ];
 
   async function signOutAction() {

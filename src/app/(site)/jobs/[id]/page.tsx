@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { isLive } from "@/lib/live-jobs";
 import { isEmployerPlanRequired } from "@/lib/settings";
 import { getSaveContext } from "@/lib/saved";
+import { Clock, Tag } from "lucide-react";
 import SaveButton from "@/components/SaveButton";
 import ExternalApplyButton from "@/components/ExternalApplyButton";
 
@@ -166,8 +167,8 @@ async function JobDetail({ id }: { id: string }) {
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2 text-xs">
-        <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{employmentLabel[job.employmentType]}</Badge>
-        <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.category}</Badge>
+        <Badge variant="secondary" className="bg-zinc-200 text-zinc-700"><Clock className="size-3" />{employmentLabel[job.employmentType]}</Badge>
+        <Badge variant="secondary" className="bg-zinc-200 text-zinc-700"><Tag className="size-3" />{job.category}</Badge>
         {salary && <Badge variant="secondary" className="bg-zinc-200 font-mono text-zinc-700">{salary}</Badge>}
       </div>
 

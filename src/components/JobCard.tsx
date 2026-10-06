@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Job } from "@prisma/client";
 import { employmentLabel, formatRelativeTime, formatSalary, initials } from "@/lib/job-labels";
+import { Clock, MapPin, Tag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import SaveButton from "@/components/SaveButton";
 import type { SaveContext } from "@/lib/saved";
@@ -46,9 +47,9 @@ export default function JobCard({ job, save }: { job: Job; save?: SaveContext })
           </div>
         </div>
         <div className="mt-2 flex flex-wrap gap-2 text-xs">
-          <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{employmentLabel[job.employmentType]}</Badge>
-          <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.location}</Badge>
-          <Badge variant="secondary" className="bg-zinc-200 text-zinc-700">{job.category}</Badge>
+          <Badge variant="secondary" className="bg-zinc-200 text-zinc-700"><Clock className="size-3" />{employmentLabel[job.employmentType]}</Badge>
+          <Badge variant="secondary" className="bg-zinc-200 text-zinc-700"><MapPin className="size-3" />{job.location}</Badge>
+          <Badge variant="secondary" className="bg-zinc-200 text-zinc-700"><Tag className="size-3" />{job.category}</Badge>
         </div>
       </div>
     </div>
