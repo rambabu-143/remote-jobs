@@ -17,8 +17,10 @@ export default async function Nav() {
     { href: "/jobs", label: "Browse jobs" },
     ...(isAdmin
       ? [
-          { href: "/admin/jobs", label: "Admin", match: "/admin" },
+          { href: "/admin/jobs", label: "Manage jobs" },
           { href: "/admin/jobs/new", label: "Post a job" },
+          { href: "/admin/settings", label: "Settings" },
+          { href: "/docs", label: "Docs" },
         ]
       : []),
     ...(isEmployer
