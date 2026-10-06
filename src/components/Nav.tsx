@@ -46,15 +46,27 @@ export default async function Nav() {
     redirect("/");
   }
 
+  const logo = (
+    <Link href="/" className="flex items-center">
+      <Image src="/logo.png" alt="" width={700} height={156} priority className="h-9 w-auto" />
+      <span className="sr-only">365DaysJobsTeam</span>
+    </Link>
+  );
+
   return (
-    <NavShell>
-      <div className="relative flex items-center justify-between px-5 py-3">
-        <Link href="/" className="mr-6 flex items-center">
-          <Image src="/logo.png" alt="" width={700} height={156} priority className="h-9 w-auto" />
-          <span className="sr-only">365DaysJobsTeam</span>
-        </Link>
-        <NavLinks links={links} isAuthed={isAuthed} signOutAction={signOutAction} />
-      </div>
-    </NavShell>
+    <>
+      {/* Logged-in users get a left sidebar on desktop; the floating bar is for visitors and phones. */}
+      {isAuthed && (
+        <NavLinks sidebar links={links} isAuthed signOutAction={signOutAction}>
+          {logo}
+        </NavLinks>
+      )}
+      <NavShell className={isAuthed ? "lg:hidden" : undefined}>
+        <div className="relative flex items-center justify-between px-5 py-3">
+          <span className="mr-6">{logo}</span>
+          <NavLinks links={links} isAuthed={isAuthed} signOutAction={signOutAction} />
+        </div>
+      </NavShell>
+    </>
   );
 }

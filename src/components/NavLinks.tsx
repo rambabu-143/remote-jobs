@@ -12,10 +12,14 @@ export default function NavLinks({
   links,
   isAuthed,
   signOutAction,
+  sidebar,
+  children,
 }: {
   links: LinkItem[];
   isAuthed: boolean;
   signOutAction?: () => Promise<void>;
+  sidebar?: boolean; // logged-in desktop layout: vertical links in a left sidebar (children = logo)
+  children?: React.ReactNode;
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -37,6 +41,37 @@ export default function NavLinks({
         : "text-zinc-600 hover:bg-white/60 hover:text-zinc-900",
     );
   const signOutClass = "cursor-pointer rounded-full bg-[#0050f0] px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#0040c0]";
+
+  if (sidebar) {
+    // The docs have their own menu. data-sidebar lets globals.css pad the page to make room.
+    if (pathname.startsWith("/docs")) return null;
+    return (
+      <aside data-sidebar className="fixed inset-y-0 left-0 z-20 hidden w-60 flex-col border-r border-zinc-200 bg-white/70 p-4 backdrop-blur-xl lg:flex">
+        <div className="px-2 pb-6 pt-1">{children}</div>
+        <nav className="flex flex-1 flex-col gap-1">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              aria-current={isActive(l.href) ? "page" : undefined}
+              className={cn(
+                "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                isActive(l.href) ? "bg-[#0050f0]/10 text-[#0050f0]" : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
+              )}
+            >
+              {l.icon}
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+        <form action={signOutAction}>
+          <button type="submit" className={cn(signOutClass, "w-full py-2.5")}>
+            Sign out
+          </button>
+        </form>
+      </aside>
+    );
+  }
 
   return (
     <>

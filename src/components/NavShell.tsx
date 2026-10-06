@@ -3,9 +3,10 @@
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 // Scroll up -> nav width shrinks slightly (stays visible). Scroll down -> back to full width.
-export default function NavShell({ children }: { children: React.ReactNode }) {
+export default function NavShell({ children, className }: { children: React.ReactNode; className?: string }) {
   const pathname = usePathname();
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
@@ -23,7 +24,7 @@ export default function NavShell({ children }: { children: React.ReactNode }) {
   if (pathname.startsWith("/docs")) return null;
 
   return (
-    <header className="fixed top-4 left-1/2 z-20 -translate-x-1/2">
+    <header className={cn("fixed top-4 left-1/2 z-20 -translate-x-1/2", className)}>
       <motion.div
         animate={{ scaleX: visible ? 1 : 0.88 }}
         transition={{ type: "spring", stiffness: 260, damping: 26 }}

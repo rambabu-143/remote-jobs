@@ -225,3 +225,13 @@
 @media (prefers-reduced-motion: reduce) {
   .bg-cell { animation: none; opacity: 0.12; }
 }
+
+/* Logged-in desktop layout: leave room for the fixed left sidebar (see NavLinks sidebar). */
+@media (min-width: 1024px) {
+  body:has([data-sidebar]) {
+    padding-left: 15rem;
+  }
+  body:has([data-sidebar]) main {
+    padding-top: 2.5rem;
+  }
+}
